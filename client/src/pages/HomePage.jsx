@@ -42,15 +42,17 @@ function HomePage() {
 
             {/* ———————— Section 4 ———————— */}
             <section>
-                <div className="w-full h-[600px] flex flex-col items-center justify-center   bg-red-400 ">
+                <div className="w-full h-[600px] flex flex-col items-center justify-center  ">
 
                     <h1 className="text-headline2 text-black ">Our Graduates</h1>
 
-                    < div className="w-full h-[300px] m-16 flex  items-center justify-center   bg-amber-200 " >
-                        <div className=" max-w-[1980px]  h-full bg-slate-400 " >
+                    < div className="w-full h-[300px] m-16 flex  items-center justify-center   " >
+                        <div className=" max-w-[1980px]  h-full" >
                             <Swiper
                                 spaceBetween={60}
-                                slidesPerView={3}
+                                slidesPerView={2.5}
+                                centeredSlides={true}
+                                initialSlide={1}
                                 onSlideChange={() => console.log('slide change')}
                                 onSwiper={(swiper) => console.log(swiper)}
                             >
@@ -58,8 +60,8 @@ function HomePage() {
                                     return (
                                         <div key={index}>
                                             <SwiperSlide className=" h-[300px] flex flex-row items-center relative  " >
-                                                <div className=" w-full h-[300px] flex flex-row justify-end  rounded-lg  bg-amber-300" >
-                                                    <div className=" w-[75%] h-[300px] flex flex-col justify-center p-5 pl-[70px] bg-blue-100 rounded-lg">
+                                                <div className=" w-full h-[300px] flex flex-row justify-end  rounded-lg  " >
+                                                    <div className=" w-[80%] h-[300px] flex flex-col justify-center p-5 pl-[90px] bg-blue-100 rounded-lg">
                                                         <h1 className="text-headline3 text-blue-500">{data.name}</h1>
                                                         <p className="text-body2 text-gray-700 pt-4">{data.content}</p>
                                                     </div>
