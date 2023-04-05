@@ -1,4 +1,3 @@
-import theme from "../configs/theme.js"
 import { Text, Button} from "@chakra-ui/react";
 
 function Navbar() {

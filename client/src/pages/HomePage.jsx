@@ -20,18 +20,20 @@ function HomePage() {
         </section>
 
         {/* ———————— Section 3 ———————— */}
-        <section>
+        <section className="px-[10%] my-[105px]">
             {/* Start Coding Here */}
-            <div>Our Professional Ins</div>
+            <div className="text-center text-headline2 text-black font-headline2 mb-10" >Our Professional Instructor</div>
+            <div className="flex">
         {instructor.map((data,index)=>{
             return (
-                <div key={index} className="">
-                    <img src={data.image} alt={data.altDescription} />
-                    <h1>Name: {data.name}</h1>
-                    <h2>Rank: {data.rank}</h2>
-                </div>
+                <div key={index} className="flex-col mx-6 text-center">
+                    <img src={data.image} alt={data.altDescription} className="w-[336px] h-[395px]"/>
+                    <div className="text-headline3 font-headline3 text-black mt-4">{data.name}</div>
+                    <div className="text-blue-400">{data.position}</div>
+                </div> 
             )
         })}
+        </div>
         </section>
 
 
