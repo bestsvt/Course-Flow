@@ -1,13 +1,14 @@
 import './App.css'
+import HomePage from './pages/HomePage'
+import { Routes, Route } from "react-router-dom";
+
 
 function App() {
 
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold text-red-600">
-      Hello world!
-      </h1>
-    </div>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
   )
 }
 
