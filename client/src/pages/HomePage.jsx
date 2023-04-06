@@ -1,9 +1,7 @@
 import Navbar from "../components/Navbar";
 import SubFooter from "../components/SubFooter"
 import Footer from "../components/Footer"
-import {intructor} from "../mockdata/intructor.js"
-import { Button } from '@chakra-ui/react'
-import Vector1 from "/image/header/Vector1.png"
+import {instructor} from "../mockdata/instructor.js"
 
 function HomePage() {
     
@@ -11,30 +9,10 @@ function HomePage() {
         <div>
         <Navbar/>
         {/* ———————— Section Header ———————— */}
-        <Navbar />
-      {/* ———————— Section Header ———————— */}
-      <header>
-        {/* Start Coding Here */}
-        <div className="flex flex-row p-[10%] bg-blue-100 bg-imag-header">
-          <div className="flex flex-col">
-            <h1 className="text-headline1 text-black -mb-6">Best Virtual</h1>
-            <h1 className="text-headline1  text-black mb-2">Classroom Software</h1>
-            <h2 className="text-body1 text-black break-words">
-              Welcome to Schooler! The one-stop online class management
-            </h2>
-            <h2 className="text-body1 text-black break-words">
-              system that caters to all your educational needs!
-            </h2>
-            <Button className="w-[200px] my-10" variant="primary">
-              Explore Courses
-            </Button>
-          </div>
-          <div className="relative">
-            <img className="fixed right-36 w-[452px] h-[448px] z-[2]"  
-            src={Vector1} alt="computer"/>
-          </div>
-        </div>
-      </header>
+        <header>
+            {/* Start Coding Here */}
+
+        </header>
         {/* ———————— Section 2 ———————— */}
         <section>
             {/* Start Coding Here */}
@@ -42,17 +20,20 @@ function HomePage() {
         </section>
 
         {/* ———————— Section 3 ———————— */}
-        <section>
+        <section className="px-[10%] my-[105px]">
             {/* Start Coding Here */}
-        {/* {intructor.map((data,index)=>{
+            <div className="text-center text-headline2 text-black font-headline2 mb-10" >Our Professional Instructor</div>
+            <div className="flex justify-center">
+        {instructor.map((data,index)=>{
             return (
-                <div key={index}>
-                    <img src={data.image} alt="" />
-                    <h1>Name: {data.name}</h1>
-                    <h2>Position: {data.position}</h2>
-                </div>
+                <div key={index} className="flex-col mx-6 text-center">
+                    <img src={data.image} alt={data.altDescription} className="w-[336px] h-[395px]"/>
+                    <div className="text-headline3 font-headline3 text-black mt-4">{data.name}</div>
+                    <div className="text-blue-400">{data.position}</div>
+                </div> 
             )
-        })} */}
+        })}
+        </div>
         </section>
 
 
