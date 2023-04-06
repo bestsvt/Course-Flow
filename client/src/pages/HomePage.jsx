@@ -42,7 +42,7 @@ function HomePage() {
           <div className="flex justify-between">
             <img
               src="./image/homepage/homepage-section-2/Section2-1.png"
-              alt=""
+              alt="feature-image-1"
               className="rounded-lg w-[40%] h-[360px] object-cover"
             />
             <div className="flex flex-col w-[50%] gap-6 h-full">
@@ -52,7 +52,7 @@ function HomePage() {
               <div className="flex gap-6">
                 <img
                   src="./image/homepage/homepage-section-2/Section2-icon1.png"
-                  alt=""
+                  alt="icon-secure"
                   className="w-[36px] h-[36px]"
                 />
                 <div className="flex flex-col gap-2.5">
@@ -68,7 +68,7 @@ function HomePage() {
               <div className="flex gap-6">
                 <img
                   src="./image/homepage/homepage-section-2/Section2-icon2.png"
-                  alt=""
+                  alt="icon-heart"
                   className="w-[36px] h-[36px]"
                 />
                 <div className="flex flex-col gap-2.5">
@@ -92,7 +92,7 @@ function HomePage() {
               <div className="flex gap-6">
                 <img
                   src="./image/homepage/homepage-section-2/Section2-icon3.png"
-                  alt=""
+                  alt="icon-group"
                   className="w-[36px] h-[36px]"
                 />
                 <div className="flex flex-col gap-2.5">
@@ -108,7 +108,7 @@ function HomePage() {
               <div className="flex gap-6">
                 <img
                   src="./image/homepage/homepage-section-2/Section2-icon2.png"
-                  alt=""
+                  alt="icon-heart"
                   className="w-[36px] h-[36px]"
                 />
                 <div className="flex flex-col gap-2.5">
@@ -124,7 +124,7 @@ function HomePage() {
             </div>
             <img
               src="./image/homepage/homepage-section-2/Section2-2.png"
-              alt=""
+              alt="feature-image-2"
               className="rounded-lg w-[40%] h-[360px] object-cover"
             />
           </div>
@@ -155,9 +155,11 @@ function HomePage() {
         </div>
       </section>
       {/* ———————— Section 4 ———————— */}
-      <section>
+      <section className="mb-[5%]">
         <div className="w-full h-[600px] flex flex-col items-center justify-center  ">
-          <h1 className="text-headline2 text-black ">Our Graduates</h1>
+          <h1 className="text-headline2 text-black font-headline2">
+            Our Graduates
+          </h1>
 
           <div className="w-full h-[300px] m-16 flex  items-center justify-center   ">
             <div className=" max-w-[1980px]  h-full">
@@ -166,51 +168,49 @@ function HomePage() {
                 slidesPerView={2.5}
                 centeredSlides={true}
                 initialSlide={1}
-                onSlideChange={() => console.log("slide change")}
-                onSwiper={(swiper) => console.log(swiper)}
               >
-                {graduate.map((data, index) => {
+                {graduate.map((graduate, index) => {
                   return (
-                    <div key={index}>
-                      <SwiperSlide className=" h-[300px] flex flex-row items-center relative  ">
-                        <div className=" w-full h-[300px] flex flex-row justify-end  rounded-lg  ">
-                          <div className=" w-[80%] h-[300px] flex flex-col justify-center p-5 pl-[90px] bg-blue-100 rounded-lg">
-                            <h1 className="text-headline3 text-blue-500">
-                              {data.name}
-                            </h1>
-                            <p className="text-body2 text-gray-700 pt-4">
-                              {data.content}
-                            </p>
-                          </div>
+                    <SwiperSlide
+                      className=" h-[300px] flex flex-row items-center relative"
+                      key={index}
+                    >
+                      <div className=" w-full h-[300px] flex flex-row justify-end  rounded-lg  ">
+                        <div className=" w-[80%] h-[300px] flex flex-col justify-center p-5 pl-[90px] bg-blue-100 rounded-lg">
+                          <h1 className="text-headline3 text-blue-500 font-headline3">
+                            {graduate.name}
+                          </h1>
+                          <p className="text-body2 text-gray-700 pt-4 font-body2">
+                            {graduate.content}
+                          </p>
                         </div>
+                      </div>
+                      <div className=" absolute z-10 ">
+                        <img src={graduate.image} alt={graduate.name} />
+                      </div>
 
-                        <div className=" absolute z-10 ">
-                          <img src={data.image} alt={data.name} />
-                        </div>
+                      <div className=" absolute z-20 flex flex-row gap-1 top-0 left-0">
+                        <img
+                          src="../../public/image/homepage/graduate/Vector-1.png"
+                          alt="icon-double-quote"
+                        />
+                        <img
+                          src="../../public/image/homepage/graduate/Vector-1.png"
+                          alt="icon-double-quote"
+                        />
+                      </div>
 
-                        <div className=" absolute z-20 flex flex-row gap-1 top-0 left-0">
-                          <img
-                            src="../../public/image/homepage/graduate/Vector-1.png"
-                            alt=""
-                          />
-                          <img
-                            src="../../public/image/homepage/graduate/Vector-1.png"
-                            alt=""
-                          />
-                        </div>
-
-                        <div className=" absolute z-20 flex flex-row gap-1 bottom-2 right-5 ">
-                          <img
-                            src="../../public/image/homepage/graduate/Vector-2.png"
-                            alt=""
-                          />
-                          <img
-                            src="../../public/image/homepage/graduate/Vector-2.png"
-                            alt=""
-                          />
-                        </div>
-                      </SwiperSlide>
-                    </div>
+                      <div className=" absolute z-20 flex flex-row gap-1 bottom-2 right-5 ">
+                        <img
+                          src="../../public/image/homepage/graduate/Vector-2.png"
+                          alt="icon-double-quote"
+                        />
+                        <img
+                          src="../../public/image/homepage/graduate/Vector-2.png"
+                          alt="icon-double-quote"
+                        />
+                      </div>
+                    </SwiperSlide>
                   );
                 })}
               </Swiper>
@@ -218,7 +218,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-
       <SubFooter />
       <Footer />
     </div>

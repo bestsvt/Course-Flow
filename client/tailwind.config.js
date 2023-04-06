@@ -63,8 +63,14 @@ export default {
         black: '#000000',
         white: '#FFFFFF',
         green: '#2FAC8E',
-        linear1: 'linear-gradient(90deg, #95BEFF, #0040E5)',
-        linear2: 'linear-gradient(90deg, #5697FF, #2558DD)'
+        linear1: {
+          1: '#95BEFF',
+          2: '#0040E5'
+        },
+        linear2: {
+          1: '#5697FF',
+          2: '#2558DD'
+        }
       },
       boxShadow: {
         shadow1: "4px 4px 24px rgba(0, 0, 0, 0.08)",
