@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../contexts/authentication";
 
 export default function RegisterForm() {
   const {
@@ -18,13 +19,11 @@ export default function RegisterForm() {
     trigger,
   } = useForm();
 
+  const { registration } = useAuth();
+
   function onSubmit(values) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 1000);
-    });
+    console.log(values);
+    registration(values)
   }
 
   //  toggle show password
