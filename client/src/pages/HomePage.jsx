@@ -17,12 +17,12 @@ function HomePage() {
         {/* Start Coding Here */}
         <div className="flex flex-row p-[10%] bg-blue-100 bg-imag-header">
           <div className="flex flex-col">
-            <h1 className="text-headline1 -mb-6">Best Virtual</h1>
-            <h1 className="text-headline1 mb-2">Classroom Software</h1>
-            <h2 className="text-body1 break-words">
+            <h1 className="text-headline1 text-black -mb-6">Best Virtual</h1>
+            <h1 className="text-headline1  text-black mb-2">Classroom Software</h1>
+            <h2 className="text-body1 text-black break-words">
               Welcome to Schooler! The one-stop online class management
             </h2>
-            <h2 className="text-body1 break-words">
+            <h2 className="text-body1 text-black break-words">
               system that caters to all your educational needs!
             </h2>
             <Button className="w-[200px] my-10" variant="primary">
