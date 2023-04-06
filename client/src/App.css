@@ -1,3 +1,10 @@
 * {
     font-family: 'Inter',
 }
+
+.bg-imag-header {
+    background-image: url('/image/homepage/header/Vector2.png');
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-size: 60%
+}

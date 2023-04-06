@@ -96,7 +96,7 @@ const components = {
   }}
 }
   
-const theme = extendTheme({ colors , components })
+const theme = extendTheme({ colors , components, shadows })
 
 export default theme
   

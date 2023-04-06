@@ -45,7 +45,31 @@ export default {
           200: '#C6D6EF',
           100: '#E5ECF8',
         },
-      }
+        gray: {
+          900: '#2A2E3F',
+          800: '#424C6B',
+          700: '#646D89',
+          600: '#9AA1B9',
+          500: '#C8CCDB',
+          400: '#D6D9E4',
+          300: '#E4E6ED',
+          200: '#F1F2F6',
+          100: '#F6F7FC',
+        },
+        orange: {
+          100: '#FBAA1C',
+          500: '#F47E20',
+        },
+        black: '#000000',
+        white: '#FFFFFF',
+        green: '#2FAC8E',
+        linear1: 'linear-gradient(90deg, #95BEFF, #0040E5)',
+        linear2: 'linear-gradient(90deg, #5697FF, #2558DD)'
+      },
+      boxShadow: {
+        shadow1: "4px 4px 24px rgba(0, 0, 0, 0.08)",
+        shadow2: "2px 2px 12px rgba(64, 50, 133, 0.12)",
+      }      
     },
   },
   plugins: [],
