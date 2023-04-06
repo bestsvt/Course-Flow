@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form";
 import {
   FormErrorMessage,
   FormLabel,
@@ -9,12 +8,14 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function RegisterForm() {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
+    trigger,
   } = useForm();
 
   function onSubmit(values) {
@@ -30,6 +31,40 @@ export default function RegisterForm() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
+  function validateName(value) {
+    let error;
+    if (!value) {
+      error = 'Name is required';
+    } else if (!/^[a-zA-Z\s'\-]+$/.test(value)) {
+      error = "Invalid characters in name";
+    }
+    return error;
+  }
+
+  function validateEmail(value) {
+    let error;
+    if (!value) {
+      error = 'Email is required';
+    } else if (!/^\S+@\S+\.\S+$/.test(value)) {
+      error = 'Invalid email format. Please enter an email address in the format: example@example.com';
+    }
+    return error;
+  }
+
+  function validatePassword(value) {
+    let error;
+    if (!value) {
+      error = 'Password is required';
+    } else if (value.length < 12) {
+      error = 'Password must be at least 12 characters long';
+    } 
+    // กรณีที่ต้องการให้มีตัวพิมพ์ใหญ่กับตัวเลข อย่างน้อย 1 ตัว
+    // else if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
+    //   error = 'Password must include at least one uppercase letter, one lowercase letter, and one number';
+    // }
+    return error;
+  }
+  
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -38,24 +73,26 @@ export default function RegisterForm() {
       <h1 className="text-headline2 text-[#22269E] font-headline2">
         Register to start learning!
       </h1>
-      <FormControl isInvalid={errors.name}>
+
+      {/* ——————————————————— Name Input ——————————————————— */}
+      <FormControl isInvalid={errors.name} isRequired>
         <FormLabel htmlFor="name">Name</FormLabel>
         <Input
           variant="normal"
           id="name"
           placeholder="Enter Name and Lastname"
-          {...register("name", {
-            required: "This is required",
-            minLength: { value: 10, message: "Minimum length should be 10" },
-          })}
-          required
+          {...register('name', { validate: validateName })}
+          onBlur={() => {
+            trigger('name');
+          }}
         />
         <FormErrorMessage>
           {errors.name && errors.name.message}
         </FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={errors.date}>
+      {/* ——————————————————— Date Input ——————————————————— */}
+      <FormControl isInvalid={errors.date} isRequired>
         <FormLabel htmlFor="date">Date of Birth</FormLabel>
         <Input
           variant="normal"
@@ -63,9 +100,11 @@ export default function RegisterForm() {
           id="date"
           placeholder="MM/DD/YY"
           {...register("date", {
-            required: "This is required",
+            required: "Date of Birth is required",
           })}
-          required
+          onBlur={() => {
+            trigger('date');
+          }}
           max={new Date().toISOString().slice(0, 10)}
         />
         <FormErrorMessage>
@@ -73,52 +112,56 @@ export default function RegisterForm() {
         </FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={errors.education}>
+      {/* ——————————————————— Education Input ——————————————————— */}
+      <FormControl isInvalid={errors.education} isRequired>
         <FormLabel htmlFor="education">Educational Background</FormLabel>
         <Input
           variant="normal"
           id="education"
           placeholder="Enter Educational Background"
           {...register("education", {
-            required: "This is required",
+            required: "Educational Background is required",
           })}
-          required
+          onBlur={() => {
+            trigger('education');
+          }}
         />
         <FormErrorMessage>
           {errors.education && errors.education.message}
         </FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={errors.email}>
+      {/* ——————————————————— Email Input ——————————————————— */}      
+      <FormControl isInvalid={errors.email} isRequired>
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input
           variant="normal"
           type="email"
           id="email"
           placeholder="Enter Email"
-          {...register("email", {
-            required: "This is required",
-          })}
-          required
+          {...register('email', { validate: validateEmail })}
+          onBlur={() => {
+            trigger('email');
+          }}
         />
         <FormErrorMessage>
           {errors.email && errors.email.message}
         </FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={errors.password}>
+      {/* ——————————————————— Password Input ——————————————————— */}   
+      <FormControl isInvalid={errors.password} isRequired>
         <FormLabel htmlFor="password">Password</FormLabel>
         <InputGroup>
           <Input
             variant="normal"
             id="password"
             placeholder="Enter Password"
-            {...register("password", {
-              required: "This is required",
-              minLength: { value: 12, message: "Minimum length should be 12" },
-            })}
+            {...register('password', { validate: validatePassword })}
+          onBlur={() => {
+            trigger('password');
+          }}
             type={show ? "text" : "password"}
-            required
           />
           <InputRightElement width="4.5rem" margin="4px 4px 0 0">
             <Button size="sm" onClick={handleClick}>
