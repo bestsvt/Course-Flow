@@ -22,7 +22,6 @@ export default function RegisterForm() {
   const { registration } = useAuth();
 
   function onSubmit(values) {
-    console.log(values);
     registration(values)
   }
 

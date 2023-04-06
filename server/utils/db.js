@@ -5,6 +5,6 @@ dotenv.config();
 
 const supabaseUrl = 'https://zpbdbfztfdyvnodxvzht.supabase.co'
 const supabaseKey = process.env.SUPABASE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey,{apiPort: 4000})
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export { supabase }

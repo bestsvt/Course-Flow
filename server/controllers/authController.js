@@ -2,6 +2,7 @@ import { supabase } from "../utils/db.js";
 import bcrypt from "bcrypt";
 
 async function register(req, res) {
+    // ต้องเพิ่มการดึงข้อมูลมาเช็คว่ามี email แล้วหรือยัง
     const user = {
         email: req.body.email,
         password: req.body.password,
