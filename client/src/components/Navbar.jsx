@@ -22,24 +22,25 @@ function Navbar() {
   return (
     <div className="flex flex-row px-[10%] justify-between h-[88px] items-center shadow-shadow2 relative">
       <img src="./image/logo/CourseFlow.png" className="w-[200px]" alt="logo" onClick={() => { navigate("/") }} />
-      <div className="flex justify-between w-[350px] items-center">
+      <div className="flex justify-between items-center gap-5">
         <div className="text-[#191C77] font-bold">Our Courses</div>
         {isAuthenticated ?
-          // image + name + drowdown
-          <div className="flex">
+          <div>
             <Menu>
               <MenuButton
                 px={4}
-                py={2}
-                _focus={{ boxShadow: 'outline' }}>
-                <div className="flex flex-row items-center justify-center gap-2">
+                py={2}>
+                <div className="flex flex-row items-center justify-center gap-4">
                   <Image
-                    boxSize='2rem'
+                    boxSize='2.5rem'
                     borderRadius='full'
-                    src='https://placekitten.com/100/100'
-                    alt='Fluffybuns the destroyer'
+                    alt='profile-image'
+                    src={userAuthState.user.profile_image ? 
+                      userAuthState.user.profile_image : 
+                      './image/homepage/navbar/profile-image-default.jpg'
+                    }
                   />
-                  <span className="text-body2 font-body2 text-gray-800">Max Mayfield </span> <AiFillCaretDown />
+                  <span className="text-body2 font-body2 text-gray-800">{userAuthState.user.name}</span> <AiFillCaretDown />
                 </div>
               </MenuButton>
               <MenuList>

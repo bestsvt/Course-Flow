@@ -191,22 +191,22 @@ function HomePage() {
 
                       <div className=" absolute z-20 flex flex-row gap-1 top-0 left-0">
                         <img
-                          src="../../public/image/homepage/graduate/Vector-1.png"
+                          src="./image/homepage/graduate/Vector-1.png"
                           alt="icon-double-quote"
                         />
                         <img
-                          src="../../public/image/homepage/graduate/Vector-1.png"
+                          src="./image/homepage/graduate/Vector-1.png"
                           alt="icon-double-quote"
                         />
                       </div>
 
                       <div className=" absolute z-20 flex flex-row gap-1 bottom-2 right-5 ">
                         <img
-                          src="../../public/image/homepage/graduate/Vector-2.png"
+                          src="./image/homepage/graduate/Vector-2.png"
                           alt="icon-double-quote"
                         />
                         <img
-                          src="../../public/image/homepage/graduate/Vector-2.png"
+                          src="./image/homepage/graduate/Vector-2.png"
                           alt="icon-double-quote"
                         />
                       </div>
