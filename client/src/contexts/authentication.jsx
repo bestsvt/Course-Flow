@@ -36,8 +36,7 @@ function AuthProvider(props) {
   // register the user
   const registration = async (data) => {
     await axios.post("http://localhost:4000/auth/register", data);
-    navigate("/");
-    // แก้ให้กลับไปหน้า Login หลังจากสร้างแล้ว **
+    navigate("/login");
   };
 
   // ระบบ Logout ยังไม่ทำ
