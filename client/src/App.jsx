@@ -9,12 +9,6 @@ import { useAuth } from './contexts/authentication';
 function App() {
   const auth = useAuth();
   return auth.isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />;
-  return (
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
-  )
 }
 
 export default App

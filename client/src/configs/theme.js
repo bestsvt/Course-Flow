@@ -121,7 +121,30 @@ const components = {
       }
     }
   }
-  }
+  },
+  Link: {
+    variants: {
+      default: {
+        fontSize: "16px",
+        lineHeight: '24px',
+        fontWeight: 700,
+        color: "blue.500",
+        _hover: {
+          color: "blue.400",
+          textDecoration: "none",
+        },
+        _active: {
+          color: "blue.600",
+        },
+        _disabled: {
+          color: "gray.500",
+        },
+      },
+    },
+    defaultProps: {
+      variant: "default",
+    },
+  },
 }
   
 const theme = extendTheme({ colors , components, shadows })
