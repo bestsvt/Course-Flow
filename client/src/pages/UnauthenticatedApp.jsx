@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import RegisterPage from "./RegisterPage";
 import HomePage from "./HomePage";
 import LoginPage from "./LogingPage"
+import NotFoundPage from "./NotFoundPage";
 
 function UnauthenticatedApp() {
   return (
@@ -10,6 +11,7 @@ function UnauthenticatedApp() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
