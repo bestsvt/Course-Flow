@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/authentication";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   const {
@@ -22,7 +23,8 @@ function RegisterPage() {
   } = useForm();
 
   const { registration } = useAuth();
-
+  const navigate = useNavigate();
+  
   function onSubmit(values) {
     registration(values)
   }
@@ -182,7 +184,7 @@ function RegisterPage() {
       </Button>
       <span className="text-body2 font-body2">
         Already have an account?
-        <Link> Log in</Link>
+        <Link onClick={() => {navigate("/login")}}> Log in</Link>
       </span>
     </form>
       </div>
