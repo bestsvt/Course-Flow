@@ -1,9 +1,10 @@
 import express from "express";
 import authRouter from "./routes/auth.js"
 import cors from 'cors';
+import dotenv from "dotenv";
 
 async function init() {
-    
+    dotenv.config();
     const app = express();
     const port = 4000;
     app.use(cors());
