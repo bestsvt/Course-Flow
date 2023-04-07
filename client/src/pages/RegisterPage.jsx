@@ -5,7 +5,7 @@ function RegisterPage() {
     return (
       <>
       <Navbar/>
-      <div className="bg-[#FCFCFE]">
+      <div className="bg-[#FCFCFE] bg-imag-register">
       <RegisterForm/>
       </div>
       </>

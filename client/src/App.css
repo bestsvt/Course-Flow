@@ -8,3 +8,9 @@
     background-repeat: no-repeat;
     background-size: 60%
 }
+
+.bg-imag-register {
+    background-image: url('/image/registerpage/background.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+}
