@@ -150,13 +150,11 @@ function UserProfilePage() {
               id="upload"
               onChange={handleFileChange}
               />
-              <img
-                alt="image-profile"
-                className="rounded-2xl w-[360] h-[360] hover:opacity-50 shadow-shadow2"
-                src="./image/homepage/navbar/profile-image-default.jpg"
-              />
+              <div className="bg-gray-100 w-[360px] h-[360px] rounded-2xl flex flex-col justify-center text-center text-blue-400 shadow-shadow2">
+                <h1 className="text-[60px]">+</h1>
+                <h1 className="text-[30px]">Upload Image</h1>
+              </div>
               </label>
-              <h1 className="text-body3 mt-3 text-gray-600">Click the image to update your profile pictures.</h1>
               <FormErrorMessage>
                 {errorUploadMessage}
               </FormErrorMessage>
