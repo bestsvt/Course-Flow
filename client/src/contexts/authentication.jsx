@@ -34,10 +34,13 @@ function AuthProvider(props) {
   // register the user
   const registration = async (data) => {
     try {
-      await axios.post("http://localhost:4000/auth/register", data);
-      navigate("/login");
+      const result = await axios.post("http://localhost:4000/auth/register", data);
+      if (result.data.message.includes('success')) {
+        return true
+      } else {
+        return result.data.message
+      }
     } catch (error) {
-      console.log("Resgister Error ",error);
       alert("Oops, it looks like an error has occurred. Please try again later.")
     }
   };

@@ -21,12 +21,21 @@ function RegisterPage() {
     formState: { errors, isSubmitting },
     trigger,
   } = useForm();
-
+  const [errorEmailMessage, setErrorEmailMessage] = useState('');
   const { registration } = useAuth();
   const navigate = useNavigate();
-  
-  function onSubmit(values) {
-    registration(values)
+
+  async function onSubmit(values) {
+    try {
+      const result = await registration(values);
+      if (result !== true) {
+        setErrorEmailMessage(result)
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log("Submit Error ", error);
+    }
   }
 
   //  toggle show password
@@ -57,7 +66,7 @@ function RegisterPage() {
     let error;
     if (!value) {
       error = 'Password is required';
-    } else if (value.length < 12) {
+    } else if (value.length < 2) {
       error = 'Password must be at least 12 characters long';
     } 
     // กรณีที่ต้องการให้มีตัวพิมพ์ใหญ่กับตัวเลข อย่างน้อย 1 ตัว
@@ -70,7 +79,6 @@ function RegisterPage() {
     return (
       <>
       <Navbar/>
-      <div className="">
       <form
       onSubmit={handleSubmit(onSubmit)}
       className="px-[38%] py-[10%] flex flex-col gap-10 bg-[#FCFCFE] bg-imag-register"
@@ -137,7 +145,7 @@ function RegisterPage() {
       </FormControl>
 
       {/* ——————————————————— Email Input ——————————————————— */}      
-      <FormControl isInvalid={errors.email} isRequired>
+      <FormControl isInvalid={errors.email || errorEmailMessage} isRequired>
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input
           variant="normal"
@@ -151,6 +159,7 @@ function RegisterPage() {
         />
         <FormErrorMessage>
           {errors.email && errors.email.message}
+          {errorEmailMessage}
         </FormErrorMessage>
       </FormControl>
 
@@ -187,7 +196,6 @@ function RegisterPage() {
         <Link onClick={() => {navigate("/login")}}> Log in</Link>
       </span>
     </form>
-      </div>
       </>
     );
 }

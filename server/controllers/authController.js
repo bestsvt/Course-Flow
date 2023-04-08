@@ -3,22 +3,49 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 async function register(req, res) {
-    // ต้องเพิ่มการดึงข้อมูลมาเช็คว่ามี email แล้วหรือยัง
+  try {
+    const email = req.body.email;
+    const { data: users, error: selectError } = await supabase
+      .from("users")
+      .select("user_id")
+      .eq("email", email);
+    // if error when select data throw the error
+    if (selectError) {
+      throw selectError;
+    }
+    
+    // Check Email Aleary have in database or not
+    if (users.length > 0) {
+      return res.json({
+        message: "This email address is already registered.",
+      });
+    }
+
     const user = {
-        email: req.body.email,
-        password: req.body.password,
-        name: req.body.name,
-        birth_date: req.body.date,
-        education: req.body.education
+      email,
+      password: req.body.password,
+      name: req.body.name,
+      birth_date: req.body.date,
+      education: req.body.education,
     };
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-    
-    const { error } = await supabase.from('users').insert(user)
+
+    const { error: insertError } = await supabase.from("users").insert(user);
+    // if error when insert data throw the error
+    if (insertError) {
+      throw insertError;
+    }
 
     return res.json({
-        message: "User has been created successfully",
-      });
+      message: "User has been created successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Something went wrong while creating the user",
+    });
+  }
 }
 
 async function login(req, res) {
@@ -47,11 +74,14 @@ async function login(req, res) {
         {
             id: user.user_id,
             name: user.name,
+            email: user.email,
+            education: user.education,
+            birth_date: user.birth_date,
             profile_image: user.profile_image,             
         },
         process.env.SECRET_KEY,
         {
-            expiresIn: '259200',
+            expiresIn: '15d',
         }
     );
 
