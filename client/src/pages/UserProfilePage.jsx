@@ -12,17 +12,34 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 function UserProfilePage() {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-    trigger,
-  } = useForm();
   const { userAuthState } = useAuth();
+  const [avatar, setAvatar] = useState();
+  const [errorUploadMessage, setErrorUploadMessage] = useState('');
+  const [avatarFile, setAvatarFile] = useState();
+  const { handleSubmit, register, formState: { errors, isSubmitting }, trigger,} = useForm();
+  const userId = userAuthState.user.id;
+
 
   function onSubmit(values) {
     // Start Coding Here
   }
+  
+  function handleFileChange (event) {
+    const imageFile = event.target.files[0];
+    const allowedTypes = /(\.jpeg|\.png|\.jpg|\.gif)$/i;
+    if (imageFile && allowedTypes.test(imageFile.name)) {
+      setAvatarFile(imageFile);
+      setAvatar(URL.createObjectURL(imageFile));
+    } else {
+      setErrorUploadMessage("Invalid file type. Please select a valid image file.")
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setErrorUploadMessage("")
+	  setAvatar()
+    setAvatarFile()
+	};
 
   function validateName(value) {
     let error;
@@ -44,7 +61,6 @@ function UserProfilePage() {
     }
     return error;
   }
-
   return (
     <>
       <Navbar />
@@ -56,16 +72,46 @@ function UserProfilePage() {
           {/* ——————————————————— Image Input ——————————————————— */}
           <div className="w-[52%] flex justify-end px-28">
             <div className="relative">
+              {avatar ? 
+              <>
               <img
-                alt="image-profile"
-                className="rounded-2xl w-[360] h-[360]"
-                src="./image/homepage/navbar/profile-image-default.jpg"
+                alt="image-profile-preview"
+                className="rounded-2xl w-[360px] h-[360px] shadow-shadow2 object-cover"
+                src={avatar}
               />
               <img
                 src="./image/icon/delete.png"
-                alt=""
-                className="absolute w-[32px] h-[32px] top-2 right-2 cursor-pointer"
+                alt="delete-button"
+                className="absolute w-[32px] h-[32px] top-2 right-2 cursor-pointer hover:opacity-90"
+                onClick={handleRemoveImage}
               />
+              <h1 className="text-body3 mt-3 text-gray-600">To change your profile picture,
+              <br/>click the purple 'X' button at the top-right.</h1>
+              </>
+              :
+              <>
+              <FormControl isInvalid={errors.upload || errorUploadMessage}>
+              <label className="hover:cursor-pointer" htmlFor="upload">
+              <Input 
+              type="file" 
+              hidden
+              id="upload"
+              onChange={handleFileChange}
+              />
+              <img
+                alt="image-profile"
+                className="rounded-2xl w-[360] h-[360] hover:opacity-50 shadow-shadow2"
+                src="./image/homepage/navbar/profile-image-default.jpg"
+              />
+              </label>
+              <h1 className="text-body3 mt-3 text-gray-600">Click the image to update your profile pictures.</h1>
+              <FormErrorMessage>
+                {errorUploadMessage}
+              </FormErrorMessage>
+              </FormControl>
+              </>
+              }
+              
             </div>
           </div>
           <form
