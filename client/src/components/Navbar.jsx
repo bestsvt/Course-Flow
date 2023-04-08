@@ -36,9 +36,10 @@ function Navbar() {
                     borderRadius='full'
                     alt='profile-image'
                     src={userAuthState.user.profile_image ? 
-                      userAuthState.user.profile_image : 
+                      userAuthState.user.profile_image.url : 
                       './image/homepage/navbar/profile-image-default.jpg'
                     }
+                    className="object-cover"
                   />
                   <span className="text-body2 font-body2 text-gray-800">{userAuthState.user.name}</span> <AiFillCaretDown />
                 </div>

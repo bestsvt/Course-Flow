@@ -4,32 +4,76 @@ import {
   FormControl,
   Input,
   Button,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/authentication";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 function UserProfilePage() {
-  const { userAuthState } = useAuth();
+  const { userAuthState , setUserAuthState } = useAuth();
   const [avatar, setAvatar] = useState();
-  const [errorUploadMessage, setErrorUploadMessage] = useState('');
   const [avatarFile, setAvatarFile] = useState();
+  const [errorUploadMessage, setErrorUploadMessage] = useState('');
+  const [errorEmailMessage, setErrorEmailMessage] = useState('');
+  const [statusImage, setStatusImage] = useState();
   const { handleSubmit, register, formState: { errors, isSubmitting }, trigger,} = useForm();
   const userId = userAuthState.user.id;
+  const toast = useToast()
 
-
-  function onSubmit(values) {
+  async function onSubmit(values) {
     // Start Coding Here
+
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("birth_date", values.date);
+    formData.append("education", values.education);
+    formData.append("email", values.email);
+    formData.append("userId", userId);
+    formData.append("profile_image", avatarFile)
+    formData.append("statusImage", statusImage)
+    try {
+    const result = await axios.put(`http://localhost:4000/user/${userId}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" }})
+    if (result.data.message.includes('succes')) {
+      const token = result.data.token;
+      localStorage.setItem("token", token);
+      const userDataFromToken = jwtDecode(token);
+      setUserAuthState({ ...userAuthState, user: userDataFromToken });
+      toast({
+        title: result.data.message,
+        isClosable: true,
+        position: 'top',
+        status: 'success',
+        colorScheme: "blue",
+        duration: 5000
+      })
+    } else if (result.data.message.includes('email')){
+      setErrorEmailMessage(result.data.message)      
+      toast({
+        title: result.data.message,
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } 
+    } catch (error) {
+      console.log("onSubmit Error", error);
+    }
   }
-  
+
   function handleFileChange (event) {
     const imageFile = event.target.files[0];
     const allowedTypes = /(\.jpeg|\.png|\.jpg|\.gif)$/i;
     if (imageFile && allowedTypes.test(imageFile.name)) {
       setAvatarFile(imageFile);
       setAvatar(URL.createObjectURL(imageFile));
+      setStatusImage("update")
     } else {
       setErrorUploadMessage("Invalid file type. Please select a valid image file.")
     }
@@ -39,6 +83,7 @@ function UserProfilePage() {
     setErrorUploadMessage("")
 	  setAvatar()
     setAvatarFile()
+    setStatusImage("delete")
 	};
 
   function validateName(value) {
@@ -61,6 +106,13 @@ function UserProfilePage() {
     }
     return error;
   }
+
+  useEffect(() => {
+    if (userAuthState.user.profile_image) {
+      setAvatar(userAuthState.user.profile_image.url);
+      // setAvatarFile(userAuthState.user.profile_image)
+    }
+  }, []);
   return (
     <>
       <Navbar />
@@ -179,7 +231,7 @@ function UserProfilePage() {
             </FormControl>
 
             {/* ——————————————————— Email Input ——————————————————— */}
-            <FormControl isInvalid={errors.email} width={450}>
+            <FormControl isInvalid={errors.email || errorEmailMessage} width={450}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 variant="normal"
@@ -194,6 +246,7 @@ function UserProfilePage() {
               />
               <FormErrorMessage>
                 {errors.email && errors.email.message}
+                {errorEmailMessage}
               </FormErrorMessage>
             </FormControl>
 
