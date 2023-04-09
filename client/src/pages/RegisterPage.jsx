@@ -7,6 +7,7 @@ import {
   InputGroup,
   InputRightElement,
   Link,
+  useToast
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,14 +25,30 @@ function RegisterPage() {
   const [errorEmailMessage, setErrorEmailMessage] = useState('');
   const { registration } = useAuth();
   const navigate = useNavigate();
+  const toast = useToast()
 
   async function onSubmit(values) {
     try {
       const result = await registration(values);
-      if (result !== true) {
-        setErrorEmailMessage(result)
-      } else {
+      if (result.data.message.includes('success')) {
+        toast({
+          title: result.data.message,
+          isClosable: true,
+          position: 'top',
+          status: 'success',
+          colorScheme: "blue",
+          duration: 5000
+        })
         navigate("/login");
+      } else {
+        setErrorEmailMessage(result.data.message)
+        toast({
+          title: result.data.message,
+          isClosable: true,
+          position: 'top',
+          status: 'error',
+          duration: 5000
+        })
       }
     } catch (error) {
       console.log("Submit Error ", error);
@@ -88,40 +105,40 @@ function RegisterPage() {
       </h1>
 
       {/* ——————————————————— Name Input ——————————————————— */}
-      <FormControl isInvalid={errors.name} isRequired>
-        <FormLabel htmlFor="name">Name</FormLabel>
+      <FormControl isInvalid={errors.full_name} isRequired>
+        <FormLabel htmlFor="full_name">Name</FormLabel>
         <Input
           variant="normal"
-          id="name"
+          id="full_name"
           placeholder="Enter Name and Lastname"
-          {...register('name', { validate: validateName })}
+          {...register('full_name', { validate: validateName })}
           onBlur={() => {
-            trigger('name');
+            trigger('full_name');
           }}
         />
         <FormErrorMessage>
-          {errors.name && errors.name.message}
+          {errors.full_name && errors.full_name.message}
         </FormErrorMessage>
       </FormControl>
 
       {/* ——————————————————— Date Input ——————————————————— */}
-      <FormControl isInvalid={errors.date} isRequired>
-        <FormLabel htmlFor="date">Date of Birth</FormLabel>
+      <FormControl isInvalid={errors.birth_date} isRequired>
+        <FormLabel htmlFor="birth_date">Date of Birth</FormLabel>
         <Input
           variant="normal"
           type="date"
-          id="date"
+          id="birth_date"
           placeholder="MM/DD/YY"
-          {...register("date", {
+          {...register("birth_date", {
             required: "Date of Birth is required",
           })}
           onBlur={() => {
-            trigger('date');
+            trigger('birth_date');
           }}
           max={new Date().toISOString().slice(0, 10)}
         />
         <FormErrorMessage>
-          {errors.date && errors.date.message}
+          {errors.birth_date && errors.birth_date.message}
         </FormErrorMessage>
       </FormControl>
 

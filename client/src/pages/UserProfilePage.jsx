@@ -29,8 +29,8 @@ function UserProfilePage() {
     // Start Coding Here
 
     const formData = new FormData();
-    formData.append("name", values.name);
-    formData.append("birth_date", values.date);
+    formData.append("full_name", values.full_name);
+    formData.append("birth_date", values.birth_date);
     formData.append("education", values.education);
     formData.append("email", values.email);
     formData.append("userId", userId);
@@ -69,15 +69,35 @@ function UserProfilePage() {
 
   function handleFileChange (event) {
     const imageFile = event.target.files[0];
-    const allowedTypes = /(\.jpeg|\.png|\.jpg|\.gif)$/i;
-    if (imageFile && allowedTypes.test(imageFile.name)) {
-      setAvatarFile(imageFile);
-      setAvatar(URL.createObjectURL(imageFile));
-      setStatusImage("update")
-    } else {
-      setErrorUploadMessage("Invalid file type. Please select a valid image file.")
+    const allowedTypes = /(\.jpeg|\.png|\.jpg)$/i;
+    const maxFileSize = 2 * 1024 * 1024;
+    if (imageFile) {
+      if (!allowedTypes.test(imageFile.name)) {
+        setErrorUploadMessage("Invalid file type. Please select a valid image file.");
+        toast({
+          title: "Invalid file type. Please select a valid image file.",
+          isClosable: true,
+          position: 'top',
+          status: 'error',
+          duration: 5000
+        })
+      } else if (imageFile.size > maxFileSize) {
+        setErrorUploadMessage("File size too large. Choose an image under 2MB.");
+        toast({
+          title: "File size too large. Choose an image under 2MB.",
+          isClosable: true,
+          position: 'top',
+          status: 'error',
+          duration: 5000
+        })
+      } else {
+        setAvatarFile(imageFile);
+        setAvatar(URL.createObjectURL(imageFile));
+        setStatusImage("update");
+      }
     }
   };
+  
 
   const handleRemoveImage = () => {
     setErrorUploadMessage("")
@@ -110,9 +130,9 @@ function UserProfilePage() {
   useEffect(() => {
     if (userAuthState.user.profile_image) {
       setAvatar(userAuthState.user.profile_image.url);
-      // setAvatarFile(userAuthState.user.profile_image)
     }
   }, []);
+  
   return (
     <>
       <Navbar />
@@ -154,6 +174,8 @@ function UserProfilePage() {
                 <h1 className="text-[60px]">+</h1>
                 <h1 className="text-[30px]">Upload Image</h1>
               </div>
+              <h1 className="text-body3 mt-3 text-gray-600">Accepted formats: .jpg .jpeg .png
+              <br/>Please ensure that your image is under 2MB in size.</h1>
               </label>
               <FormErrorMessage>
                 {errorUploadMessage}
@@ -169,42 +191,42 @@ function UserProfilePage() {
             className="w-[50%] flex flex-col gap-10"
           >
             {/* ——————————————————— Name Input ——————————————————— */}
-            <FormControl isInvalid={errors.name} width={450}>
-              <FormLabel htmlFor="name">Name</FormLabel>
+            <FormControl isInvalid={errors.full_name} width={450}>
+              <FormLabel htmlFor="full_name">Name</FormLabel>
               <Input
                 variant="normal"
-                id="name"
+                id="full_name"
                 placeholder="Enter Name and Lastname"
-                {...register("name", { validate: validateName })}
+                {...register("full_name", { validate: validateName })}
                 onBlur={() => {
-                  trigger("name");
+                  trigger("full_name");
                 }}
-                defaultValue={userAuthState.user.name}
+                defaultValue={userAuthState.user.full_name}
               />
               <FormErrorMessage>
-                {errors.name && errors.name.message}
+                {errors.full_name && errors.full_name.message}
               </FormErrorMessage>
             </FormControl>
 
             {/* ——————————————————— Date Input ——————————————————— */}
-            <FormControl isInvalid={errors.date} width={450}>
-              <FormLabel htmlFor="date">Date of Birth</FormLabel>
+            <FormControl isInvalid={errors.birth_date} width={450}>
+              <FormLabel htmlFor="birth_date">Date of Birth</FormLabel>
               <Input
                 variant="normal"
                 type="date"
-                id="date"
+                id="birth_date"
                 placeholder="MM/DD/YY"
-                {...register("date", {
+                {...register("birth_date", {
                   required: "Date of Birth is required",
                 })}
                 onBlur={() => {
-                  trigger("date");
+                  trigger("birth_date");
                 }}
                 max={new Date().toISOString().slice(0, 10)}
                 defaultValue={userAuthState.user.birth_date}
               />
               <FormErrorMessage>
-                {errors.date && errors.date.message}
+                {errors.birth_date && errors.birth_date.message}
               </FormErrorMessage>
             </FormControl>
 

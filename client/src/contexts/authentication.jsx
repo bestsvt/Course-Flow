@@ -16,16 +16,8 @@ function AuthProvider(props) {
   const login = async (data) => {
     try {
       const result = await axios.post("http://localhost:4000/auth/login", data);
-      const token = result.data.token;
-      localStorage.setItem("token", token);
-      const userDataFromToken = jwtDecode(token);
-      setUserAuthState({ ...userAuthState, user: userDataFromToken });
-      navigate("/");
+      return result
     } catch (error) {
-      setUserAuthState({
-        ...userAuthState,
-        error: error.response.data.message,
-      });
       console.log("Login Error", error);
       alert("Oops, it looks like an error has occurred. Please try again later.")
     }
@@ -35,11 +27,7 @@ function AuthProvider(props) {
   const registration = async (data) => {
     try {
       const result = await axios.post("http://localhost:4000/auth/register", data);
-      if (result.data.message.includes('success')) {
-        return true
-      } else {
-        return result.data.message
-      }
+      return result
     } catch (error) {
       alert("Oops, it looks like an error has occurred. Please try again later.")
     }

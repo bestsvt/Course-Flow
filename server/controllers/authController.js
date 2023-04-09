@@ -24,8 +24,8 @@ async function register(req, res) {
     const user = {
       email,
       password: req.body.password,
-      name: req.body.name,
-      birth_date: req.body.date,
+      full_name: req.body.full_name,
+      birth_date: req.body.birth_date,
       education: req.body.education,
     };
     const salt = await bcrypt.genSalt(10);
@@ -38,7 +38,7 @@ async function register(req, res) {
     }
 
     return res.json({
-      message: "User has been created successfully",
+      message: "Congratulations! Your Courseflow account has been created successfully. Start learning today with our online courses!",
     });
   } catch (error) {
     console.error(error);
@@ -56,24 +56,23 @@ async function login(req, res) {
     const user = data[0];
 
     if (!user) {
-        return res.status(404).json({
-                "message": "email not found"
+        return res.json({
+                "message": "Email not found"
             })
     }
 
 	const isValidPassword = await bcrypt.compare(req.body.password, user.password);
 
     if (!isValidPassword) {
-            return res.status(401).json({
-                "message": "password not valid"
+            return res.json({
+                "message": "Password not valid"
             })
     }
 
-    // ค่อยมาดูเรื่องเวลาหมดอายุ
     const token = jwt.sign(
         {
             id: user.user_id,
-            name: user.name,
+            full_name: user.full_name,
             email: user.email,
             education: user.education,
             birth_date: user.birth_date,
@@ -86,7 +85,7 @@ async function login(req, res) {
     );
 
     return res.json({ 
-		message: "login succesfully",
+		message: "You have successfully accessed your Courseflow account. Let's start learning!",
 		token 
 	})
 }

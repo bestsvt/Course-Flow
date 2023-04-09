@@ -41,7 +41,7 @@ function Navbar() {
                     }
                     className="object-cover"
                   />
-                  <span className="text-body2 font-body2 text-gray-800">{userAuthState.user.name}</span> <AiFillCaretDown />
+                  <span className="text-body2 font-body2 text-gray-800">{userAuthState.user.full_name}</span> <AiFillCaretDown />
                 </div>
               </MenuButton>
               <MenuList>

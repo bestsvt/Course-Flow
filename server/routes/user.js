@@ -7,7 +7,7 @@ const userRouter = Router();
 const multerUpload = multer({ dest: "uploads/" });
 const avatarUpload = multerUpload.fields([{ name: "profile_image", maxCount: 1 }]);
 
-// authRouter.use(protect);
+userRouter.use(protect);
 
 userRouter.put("/:userId", avatarUpload , user_controller.updateProfile);
 
