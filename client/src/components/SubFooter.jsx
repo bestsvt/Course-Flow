@@ -3,7 +3,8 @@ import { Button } from '@chakra-ui/react'
 function SubFooter() {
     
     return (
-        <div className="flex flex-row justify-between items-center px-[15%] pt-[5%] bg-gradient-to-l from-linear2-1 to-linear2-2 "  >
+        <div className='bg-gradient-to-l from-linear2-1 to-linear2-2'>
+        <div className="flex flex-row justify-between items-center px-[15%] pt-[5%] bg-imag-subfooter">
             <div className="box-left flex flex-col items-start mb-16">
                 <h1 className="text-headline2 text-white">Interested in Becomming<br/>a Software Developer?</h1>
                 <Button variant="secondary" className="w-[250px] mt-10">Check Out Our Course</Button>
@@ -11,6 +12,7 @@ function SubFooter() {
             <div>
             <img src=".\image\footer\Group.png" alt="Group"/>
             </div>
+        </div>
         </div>
     )
 }

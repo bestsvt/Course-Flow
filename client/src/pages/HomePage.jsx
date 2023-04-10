@@ -12,8 +12,8 @@ function HomePage() {
     <div>
       <Navbar />
       {/* ———————— Section Header ———————— */}
-      <header>
-        <div className="flex flex-row justify-between px-[10%] py-[7.5%] bg-blue-100 bg-imag-header">
+      <header className="bg-blue-100 bg-imag-header">
+        <div className="flex flex-row justify-between px-[10%] py-[7.5%] bg-imag-header2">
           <div className="flex flex-col gap-6">
             <h1 className="text-headline1 text-black font-headline1">
               Best Virtual <br />
@@ -37,7 +37,7 @@ function HomePage() {
       </header>
       {/* ———————— Section 2 ———————— */}
       <section>
-        <div className="flex flex-col p-[10%] gap-[120px]">
+        <div className="flex flex-col p-[10%] gap-[120px] bg-imag-section2">
           {/* letf content */}
           <div className="flex justify-between">
             <img
@@ -132,7 +132,7 @@ function HomePage() {
       </section>
 
       {/* ———————— Section 3 ———————— */}
-      <section className="px-[10%] py-[5%] flex flex-col gap-16">
+      <section className="px-[10%] py-[5%] flex flex-col gap-16 bg-imag-section3">
         <div className="text-center text-headline2 text-black font-headline2">
           Our Professional Instructor
         </div>
@@ -155,13 +155,13 @@ function HomePage() {
         </div>
       </section>
       {/* ———————— Section 4 ———————— */}
-      <section className="mb-[5%]">
-        <div className="w-full h-[600px] flex flex-col items-center justify-center  ">
+      <section className="mb-[5%] bg-imag-section4">
+        <div className="w-full h-[600px] flex flex-col items-center justify-center">
           <h1 className="text-headline2 text-black font-headline2">
             Our Graduates
           </h1>
 
-          <div className="w-full h-[300px] m-16 flex  items-center justify-center   ">
+          <div className="w-full h-[300px] m-16 flex  items-center justify-center">
             <div className=" max-w-full h-full">
               <Swiper
                 spaceBetween={60}
