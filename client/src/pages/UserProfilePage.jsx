@@ -170,7 +170,7 @@ function UserProfilePage() {
               id="upload"
               onChange={handleFileChange}
               />
-              <div className="bg-gray-100 w-[360px] h-[360px] rounded-2xl flex flex-col justify-center text-center text-blue-400 shadow-shadow2">
+              <div className="bg-gray-100 w-[360px] h-[360px] rounded-2xl flex flex-col justify-center text-center text-blue-400 shadow-shadow2 hover:opacity-50">
                 <h1 className="text-[60px]">+</h1>
                 <h1 className="text-[30px]">Upload Image</h1>
               </div>
