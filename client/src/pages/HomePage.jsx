@@ -6,8 +6,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { instructor } from "../mockdata/instructor.js";
 import { Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
   return (
     <div>
       <Navbar />
@@ -24,7 +26,7 @@ function HomePage() {
               <br />
               system that caters to all your educational needs!
             </h2>
-            <Button className="w-[200px] mt-[36px]" variant="primary">
+            <Button className="w-[200px] mt-[36px]" variant="primary" onClick={() => { navigate("/courses")}}>
               Explore Courses
             </Button>
           </div>
