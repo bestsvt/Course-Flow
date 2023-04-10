@@ -9,6 +9,36 @@
     background-size: 60%
 }
 
+.bg-imag-header2 {
+    background-image: url('/image/background/background3.png');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-imag-section2 {
+    background-image: url('/image/background/background4.png');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-imag-section3 {
+    background-image: url('/image/background/background5.png');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-imag-section4 {
+    background-image: url('/image/background/background6.png');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-imag-subfooter {
+    background-image: url('/image/background/background7.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
 .bg-imag-register {
     background-image: url('/image/background/background1.png');
     background-position: center top;
