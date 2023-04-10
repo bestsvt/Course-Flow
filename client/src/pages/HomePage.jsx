@@ -162,12 +162,12 @@ function HomePage() {
           </h1>
 
           <div className="w-full h-[300px] m-16 flex  items-center justify-center   ">
-            <div className=" max-w-[1980px]  h-full">
+            <div className=" max-w-full h-full">
               <Swiper
                 spaceBetween={60}
                 slidesPerView={2.5}
                 centeredSlides={true}
-                initialSlide={1}
+                loop={true}
               >
                 {graduate.map((graduate, index) => {
                   return (

@@ -21,7 +21,7 @@ function Navbar() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-row px-[10%] justify-between h-[88px] items-center shadow-shadow2 relative">
-      <img src="./image/logo/CourseFlow.png" className="w-[200px]" alt="logo" onClick={() => { navigate("/") }} />
+      <img src="./image/logo/CourseFlow.png" className="w-[200px] hover:cursor-pointer" alt="logo" onClick={() => { navigate("/") }} />
       <div className="flex justify-between items-center gap-5">
         <div className="text-[#191C77] font-bold">Our Courses</div>
         {isAuthenticated ?
@@ -36,15 +36,16 @@ function Navbar() {
                     borderRadius='full'
                     alt='profile-image'
                     src={userAuthState.user.profile_image ? 
-                      userAuthState.user.profile_image : 
+                      userAuthState.user.profile_image.url : 
                       './image/homepage/navbar/profile-image-default.jpg'
                     }
+                    className="object-cover"
                   />
-                  <span className="text-body2 font-body2 text-gray-800">{userAuthState.user.name}</span> <AiFillCaretDown />
+                  <span className="text-body2 font-body2 text-gray-800">{userAuthState.user.full_name}</span> <AiFillCaretDown />
                 </div>
               </MenuButton>
               <MenuList>
-                <MenuItem icon={<HiOutlineUser className="text-blue-300 text-lg" />} >
+                <MenuItem icon={<HiOutlineUser className="text-blue-300 text-lg" />} onClick={() => { navigate("/profile")}}>
                   <p className="text-gray-700 font-headline1">Profile</p>
                 </MenuItem>
                 <MenuItem icon={<HiOutlineBookOpen className="text-blue-300 text-lg" />} >

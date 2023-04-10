@@ -116,6 +116,9 @@ const components = {
       },
       _invalid: {
         borderColor: '#9B2FAC',
+        backgroundImage: "url('./image/icon/exclamation-warning.png')",
+        backgroundPosition: "96%",
+        backgroundRepeat: "no-repeat",
       },
       _placeholder: { opacity: "1", color: 'gray.500' }
       }

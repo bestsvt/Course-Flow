@@ -10,7 +10,13 @@
 }
 
 .bg-imag-register {
-    background-image: url('/image/registerpage/background.png');
+    background-image: url('/image/background/background1.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.bg-imag-userpage {
+    background-image: url('/image/background/background2.png');
     background-position: center top;
     background-repeat: no-repeat;
 }

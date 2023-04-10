@@ -7,12 +7,14 @@ import {
     InputGroup,
     InputRightElement,
     Link,
+    useToast
   } from "@chakra-ui/react";
   import { useState } from "react";
   import { useForm } from "react-hook-form";
   import { useAuth } from "../contexts/authentication";
   import Navbar from "../components/Navbar";
   import { useNavigate } from "react-router-dom";
+  import jwtDecode from "jwt-decode";
 
   function RegisterPage() {
     const {
@@ -21,11 +23,48 @@ import {
       formState: { errors, isSubmitting },
       trigger,
     } = useForm();
-  
-    const { login } = useAuth();
+    const [errorEmailMessage, setErrorEmailMessage] = useState('');
+    const [errorPasswordMessage, setErrorPasswordMessage] = useState('');
+    const { login,userAuthState, setUserAuthState } = useAuth();
     const navigate = useNavigate();
-    function onSubmit(values) {
-      login(values);
+    const toast = useToast()
+
+    async function onSubmit(values) {
+      const result = await login(values);
+      const message = result.data.message;
+      if (/\bstart\b/i.test(message)) {
+        const token = result.data.token;
+        localStorage.setItem("token", token);
+        const userDataFromToken = jwtDecode(token);
+        setUserAuthState({ ...userAuthState, user: userDataFromToken });
+        toast({
+          title: message,
+          isClosable: true,
+          position: 'top',
+          status: 'success',
+          colorScheme: "blue",
+          duration: 5000
+        })
+        navigate("/")
+      } else if (/\bemail\b/i.test(message)) {
+        setErrorEmailMessage(message)
+        toast({
+          title: message,
+          isClosable: true,
+          position: 'top',
+          status: 'error',
+          duration: 5000
+        })
+      } else if (/\bpassword\b/i.test(message)) {
+        setErrorPasswordMessage(message)
+        toast({
+          title: message,
+          isClosable: true,
+          position: 'top',
+          status: 'error',
+          duration: 5000
+        })
+      } 
     }
   
     //  toggle show password
@@ -70,7 +109,7 @@ import {
             </h1>
   
             {/* ——————————————————— Email Input ——————————————————— */}
-            <FormControl isInvalid={errors.email} isRequired>
+            <FormControl isInvalid={errors.email || errorEmailMessage} isRequired>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 variant="normal"
@@ -84,11 +123,12 @@ import {
               />
               <FormErrorMessage>
                 {errors.email && errors.email.message}
+                {errorEmailMessage}
               </FormErrorMessage>
             </FormControl>
   
             {/* ——————————————————— Password Input ——————————————————— */}
-            <FormControl isInvalid={errors.password} isRequired>
+            <FormControl isInvalid={errors.password || errorPasswordMessage} isRequired>
               <FormLabel htmlFor="password">Password</FormLabel>
               <InputGroup>
                 <Input
@@ -109,6 +149,7 @@ import {
               </InputGroup>
               <FormErrorMessage>
                 {errors.password && errors.password.message}
+                {errorPasswordMessage}
               </FormErrorMessage>
             </FormControl>
   
@@ -125,5 +166,4 @@ import {
     );
   }
   
-  export default RegisterPage;
-  
+export default RegisterPage;

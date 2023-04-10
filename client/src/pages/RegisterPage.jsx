@@ -7,6 +7,7 @@ import {
   InputGroup,
   InputRightElement,
   Link,
+  useToast
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -21,12 +22,37 @@ function RegisterPage() {
     formState: { errors, isSubmitting },
     trigger,
   } = useForm();
-
+  const [errorEmailMessage, setErrorEmailMessage] = useState('');
   const { registration } = useAuth();
   const navigate = useNavigate();
-  
-  function onSubmit(values) {
-    registration(values)
+  const toast = useToast()
+
+  async function onSubmit(values) {
+    try {
+      const result = await registration(values);
+      if (result.data.message.includes('success')) {
+        toast({
+          title: result.data.message,
+          isClosable: true,
+          position: 'top',
+          status: 'success',
+          colorScheme: "blue",
+          duration: 5000
+        })
+        navigate("/login");
+      } else {
+        setErrorEmailMessage(result.data.message)
+        toast({
+          title: result.data.message,
+          isClosable: true,
+          position: 'top',
+          status: 'error',
+          duration: 5000
+        })
+      }
+    } catch (error) {
+      console.log("Submit Error ", error);
+    }
   }
 
   //  toggle show password
@@ -57,7 +83,7 @@ function RegisterPage() {
     let error;
     if (!value) {
       error = 'Password is required';
-    } else if (value.length < 12) {
+    } else if (value.length < 2) {
       error = 'Password must be at least 12 characters long';
     } 
     // กรณีที่ต้องการให้มีตัวพิมพ์ใหญ่กับตัวเลข อย่างน้อย 1 ตัว
@@ -70,7 +96,6 @@ function RegisterPage() {
     return (
       <>
       <Navbar/>
-      <div className="">
       <form
       onSubmit={handleSubmit(onSubmit)}
       className="px-[38%] py-[10%] flex flex-col gap-10 bg-[#FCFCFE] bg-imag-register"
@@ -80,40 +105,40 @@ function RegisterPage() {
       </h1>
 
       {/* ——————————————————— Name Input ——————————————————— */}
-      <FormControl isInvalid={errors.name} isRequired>
-        <FormLabel htmlFor="name">Name</FormLabel>
+      <FormControl isInvalid={errors.full_name} isRequired>
+        <FormLabel htmlFor="full_name">Name</FormLabel>
         <Input
           variant="normal"
-          id="name"
+          id="full_name"
           placeholder="Enter Name and Lastname"
-          {...register('name', { validate: validateName })}
+          {...register('full_name', { validate: validateName })}
           onBlur={() => {
-            trigger('name');
+            trigger('full_name');
           }}
         />
         <FormErrorMessage>
-          {errors.name && errors.name.message}
+          {errors.full_name && errors.full_name.message}
         </FormErrorMessage>
       </FormControl>
 
       {/* ——————————————————— Date Input ——————————————————— */}
-      <FormControl isInvalid={errors.date} isRequired>
-        <FormLabel htmlFor="date">Date of Birth</FormLabel>
+      <FormControl isInvalid={errors.birth_date} isRequired>
+        <FormLabel htmlFor="birth_date">Date of Birth</FormLabel>
         <Input
           variant="normal"
           type="date"
-          id="date"
+          id="birth_date"
           placeholder="MM/DD/YY"
-          {...register("date", {
+          {...register("birth_date", {
             required: "Date of Birth is required",
           })}
           onBlur={() => {
-            trigger('date');
+            trigger('birth_date');
           }}
           max={new Date().toISOString().slice(0, 10)}
         />
         <FormErrorMessage>
-          {errors.date && errors.date.message}
+          {errors.birth_date && errors.birth_date.message}
         </FormErrorMessage>
       </FormControl>
 
@@ -137,7 +162,7 @@ function RegisterPage() {
       </FormControl>
 
       {/* ——————————————————— Email Input ——————————————————— */}      
-      <FormControl isInvalid={errors.email} isRequired>
+      <FormControl isInvalid={errors.email || errorEmailMessage} isRequired>
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input
           variant="normal"
@@ -151,6 +176,7 @@ function RegisterPage() {
         />
         <FormErrorMessage>
           {errors.email && errors.email.message}
+          {errorEmailMessage}
         </FormErrorMessage>
       </FormControl>
 
@@ -187,7 +213,6 @@ function RegisterPage() {
         <Link onClick={() => {navigate("/login")}}> Log in</Link>
       </span>
     </form>
-      </div>
       </>
     );
 }
