@@ -2,11 +2,11 @@ import Navbar from "../components/Navbar"
 import SubFooter from "../components/SubFooter"
 import Footer from "../components/Footer"
 import CourseCard from "../components/CourseCard"
-import { CiSearch } from "react-icons/ci"
+import { FiSearch } from "react-icons/fi"
 import {
   Input,
   InputGroup,
-  InputRightElement,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import { useAuth } from "../contexts/authentication"
 
@@ -25,10 +25,11 @@ function OurCoursePage() {
                     id="password"
                     placeholder="Search..."
                     type="text"
+                    padding='0 45px'
                   />
-                  <InputRightElement margin="4px">
-                    <CiSearch/>
-                  </InputRightElement>
+                  <InputLeftElement margin="4px">
+                    <FiSearch fontSize={20}/>
+                  </InputLeftElement>
                 </InputGroup>
                 <div className="flex flex-wrap gap-[5%] mb-[100px]">
                   {/* wait data from Database then using Map fucntion to show course */}

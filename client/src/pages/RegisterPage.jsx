@@ -83,7 +83,7 @@ function RegisterPage() {
     let error;
     if (!value) {
       error = 'Password is required';
-    } else if (value.length < 2) {
+    } else if (value.length < 12) {
       error = 'Password must be at least 12 characters long';
     } 
     // กรณีที่ต้องการให้มีตัวพิมพ์ใหญ่กับตัวเลข อย่างน้อย 1 ตัว
@@ -125,7 +125,7 @@ function RegisterPage() {
       <FormControl isInvalid={errors.birth_date} isRequired>
         <FormLabel htmlFor="birth_date">Date of Birth</FormLabel>
         <Input
-          variant="normal"
+          variant="date"
           type="date"
           id="birth_date"
           placeholder="MM/DD/YY"
@@ -185,7 +185,7 @@ function RegisterPage() {
         <FormLabel htmlFor="password">Password</FormLabel>
         <InputGroup>
           <Input
-            variant="normal"
+            variant="password"
             id="password"
             placeholder="Enter Password"
             {...register('password', { validate: validatePassword })}
