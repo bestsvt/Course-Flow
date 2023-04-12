@@ -50,3 +50,7 @@
     background-position: center top;
     background-repeat: no-repeat;
 }
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
