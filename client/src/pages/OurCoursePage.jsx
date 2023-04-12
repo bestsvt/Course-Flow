@@ -31,20 +31,17 @@ function OurCoursePage() {
                     <FiSearch fontSize={20}/>
                   </InputLeftElement>
                 </InputGroup>
-                <div className="flex flex-wrap gap-[5%] mb-[100px]">
+                <div className="flex flex-wrap gap-[5%] mt-[60px] mb-[40px]">
                   {/* wait data from Database then using Map fucntion to show course */}
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
+                  <div className="w-[30%]"><CourseCard/></div>
                 </div>
             </div>
         </div>
