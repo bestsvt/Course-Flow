@@ -52,6 +52,8 @@ function UserProfilePage() {
         colorScheme: "blue",
         duration: 5000
       })
+      setErrorUploadMessage('')
+      setErrorEmailMessage('')
     } else if (result.data.message.includes('email')){
       setErrorEmailMessage(result.data.message)      
       toast({
@@ -71,30 +73,28 @@ function UserProfilePage() {
     const imageFile = event.target.files[0];
     const allowedTypes = /(\.jpeg|\.png|\.jpg)$/i;
     const maxFileSize = 2 * 1024 * 1024;
-    if (imageFile) {
-      if (!allowedTypes.test(imageFile.name)) {
-        setErrorUploadMessage("Invalid file type. Please select a valid image file.");
-        toast({
-          title: "Invalid file type. Please select a valid image file.",
-          isClosable: true,
-          position: 'top',
-          status: 'error',
-          duration: 5000
-        })
-      } else if (imageFile.size > maxFileSize) {
-        setErrorUploadMessage("File size too large. Choose an image under 2MB.");
-        toast({
-          title: "File size too large. Choose an image under 2MB.",
-          isClosable: true,
-          position: 'top',
-          status: 'error',
-          duration: 5000
-        })
-      } else {
-        setAvatarFile(imageFile);
-        setAvatar(URL.createObjectURL(imageFile));
-        setStatusImage("update");
-      }
+    if (!allowedTypes.test(imageFile.name)) {
+      setErrorUploadMessage("Invalid file type. Please select a valid image file.");
+      toast({
+        title: "Invalid file type. Please select a valid image file.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } else if (imageFile.size > maxFileSize) {
+      setErrorUploadMessage("File size too large. Choose an image under 2MB.");
+      toast({
+        title: "File size too large. Choose an image under 2MB.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } else {
+      setAvatarFile(imageFile);
+      setAvatar(URL.createObjectURL(imageFile));
+      setStatusImage("update");
     }
   };
   
@@ -212,7 +212,7 @@ function UserProfilePage() {
             <FormControl isInvalid={errors.birth_date} width={450}>
               <FormLabel htmlFor="birth_date">Date of Birth</FormLabel>
               <Input
-                variant="normal"
+                variant="date"
                 type="date"
                 id="birth_date"
                 placeholder="MM/DD/YY"

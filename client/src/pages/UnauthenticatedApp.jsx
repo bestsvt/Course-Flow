@@ -3,6 +3,7 @@ import RegisterPage from "./RegisterPage";
 import HomePage from "./HomePage";
 import LoginPage from "./LogingPage"
 import NotFoundPage from "./NotFoundPage";
+import OurCoursePage from "./OurCoursePage";
 
 function UnauthenticatedApp() {
   return (
@@ -11,6 +12,7 @@ function UnauthenticatedApp() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/courses" element={<OurCoursePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

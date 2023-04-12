@@ -22,8 +22,8 @@ function Navbar() {
   return (
     <div className="flex flex-row px-[10%] justify-between h-[88px] items-center shadow-shadow2 relative">
       <img src="./image/logo/CourseFlow.png" className="w-[200px] hover:cursor-pointer" alt="logo" onClick={() => { navigate("/") }} />
-      <div className="flex justify-between items-center gap-5">
-        <div className="text-[#191C77] font-bold">Our Courses</div>
+      <div className="flex justify-between items-center gap-6">
+        <div className="text-[#191C77] font-bold hover:cursor-pointer" onClick={() => { navigate("/courses")}}>Our Courses</div>
         {isAuthenticated ?
           <div>
             <Menu>
