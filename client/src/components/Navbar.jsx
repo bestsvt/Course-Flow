@@ -48,7 +48,7 @@ function Navbar() {
                 <MenuItem icon={<HiOutlineUser className="text-blue-300 text-lg" />} onClick={() => { navigate("/profile")}}>
                   <p className="text-gray-700 font-headline1">Profile</p>
                 </MenuItem>
-                <MenuItem icon={<HiOutlineBookOpen className="text-blue-300 text-lg" />} >
+                <MenuItem icon={<HiOutlineBookOpen className="text-blue-300 text-lg" />} onClick={() => { navigate("/mycourses")}}>
                   <p className="text-gray-700 font-headline1">My Courses</p>
                 </MenuItem>
                 <MenuItem icon={<HiOutlineClipboardCheck className="text-blue-300 text-lg" />} >
