@@ -32,7 +32,7 @@ function CourseDetailPage() {
     const cancelRef = React.useRef()
     const { course , isLoading , getCoursesById} = useCourses();
     const navigate = useNavigate();
-    // console.log(course);
+    
     useEffect(() => {
         getCoursesById();
       }, []);
