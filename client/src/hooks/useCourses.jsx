@@ -1,11 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const useCourses = () => {
   const [courses, setCourses] = useState();
+  const [course, setCourse] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const params = useParams();
 
-  const getCourses = async (keyword) => {
+  async function getCourses (keyword) {
     try {
       // ตัว isLoading เอาไว้ แสดง Spinner ตอนโหลด
       setIsLoading(true);
@@ -26,7 +29,20 @@ const useCourses = () => {
     }
   };
 
-  return { courses, getCourses, isLoading };
+  async function getCoursesById() {
+    // ต้องมาเพิ่มกรณีที่ user คนนั้น sub แล้วหรือยังทีหลัง
+    try {
+      setIsLoading(true);
+      const results = await axios.get(`http://localhost:4000/courses/${params.courseId}`);
+      setIsLoading(false);
+      setCourse(results.data.data[0]);
+    } catch (error) {
+      console.log("Get courses by id error:", error);
+    }
+    
+  }
+
+  return { courses, getCourses, isLoading, getCoursesById, course };
 };
 
 export default useCourses;

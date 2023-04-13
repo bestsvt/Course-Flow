@@ -88,6 +88,7 @@ function OurCoursePage() {
                         summary={course.course_summary}
                         image={course.image_cover.url}
                         time={course.total_learning_time}
+                        id={course.course_id}
                         />
                       </div>
                     )
@@ -106,6 +107,7 @@ function OurCoursePage() {
                         summary={course.course_summary}
                         image={course.image_cover.url}
                         time={course.total_learning_time}
+                        id={course.course_id}
                         />
                       </div>
                     )
@@ -124,6 +126,7 @@ function OurCoursePage() {
                         summary={course.course_summary}
                         image={course.image_cover.url}
                         time={course.total_learning_time}
+                        id={course.course_id}
                         />
                       </div>
                     )
