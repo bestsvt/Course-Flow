@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 const useCourses = () => {
   const [courses, setCourses] = useState();
   const [course, setCourse] = useState();
+  const [suggest, setSuggest] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
 
@@ -29,6 +30,19 @@ const useCourses = () => {
     }
   };
 
+  async function getCoursesSuggest (suggestWord) {
+    try {
+      const query = new URLSearchParams();
+      query.append("keyword", suggestWord);
+      const results = await axios.get(
+        `http://localhost:4000/courses?${query.toString()}`
+      );
+      setSuggest(results.data.data);
+    } catch (error) {
+      console.log("Get courses suggest error:", error);
+    }
+  };
+
   async function getCoursesById() {
     // ต้องมาเพิ่มกรณีที่ user คนนั้น sub แล้วหรือยังทีหลัง
     try {
@@ -42,7 +56,7 @@ const useCourses = () => {
     
   }
 
-  return { courses, getCourses, isLoading, getCoursesById, course };
+  return { courses, getCourses, getCoursesSuggest, suggest, isLoading, getCoursesById, course };
 };
 
 export default useCourses;
