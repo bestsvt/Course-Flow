@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 const useCourses = () => {
   const [courses, setCourses] = useState();
   const [course, setCourse] = useState();
+  const [desireCourse, setDesireCourse] = useState();
   const [suggest, setSuggest] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
@@ -60,10 +61,20 @@ const useCourses = () => {
     } catch (error) {
       console.log("Get courses by id error:", error);
     }
-    
   }
 
-  return { courses, getCourses, getCoursesSuggest, suggest, isLoading, getCoursesById, course };
+  async function getDesireCourses(userId) {
+    try {
+      setIsLoading(true);
+      const results = await axios.get(`http://localhost:4000/user/desire?user=${userId}`);
+      setIsLoading(false);
+      setDesireCourse(results.data.data);
+    } catch (error) {
+      console.log("Get desire courses error:", error);
+    }
+  }
+
+  return { courses, getCourses, getCoursesSuggest, suggest, isLoading, getCoursesById, course , getDesireCourses, desireCourse};
 };
 
 export default useCourses;

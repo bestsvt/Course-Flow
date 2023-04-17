@@ -84,11 +84,8 @@ function OurCoursePage() {
                     color='blue.500'
                     size='xl'
                   /> 
-                  :                  
-                  !(courses) ? 
-                  null
                   : 
-                  (courses.length > 9) ? 
+                  (courses?.length > 9) ? 
                   // courses more than 9
                   <div className="flex flex-wrap gap-x-[5%] mt-[60px] mb-[40px] h-[1830px] overflow-y-scroll hide-scroll">
                   {courses.map((course,index) => {
@@ -107,7 +104,7 @@ function OurCoursePage() {
                   }
                   </div>
                   : 
-                  (courses.length > 3) ?
+                  (courses?.length > 3) ?
                   // courses between 4 and 9
                   <div className="flex flex-wrap gap-x-[5%] mt-[60px] mb-[40px]">
                   {courses.map((course,index) => {
@@ -126,7 +123,7 @@ function OurCoursePage() {
                   }
                   </div>
                   :
-                  (courses.length >= 1) ?
+                  (courses?.length >= 1) ?
                   // courses between 1 and 3
                   <div className="flex items-start gap-[5%] mt-[60px] mb-[40px] w-full">
                   {courses.map((course,index) => {

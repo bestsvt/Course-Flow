@@ -54,7 +54,7 @@ function Navbar() {
                 <MenuItem icon={<HiOutlineClipboardCheck className="text-blue-300 text-lg" />} >
                   <p className="text-gray-700 font-headline1">My Homework</p>
                 </MenuItem>
-                <MenuItem icon={<FaRegStar className="text-blue-300 text-lg" />} >
+                <MenuItem icon={<FaRegStar className="text-blue-300 text-lg" />} onClick={() => { navigate("/desire")}}>
                   <p className="text-gray-700 font-headline1">My Desire Courses</p>
                 </MenuItem>
                 <MenuDivider />

@@ -5,6 +5,7 @@ import UserProfilePage from "./UserProfilePage";
 import OurCoursePage from "./OurCoursePage";
 import MyCoursePage from "./MyCoursePage";
 import CourseDetailPage from "./CourseDetailPage";
+import DesireCoursePage from "./DesireCoursePage";
 
 function AuthenticatedApp() {
   return (
@@ -14,6 +15,7 @@ function AuthenticatedApp() {
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/courses" element={<OurCoursePage />} />
         <Route path="/mycourses" element={<MyCoursePage />} />
+        <Route path="/desire" element={<DesireCoursePage />} />
         <Route path="/courses/:courseId" element={<CourseDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
