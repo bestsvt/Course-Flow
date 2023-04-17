@@ -12,7 +12,7 @@ function SubFooter() {
                 <Button variant="secondary" className="w-[250px] mt-10" onClick={() => { navigate("/courses")}}>Check Out Our Course</Button>
             </div>
             <div>
-            <img src=".\image\footer\Group.png" alt="Group"/>
+            <img src="\image\footer\Group.png" alt="Group"/>
             </div>
         </div>
         </div>

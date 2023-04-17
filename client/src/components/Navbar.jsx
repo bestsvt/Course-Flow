@@ -21,7 +21,7 @@ function Navbar() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-row px-[10%] justify-between h-[88px] items-center shadow-shadow2 relative">
-      <img src="./image/logo/CourseFlow.png" className="w-[200px] hover:cursor-pointer" alt="logo" onClick={() => { navigate("/") }} />
+      <img src="/image/logo/CourseFlow.png" className="w-[200px] hover:cursor-pointer" alt="logo" onClick={() => { navigate("/") }} />
       <div className="flex justify-between items-center gap-6">
         <div className="text-[#191C77] font-bold hover:cursor-pointer" onClick={() => { navigate("/courses")}}>Our Courses</div>
         {isAuthenticated ?
@@ -37,7 +37,7 @@ function Navbar() {
                     alt='profile-image'
                     src={userAuthState.user.profile_image ? 
                       userAuthState.user.profile_image.url : 
-                      './image/homepage/navbar/profile-image-default.jpg'
+                      '/image/homepage/navbar/profile-image-default.jpg'
                     }
                     className="object-cover"
                   />

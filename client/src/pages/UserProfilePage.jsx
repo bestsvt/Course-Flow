@@ -5,10 +5,18 @@ import {
   Input,
   Button,
   useToast,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React , { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/authentication";
+import { useDisclosure } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -24,10 +32,11 @@ function UserProfilePage() {
   const { handleSubmit, register, formState: { errors, isSubmitting }, trigger,} = useForm();
   const userId = userAuthState.user.id;
   const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
 
   async function onSubmit(values) {
-    // Start Coding Here
-
+    onClose()
     const formData = new FormData();
     formData.append("full_name", values.full_name);
     formData.append("birth_date", values.birth_date);
@@ -63,11 +72,11 @@ function UserProfilePage() {
         status: 'error',
         duration: 5000
       })
-    } 
+    }
     } catch (error) {
       console.log("onSubmit Error", error);
     }
-  }
+}
 
   function handleFileChange (event) {
     const imageFile = event.target.files[0];
@@ -187,7 +196,7 @@ function UserProfilePage() {
             </div>
           </div>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onOpen)}
             className="w-[50%] flex flex-col gap-10"
           >
             {/* ——————————————————— Name Input ——————————————————— */}
@@ -279,6 +288,34 @@ function UserProfilePage() {
               Update Profile
             </Button>
           </form>
+          {/* ——————————————————— Confirmation ——————————————————— */}
+          <AlertDialog
+               motionPreset='slideInBottom'
+               leastDestructiveRef={cancelRef}
+               onClose={onClose}
+               isOpen={isOpen}
+               isCentered
+           >
+              <AlertDialogOverlay/>
+              <AlertDialogContent borderRadius={24}  >
+                  <AlertDialogHeader className="text-body1 font-body1 text-black" >
+                  Confirm Profile Update
+                  </AlertDialogHeader>
+                  <hr className="h-[1px] bg-gray-300 mb-3" />
+                  <AlertDialogCloseButton />
+                  <AlertDialogBody className="text-body2 font-body2 text-gray-700">
+                  Are you sure you want to update your profile?
+                  </AlertDialogBody>
+                  <AlertDialogFooter gap={3}>
+                      <Button variant="secondary" ref={cancelRef} onClick={onClose}>
+                      Cancel
+                      </Button>
+                      <Button variant="primary" onClick={handleSubmit(onSubmit)}>
+                      Update
+                      </Button>
+                  </AlertDialogFooter>
+              </AlertDialogContent>
+           </AlertDialog>
         </div>
       </div>
       <Footer />
