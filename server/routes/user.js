@@ -11,4 +11,6 @@ userRouter.use(protect);
 
 userRouter.put("/:userId", avatarUpload , user_controller.updateProfile);
 
+userRouter.get("/subscription", user_controller.getSubscribeCourse);
+
 export default userRouter;

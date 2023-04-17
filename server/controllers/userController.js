@@ -80,4 +80,22 @@ async function updateProfile(req, res) {
   }
 }
 
-export { updateProfile };
+async function getSubscribeCourse(req, res) {
+  const userId = req.query.user;
+
+  try {
+    const { data: subscribeCourses } = await supabase
+    .from('subscriptions')
+    .select('subscription_id ,courses (*)')
+    .eq('user_id', userId)
+
+    return res.json({
+      data: subscribeCourses,
+    });
+  } catch (error) {
+    console.log("Get subscribe courses error:", error);
+  }
+  
+}
+
+export { updateProfile , getSubscribeCourse };
