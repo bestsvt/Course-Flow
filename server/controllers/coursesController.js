@@ -80,13 +80,13 @@ async function postSubscriptionAndDesire(req, res) {
         await supabase
         .from("desires")
         .insert({ user_id:userId , course_id:courseId , status:true}) 
-        msg = "Add Desire successfully"
+        msg = "The course has been added to your desired courses successfully!"
       } else if (action === "remove") {
         await supabase
         .from("desires")
         .delete()
         .match({"course_id": courseId, "user_id": userId});
-        msg = "Remove Desire successfully"
+        msg = "The course has been removed from your desired courses successfully!"
       }
     }
 

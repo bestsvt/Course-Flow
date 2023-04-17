@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
 AlertDialog,
@@ -22,6 +22,7 @@ function PriceCard(props) {
     const navigate = useNavigate();
     const { userAuthState , isAuthenticated} = useAuth()
     const toast = useToast()
+    const [actionButton, setActionButton] = useState()
 
     const subscription = async () => {
         const result = await axios.post(`http://localhost:4000/courses/${props.courseId}`,
@@ -39,6 +40,7 @@ function PriceCard(props) {
             colorScheme: "blue",
             duration: 5000
           })
+        setActionButton();
     }
 
     async function desire(action) {
@@ -48,6 +50,7 @@ function PriceCard(props) {
             action: action }
         )
         props.setDesireStatus(!props.desireStatus)
+        onClose()
         toast({
             title: result.data.message,
             isClosable: true,
@@ -56,10 +59,14 @@ function PriceCard(props) {
             colorScheme: "blue",
             duration: 5000
           })
+        setActionButton();
     }
 
-
-
+    function handleConfirm(action) {
+        setActionButton(action);
+        onOpen();
+      }
+    
     return (
         <section>
             <div className=" w-[420px] bg-white flex flex-col gap-6 p-6 mt-24 rounded-lg shadow-shadow1 sticky top-5">
@@ -80,11 +87,11 @@ function PriceCard(props) {
                     : 
                     <>
                     {props.desireStatus ? 
-                    <Button variant="secondary" className="w-full" onClick={()=>{desire("remove")}}>Remove from Desire Course</Button> 
+                    <Button variant="secondary" className="w-full" onClick={() => handleConfirm('removeDesire')}>Remove from Desire Course</Button> 
                     :
-                    <Button variant="secondary" className="w-full" onClick={()=>{desire('add')}}>Get in Desire Course</Button>
+                    <Button variant="secondary" className="w-full" onClick={() => handleConfirm('addDesire')}>Get in Desire Course</Button>
                     }
-                    <Button variant="primary" className="w-full" onClick={onOpen}>Subscribe This Course</Button>
+                    <Button variant="primary" className="w-full" onClick={() => handleConfirm('subscribe')}>Subscribe This Course</Button>
                     </>
                     :
                     <>
@@ -109,15 +116,31 @@ function PriceCard(props) {
                             <hr className="h-[1px] bg-gray-300 mb-3" />
                             <AlertDialogCloseButton />
                             <AlertDialogBody className="text-body2 font-body2 text-gray-700">
-                                Do you sure to subscribe Service Design Essentials Course?
+                                { actionButton === "subscribe" ?
+                                `Are you sure you want to subscribe to the ${props.name} course?`
+                                : actionButton === "addDesire" ?
+                                `Are you sure you want to add ${props.name} to your desired courses?`
+                                :
+                                `Are you sure you want to remove ${props.name} from your desired courses?`
+                                }
                             </AlertDialogBody>
-                            <AlertDialogFooter>
-                                <Button variant="secondary" ref={cancelRef} onClick={onClose}>
-                                    No, I don’t
-                                </Button>
-                                <Button variant="primary" colorScheme='red' ml={3} onClick={subscription} >
-                                    Yes, I want to subscribe
-                                </Button>
+                            <AlertDialogFooter gap={3}>
+                                { actionButton === "subscribe" ? 
+                                <>
+                                <Button variant="secondary" ref={cancelRef} onClick={onClose}>Cancel</Button>
+                                <Button variant="primary" onClick={subscription}>Subscribe</Button>
+                                </>
+                                : actionButton === "addDesire" ?
+                                <>
+                                <Button variant="secondary" ref={cancelRef} onClick={onClose}>Cancel</Button>
+                                <Button variant="primary" onClick={()=>{desire('add')}}>Add to List</Button>
+                                </>
+                                :
+                                <>
+                                <Button variant="secondary" ref={cancelRef} onClick={onClose}>Cancel</Button>
+                                <Button variant="primary" onClick={()=>{desire("remove")}}>Remove from List</Button>
+                                </> 
+                                }
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
