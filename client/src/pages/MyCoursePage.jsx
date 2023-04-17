@@ -11,9 +11,20 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CourseCard from "../components/CourseCard";
 import { useAuth } from "../contexts/authentication";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function MyCoursePage() {
     const { userAuthState } = useAuth();
+    const [myCourses , setMyCourses] = useState()
+
+    useEffect(() => {
+      async function getCourses() {
+        const result = await axios.get(`http://localhost:4000/user/subscription?user=${userAuthState.user.id}`)
+        setMyCourses(result.data.data)
+      }
+      getCourses()
+    }, []);
     
   return (
     <>
@@ -27,10 +38,10 @@ function MyCoursePage() {
               All Courses
             </Tab>
             {/* Style in config when not select / hover .. */}
-            <Tab fontSize="24px" textColor="black">
+            <Tab fontSize="24px" textColor="black" isDisabled>
               Inprogress
             </Tab>
-            <Tab fontSize="24px" textColor="black" >
+            <Tab fontSize="24px" textColor="black" isDisabled>
               Completed
             </Tab>
           </TabList>
@@ -67,21 +78,19 @@ function MyCoursePage() {
                   {/* ————————————————————— All Course Section ————————————————————— */}
                   {/* waiting for map data all course that user subscribe */}
                   <div className="flex justify-between flex-wrap">
-                    <div className="w-[460px] mb-[60px]">
-                      <CourseCard />
-                    </div>
-                    <div className="w-[460px] mb-[60px]">
-                      <CourseCard />
-                    </div>
-                    <div className="w-[460px] mb-[60px]">
-                      <CourseCard />
-                    </div>
-                    <div className="w-[460px] mb-[60px]">
-                      <CourseCard />
-                    </div>
-                    <div className="w-[460px] mb-[60px]">
-                      <CourseCard />
-                    </div>
+                    {myCourses?.map((course,index)=>{
+                      return (
+                        <div className="w-[460px] mb-[60px]" key={index}>
+                          <CourseCard 
+                          name={course.courses.name}
+                          summary={course.courses.course_summary}
+                          image={course.courses.image_cover.url}
+                          time={course.courses.total_learning_time}
+                          id={course.courses.course_id}
+                          />
+                        </div>
+                      )
+                    })}
                   </div>
                 </TabPanel>
                 <TabPanel padding={'0 25px'}>
