@@ -24,7 +24,6 @@ import {
 } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import useCourses from "../hooks/useCourses";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 
 function CourseDetailPage() {
@@ -48,7 +47,6 @@ function CourseDetailPage() {
                 speed='0.5s'
                 emptyColor='gray.200'
                 color='blue.500'
-                // size='xl'
                 width={100}
                 height={100}
                 />
