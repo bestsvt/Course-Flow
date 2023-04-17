@@ -15,12 +15,17 @@ import useCourses from "../hooks/useCourses"
 
 function OurCoursePage() {
   const { isAuthenticated } = useAuth();
-  const { courses, getCourses, isLoading } = useCourses();
+  const { courses, getCourses, isLoading, getCoursesSuggest, suggest} = useCourses();
   const [keyword, setKeyword] = useState("");
+  const [suggestWord, setSuggestWord] = useState("");
 
   useEffect(() => {
     getCourses(keyword);
   }, [keyword]);
+
+  useEffect(() => {
+    getCoursesSuggest(suggestWord);
+  }, [suggestWord]);
 
     return (
         <>
@@ -36,28 +41,34 @@ function OurCoursePage() {
                       placeholder="Search..."
                       type="text"
                       padding='0 45px'
-                      onChange={(event)=>{setKeyword(event.target.value)}}
-                      value={keyword}
+                      onChange={(event)=>{setSuggestWord(event.target.value)}}
+                      value={suggestWord}
+                      onKeyDown={(event) => {
+                        if (event.keyCode === 13) { 
+                        // 13 is the keycode for Enter key
+                          setKeyword(event.target.value);
+                        }
+                      }}
                     />
                     <InputLeftElement margin="4px">
                       <FiSearch fontSize={20}/>
                     </InputLeftElement>
                   </InputGroup>
-                  {keyword ? 
+                  {suggest ? 
                   <div className="absolute w-full flex flex-col shadow-shadow2 z-50 rounded-b-lg">
-                    {courses.filter((suggest) => {
-                        const search = keyword.toLowerCase();
-                        const fullName = suggest.name.toLowerCase();
+                    {suggest.filter((item) => {
+                        const search = suggestWord.toLowerCase();
+                        const fullName = item.name.toLowerCase();
                         return (
                           search &&
                           search !== fullName
                         );
-                      }).slice(0, 5).map((suggest,index)=>{
+                      }).slice(0, 5).map((item,index)=>{
                       return (
                         <div className="py-2 px-4 text-black bg-white  hover:bg-gray-100 hover:cursor-pointer"
-                        onClick={()=>{setKeyword(suggest.name)}}
+                        onClick={()=>{setSuggestWord(item.name);setKeyword(item.name)}}
                         key={index}>
-                          {suggest.name}
+                          {item.name}
                         </div>
                       )
                     })}
@@ -88,6 +99,7 @@ function OurCoursePage() {
                         summary={course.course_summary}
                         image={course.image_cover.url}
                         time={course.total_learning_time}
+                        id={course.course_id}
                         />
                       </div>
                     )
@@ -106,6 +118,7 @@ function OurCoursePage() {
                         summary={course.course_summary}
                         image={course.image_cover.url}
                         time={course.total_learning_time}
+                        id={course.course_id}
                         />
                       </div>
                     )
@@ -124,6 +137,7 @@ function OurCoursePage() {
                         summary={course.course_summary}
                         image={course.image_cover.url}
                         time={course.total_learning_time}
+                        id={course.course_id}
                         />
                       </div>
                     )

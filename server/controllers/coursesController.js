@@ -18,4 +18,24 @@ async function getAllCourses(req, res) {
   }
 }
 
-export { getAllCourses };
+async function getCoursesById(req, res) {
+
+  const courseId = req.params.courseId
+
+  try {
+    const { data: course } = await supabase
+      .from("courses")
+      .select()
+      .eq('course_id', courseId)
+
+    return res.json({
+      data: course,
+    });
+  } catch (error) {
+    console.log("Get courses by id error:", error);
+  }
+}
+
+
+
+export { getAllCourses , getCoursesById };
