@@ -19,14 +19,13 @@ async function getAllCourses(req, res) {
 }
 
 async function getCoursesById(req, res) {
-
-  const courseId = req.params.courseId
+  const courseId = req.params.courseId;
 
   try {
     const { data: course } = await supabase
       .from("courses")
       .select()
-      .eq('course_id', courseId)
+      .eq("course_id", courseId);
 
     return res.json({
       data: course,
@@ -36,6 +35,27 @@ async function getCoursesById(req, res) {
   }
 }
 
+async function postSubscription(req, res) {
+  const courseId = req.params.courseId;
+  const userId = req.body.user_id;
 
 
-export { getAllCourses , getCoursesById };
+  try {
+    const { data: course } = await supabase
+    .from("subscriptions")
+    .insert({ user_id:userId , course_id:courseId , status:true}) 
+
+    return res.json({
+      message: "subscriptions แล้วนะ",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+
+
+
+
+}
+
+export { getAllCourses, getCoursesById, postSubscription };

@@ -268,6 +268,7 @@ function CourseDetailPage() {
                 name={course.name}
                 course_summary={course.course_summary}
                 price={course.price.toFixed(2)}
+                courseId={course.course_id}
                 />
             </div>}
             {isAuthenticated ? null : <SubFooter />}
