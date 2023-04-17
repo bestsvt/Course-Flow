@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import SubFooter from "../components/SubFooter";
 import Footer from "../components/Footer";
@@ -12,24 +12,16 @@ import {
     AccordionPanel,
     AccordionIcon,
     Box,
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogContent,
-    AlertDialogOverlay,
-    AlertDialogCloseButton,
     Link,
     Spinner
 } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import useCourses from "../hooks/useCourses";
 import { useAuth } from "../contexts/authentication";
+import PriceCard from "../components/PriceCard";
 
 function CourseDetailPage() {
     const { isAuthenticated } = useAuth();
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const cancelRef = React.useRef()
     const { course , isLoading , getCoursesById} = useCourses();
     const navigate = useNavigate();
     
@@ -70,7 +62,7 @@ function CourseDetailPage() {
                         </Link>
                         {/* —————————————— waiting video from data base —————————————— */}
                         <video
-                            src="/video/demo1.mp4"
+                            src={course.video_trailer.url}
                             controls
                             className="rounded-lg w-[1000px]"
                             // เอาไว้ดูเวลาที่เล่นอยู่ - เวลาทั้งหมดของ Video (หน่วยเป็น sec)
@@ -272,50 +264,11 @@ function CourseDetailPage() {
                 </div>
 
                 {/* ———————————————————————— Right Section ———————————————————————— */}
-                <div className=" w-[420px] h-[450px] bg-white flex flex-col gap-6 p-6 mt-24 rounded-lg shadow-shadow1 sticky top-5">
-                    <div className="flex flex-col gap-2">
-                        <div className="text-orange-500 font-body3 mb-4">Course</div>
-                        <div className="text-headline3 font-headline3 text-black ">{course.name}</div>
-                        <div className="text-gray-700 text-body2 mb-4">{course.course_summary}</div>
-                        <div className=" text-headline3 font-headline3 text-gray-700 ">THB {course.price.toFixed(2)}</div>
-                    </div>
-                    <hr className="h-[1px] bg-gray-300 mb-3" />
-                    {/* —————————————— wating function subscribe + desire —————————————— */}
-                    <div className="flex flex-col items-center gap-4">
-                        <Button variant="secondary" className="w-full" >Get in Desire Course</Button>
-                        <Button variant="primary" onClick={onOpen} className="w-full" >Subscribe This Course</Button>
-
-                        <AlertDialog
-                            motionPreset='slideInBottom'
-                            leastDestructiveRef={cancelRef}
-                            onClose={onClose}
-                            isOpen={isOpen}
-                            isCentered
-                        >
-                            <AlertDialogOverlay/>
-                            <AlertDialogContent borderRadius={24}  >
-                                <AlertDialogHeader className="text-body1 font-body1 text-black" >
-                                    Confirmation
-                                </AlertDialogHeader>
-                                <hr className="h-[1px] bg-gray-300 mb-3" />
-                                <AlertDialogCloseButton />
-
-                                <AlertDialogBody className="text-body2 font-body2 text-gray-700">
-                                Do you sure to subscribe Service Design Essentials Course?
-                                </AlertDialogBody>
-
-                                <AlertDialogFooter>
-                                    <Button variant="secondary" ref={cancelRef} onClick={onClose}>
-                                    No, I don’t
-                                    </Button>
-                                    <Button variant="primary" colorScheme='red' ml={3}>
-                                    Yes, I want to subscribe
-                                    </Button>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </div>
-                </div>
+                <PriceCard
+                name={course.name}
+                course_summary={course.course_summary}
+                price={course.price.toFixed(2)}
+                />
             </div>}
             {isAuthenticated ? null : <SubFooter />}
             <Footer />
