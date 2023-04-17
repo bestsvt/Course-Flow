@@ -7,9 +7,7 @@ const coursesRouter = Router();
 coursesRouter.get("/", courses_controller.getAllCourses);
 coursesRouter.get("/:courseId", courses_controller.getCoursesById);
 
-coursesRouter.post("/:courseId", courses_controller.postSubscription);
-
-
-// coursesRouter.use(protect);
+coursesRouter.use(protect);
+coursesRouter.post("/:courseId", courses_controller.postSubscriptionAndDesire);
 
 export default coursesRouter;

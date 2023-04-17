@@ -43,13 +43,20 @@ const useCourses = () => {
     }
   };
 
-  async function getCoursesById() {
+  async function getCoursesById(userId) {
     // ต้องมาเพิ่มกรณีที่ user คนนั้น sub แล้วหรือยังทีหลัง
     try {
       setIsLoading(true);
-      const results = await axios.get(`http://localhost:4000/courses/${params.courseId}`);
+      let api;
+      if (userId) {
+        api = `http://localhost:4000/courses/${params.courseId}?user=${userId}`
+      } else {
+        api = `http://localhost:4000/courses/${params.courseId}`
+      }
+      const results = await axios.get(api);
       setIsLoading(false);
       setCourse(results.data.data[0]);
+      return results
     } catch (error) {
       console.log("Get courses by id error:", error);
     }

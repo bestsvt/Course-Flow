@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useState } from "react";
 import Navbar from "../components/Navbar";
 import SubFooter from "../components/SubFooter";
 import Footer from "../components/Footer";
@@ -21,12 +21,23 @@ import { useAuth } from "../contexts/authentication";
 import PriceCard from "../components/PriceCard";
 
 function CourseDetailPage() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated , userAuthState} = useAuth();
     const { course , isLoading , getCoursesById} = useCourses();
     const navigate = useNavigate();
+    const [ subscribeStatus , setSubscribeStatus ] = useState(false)
+    const [ desireStatus , setDesireStatus ] = useState(false)
     
     useEffect(() => {
-        getCoursesById();
+        async function getCourses() {
+          if (isAuthenticated) {
+            const result = await getCoursesById(userAuthState.user.id);
+            setSubscribeStatus(result.data.subscribeStatus)
+            setDesireStatus(result.data.desireStatus)
+          } else {
+            await getCoursesById();
+          }
+        }   
+        getCourses()
       }, []);
 
     return (
@@ -269,6 +280,10 @@ function CourseDetailPage() {
                 course_summary={course.course_summary}
                 price={course.price.toFixed(2)}
                 courseId={course.course_id}
+                subscribeStatus={subscribeStatus}
+                setSubscribeStatus={setSubscribeStatus}
+                desireStatus={desireStatus}
+                setDesireStatus={setDesireStatus}
                 />
             </div>}
             {isAuthenticated ? null : <SubFooter />}
