@@ -4,6 +4,7 @@ import SubFooter from "../components/SubFooter";
 import Footer from "../components/Footer";
 import { Button } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import {
     Accordion,
     AccordionItem,
