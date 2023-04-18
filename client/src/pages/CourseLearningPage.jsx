@@ -28,14 +28,14 @@ function CourseLearningPage() {
         getCourses()
 
       }, []);
-      console.log(course);
+
     return (
         <>
             <Navbar />
 
             <section className="px-[10%] py-[5%] flex justify-center gap-[2%]">
                 {/* ———————— Left Section ———————— */}
-                <div className="shadow-shadow1 w-[30%] flex flex-col gap-6 p-6 overflow-y-scroll hide-scroll h-[1060px] rounded-lg">
+                <div className="shadow-shadow1 w-[30%] flex flex-col gap-6 px-6 py-8 overflow-y-scroll hide-scroll h-[1080px] rounded-lg">
                     <div className="text-orange-500 font-body3 mb-4">Course</div>
                         {/* Course Deatil */}
                     <div className="flex flex-col gap-2">
@@ -45,8 +45,8 @@ function CourseLearningPage() {
 
                     <div className="flex flex-col gap-2">
                         {/* ———————— Waiting Function % Progress ———————— */}
-                        <div className="text-body3 font-body3 text-gray-700">55% Complete</div>
-                        <Progress value={55} />
+                        <div className="text-body3 font-body3 text-gray-700">5% Complete</div>
+                        <Progress value={5} />
                     </div>
                     
                     <Accordion allowMultiple>
@@ -67,7 +67,7 @@ function CourseLearningPage() {
                                     {lesson.sub_lessons.map((sub_lesson,index)=>{
                                         return (
                                         <li className="flex items-center px-2 py-3 gap-4" key={index}>
-                                        <img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> 
+                                        <img src="/image/icon/no-watch.png" alt="icon-status" className="w-[18px] h-[18px]"/> 
                                         <p>{sub_lesson.name}</p>
                                         </li>
                                         )
@@ -82,7 +82,8 @@ function CourseLearningPage() {
 
                 {/* ———————— Right Section ———————— */}
                 <div className="w-[68%] flex flex-col gap-8">
-                    <div className="text-headline2 font-headline2 text-black">4 Levels of Service Design in an Organization </div>
+                    {/* ———————— When Click Sub-Lesson This name and video will change (maybe create some state change when onclick) ———————— */}
+                    <div className="text-headline2 font-headline2 text-black">Wating Name of Sub-Lesson (change when click left section)</div>
                         {/* ———————— Video Section ———————— */}
                     <video
                             src="/video/demo1.mp4"
@@ -101,11 +102,12 @@ function CourseLearningPage() {
                             }}}
                         />
 
+                    {/* ———————— Assignment Card ———————— */}
                     <div className="bg-blue-100 w-full rounded-lg flex flex-col p-6 gap-[25px]">
 
                         <div className="flex justify-between">
                             <p className="text-body1 font-body1 text-black">Assignment</p>
-                            <Badge colorScheme='yellow' variant='solid'>Pending</Badge>
+                            <Badge colorScheme='yellow' variant='solid' textTransform="capitalize">Pending</Badge>
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -125,7 +127,7 @@ function CourseLearningPage() {
 
             </section>
 
-            {/* ———————— Button Next - Previous ———————— */}
+            {/* ———————— Button (Next - Previous) ———————— */}
             <section className="flex justify-between items-center px-16 py-5 shadow-shadow1">
                 <Link>Previous Lesson</Link>
                 <Button variant='primary'>Next Lesson</Button>
