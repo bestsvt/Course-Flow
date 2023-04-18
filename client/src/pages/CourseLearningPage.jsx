@@ -3,22 +3,32 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
-import { Button , Link , Progress, 
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon,
-    Box,
-    Badge } from "@chakra-ui/react";
+import { Button, 
+Link, 
+Progress, 
+Accordion,
+AccordionItem,
+AccordionButton,
+AccordionPanel,
+AccordionIcon,
+Box,
+Badge } from "@chakra-ui/react";
+import useCourses from "../hooks/useCourses";
 
 function CourseLearningPage() {
     const { isAuthenticated , userAuthState} = useAuth();
+    const { course , isLoading , getCoursesById} = useCourses();
     const navigate = useNavigate();
     
     useEffect(() => {
-      }, []);
 
+        async function getCourses() {
+        await getCoursesById(userAuthState.user.id);
+        }   
+        getCourses()
+
+      }, []);
+      console.log(course);
     return (
         <>
             <Navbar />
@@ -29,73 +39,46 @@ function CourseLearningPage() {
                     <div className="text-orange-500 font-body3 mb-4">Course</div>
                         {/* Course Deatil */}
                     <div className="flex flex-col gap-2">
-                        <div className="text-headline3 font-headline3 text-black">Service Design Essentials</div>
-                        <div className="text-body2 font-body2 text-gray-700">Lorem ipsum dolor sit amet, conse ctetur adipiscing elit.</div>
+                        <div className="text-headline3 font-headline3 text-black">{course?.name}</div>
+                        <div className="text-body2 font-body2 text-gray-700">{course?.course_summary}</div>
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <div className="text-body3 font-body3 text-gray-700">15% Complete</div>
-                        <Progress value={15} />
+                        {/* ———————— Waiting Function % Progress ———————— */}
+                        <div className="text-body3 font-body3 text-gray-700">55% Complete</div>
+                        <Progress value={55} />
                     </div>
                     
                     <Accordion allowMultiple>
-                            {/* waiting data from database to map */}
-                            <AccordionItem borderTop="none" >
-                                    <AccordionButton paddingBottom={0}>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0'>
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >01</h1>
-                                                <h1 className="text-headline3 font-headline3 text-black">Introduction</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
+                        {course?.lessons.map((lesson,index)=>{
+                        return (
+                            <AccordionItem borderTop="none" key={index}>
+                                <AccordionButton paddingBottom={0}>
+                                    <Box as="span" flex='1' textAlign='left' padding='16px 0'>
+                                        <div className="flex gap-4">
+                                            <h1 className="text-headline3 font-headline3 text-gray-700" >0{index+1}</h1>
+                                            <h1 className="text-headline3 font-headline3 text-black">{lesson.name}</h1>
+                                        </div>
+                                    </Box>
+                                    <AccordionIcon />
+                                </AccordionButton>
                                 <AccordionPanel paddingTop='8px'>
                                     <ul className="text-body2 font-body2 text-gray-700">
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Welcome to the Course</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Course Overview</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Getting to Know You</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>What is Service Design ?</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Service Design vs. UX vs. UI vs. Design Thinking</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>4 Levels of Service Design in an Organization</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Scope of Service Design</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Improving Existing Services - Credit Cards</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Improving Existing Services - MK</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Levels of Impact</p></li>
+                                    {lesson.sub_lessons.map((sub_lesson,index)=>{
+                                        return (
+                                        <li className="flex items-center px-2 py-3 gap-4" key={index}>
+                                        <img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> 
+                                        <p>{sub_lesson.name}</p>
+                                        </li>
+                                        )
+                                    })}
                                     </ul>
                                 </AccordionPanel>
                             </AccordionItem>
-
-
-                            <AccordionItem borderTop="none" >
-                                    <AccordionButton paddingBottom={0}>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0'>
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >02</h1>
-                                                <h1 className="text-headline3 font-headline3 text-black">Service Design Theories and Principles</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                <AccordionPanel paddingTop='8px'>
-                                    <ul className="text-body2 font-body2 text-gray-700">
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Welcome to the Course</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Course Overview</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Getting to Know You</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>What is Service Design ?</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Service Design vs. UX vs. UI vs. Design Thinking</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>4 Levels of Service Design in an Organization</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Scope of Service Design</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Improving Existing Services - Credit Cards</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Improving Existing Services - MK</p></li>
-                                        <li className="flex items-center px-2 py-3 gap-4"><img src="https://cdn.discordapp.com/attachments/526468920123719683/1097728558228574288/Vector.png" alt="icon-status" className="w-[18px] h-[18px]"/> <p>Levels of Impact</p></li>
-                                    </ul>
-                                </AccordionPanel>
-                            </AccordionItem>
+                            )
+                        })}
                     </Accordion>
                 </div>
-
-
 
                 {/* ———————— Right Section ———————— */}
                 <div className="w-[68%] flex flex-col gap-8">
