@@ -25,7 +25,7 @@ async function getCoursesById(req, res) {
   try {
     const { data: course } = await supabase
       .from("courses")
-      .select()
+      .select('* , lessons (* , sub_lessons(*))')
       .eq("course_id", courseId);
 
     let subscribeStatus;
