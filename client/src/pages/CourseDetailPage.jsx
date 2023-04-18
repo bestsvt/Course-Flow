@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import SubFooter from "../components/SubFooter";
 import Footer from "../components/Footer";
 import { Button } from "@chakra-ui/react";
-import { useDisclosure } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import {
     Accordion,
@@ -39,7 +38,6 @@ function CourseDetailPage() {
         }   
         getCourses()
       }, []);
-
     return (
         <div>
             <Navbar />
@@ -71,7 +69,6 @@ function CourseDetailPage() {
                         <Link href='/courses' className="flex items-center gap-1 mb-3">
                             <ArrowBackIcon mx='2px'/>Back 
                         </Link>
-                        {/* —————————————— waiting video from data base —————————————— */}
                         <video
                             src={course.video_trailer.url}
                             controls
@@ -90,187 +87,40 @@ function CourseDetailPage() {
                         />
                     </div>
 
-
                     <div className="flex flex-col gap-4" >
                         <h1 className="text-headline2 font-headline2 text-black">Course Detail</h1>
                         <p className="text-body2 font-body2 text-gray-700">{course.course_detail}
                         </p>
-
                     </div>
 
                     <div className="flex flex-col gap-6"  >
-                        {/* —————————————— waiting mockup data —————————————— */}
                         <h1 className="text-headline2 font-headline2 text-black">Module Samples</h1>
                         <Accordion allowMultiple>
-                            {/* waiting data from database to map */}
-                            <AccordionItem borderTop="none" >
-                                    <AccordionButton>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0' >
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >01</h1>
-                                                <h1 className="text-headline3 font-headline3 text-black">Introduction</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                <AccordionPanel padding='16px 0' className="w-[600px]">
-                                    <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]" >
-                                        <li>Welcome to the Course</li>
-                                        <li>Course Overview</li>
-                                        <li>Getting to Know You</li>
-                                        <li>What is Service Design ?</li>
-                                        <li>Service Design vs. UX vs. UI vs. Design Thinking</li>
-                                        <li>4 Levels of Service Design in an Organization</li>
-                                        <li>Scope of Service Design</li>
-                                        <li>Improving Existing Services - Credit Cards</li>
-                                        <li>Improving Existing Services - MK</li>
-                                        <li>Levels of Impact</li>
-                                    </ul>
-                                </AccordionPanel>
-                            </AccordionItem>
-
-
-                            <AccordionItem >
-                                    <AccordionButton>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0'>
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >02</h1>
-                                                <h1 className="text-headline3 text-black  font-headline3">Service Design Theories and Principles</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                <AccordionPanel padding='16px 0' className="w-[600px] ">
-                                    <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]" >
-                                        <li >Welcome to the Course</li>
-                                        <li>Course Overview</li>
-                                        <li>Getting to Know You</li>
-                                        <li>What is Service Design ?</li>
-                                        <li>Service Design vs. UX vs. UI vs. Design Thinking</li>
-                                        <li>4 Levels of Service Design in an Organization</li>
-                                        <li>Scope of Service Design</li>
-                                        <li>Improving Existing Services - Credit Cards</li>
-                                        <li>Improving Existing Services - MK</li>
-                                        <li>Levels of Impact</li>
-
-                                    </ul>
-                                </AccordionPanel>
-                            </AccordionItem>
-
-
-                            <AccordionItem >
-                                    <AccordionButton>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0'>
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >03</h1>
-                                                <h1 className="text-headline3 text-black  font-headline3">Understanding Users and Finding Opportunities</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                <AccordionPanel padding='16px 0' className="w-[600px] ">
-                                    <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]" >
-                                        <li >Welcome to the Course</li>
-                                        <li>Course Overview</li>
-                                        <li>Getting to Know You</li>
-                                        <li>What is Service Design ?</li>
-                                        <li>Service Design vs. UX vs. UI vs. Design Thinking</li>
-                                        <li>4 Levels of Service Design in an Organization</li>
-                                        <li>Scope of Service Design</li>
-                                        <li>Improving Existing Services - Credit Cards</li>
-                                        <li>Improving Existing Services - MK</li>
-                                        <li>Levels of Impact</li>
-
-                                    </ul>
-                                </AccordionPanel>
-                            </AccordionItem>
-
-
-                            <AccordionItem >
-                                    <AccordionButton>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0'>
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >04</h1>
-                                                <h1 className="text-headline3 text-black  font-headline3">Identifying and Validating Opportunities for Design</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                <AccordionPanel padding='16px 0' className="w-[600px] ">
-                                    <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]" >
-                                        <li >Welcome to the Course</li>
-                                        <li>Course Overview</li>
-                                        <li>Getting to Know You</li>
-                                        <li>What is Service Design ?</li>
-                                        <li>Service Design vs. UX vs. UI vs. Design Thinking</li>
-                                        <li>4 Levels of Service Design in an Organization</li>
-                                        <li>Scope of Service Design</li>
-                                        <li>Improving Existing Services - Credit Cards</li>
-                                        <li>Improving Existing Services - MK</li>
-                                        <li>Levels of Impact</li>
-
-                                    </ul>
-                                </AccordionPanel>
-                            </AccordionItem>
-
-
-                            <AccordionItem >
-                                    <AccordionButton>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0'>
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >05</h1>
-                                                <h1 className="text-headline3 text-black  font-headline3">Prototyping</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                <AccordionPanel padding='16px 0' className="w-[600px] ">
-                                    <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]" >
-                                        <li >Welcome to the Course</li>
-                                        <li>Course Overview</li>
-                                        <li>Getting to Know You</li>
-                                        <li>What is Service Design ?</li>
-                                        <li>Service Design vs. UX vs. UI vs. Design Thinking</li>
-                                        <li>4 Levels of Service Design in an Organization</li>
-                                        <li>Scope of Service Design</li>
-                                        <li>Improving Existing Services - Credit Cards</li>
-                                        <li>Improving Existing Services - MK</li>
-                                        <li>Levels of Impact</li>
-
-                                    </ul>
-                                </AccordionPanel>
-                            </AccordionItem>
-
-
-                            <AccordionItem >
-                                    <AccordionButton>
-                                        <Box as="span" flex='1' textAlign='left' padding='16px 0'>
-                                            <div className="flex gap-4">
-                                                <h1 className="text-headline3 font-headline3 text-gray-700" >06</h1>
-                                                <h1 className="text-headline3 text-black  font-headline3">Course Summary</h1>
-                                            </div>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                <AccordionPanel padding='16px 0' className="w-[600px] ">
-                                    <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]" >
-                                        <li >Welcome to the Course</li>
-                                        <li>Course Overview</li>
-                                        <li>Getting to Know You</li>
-                                        <li>What is Service Design ?</li>
-                                        <li>Service Design vs. UX vs. UI vs. Design Thinking</li>
-                                        <li>4 Levels of Service Design in an Organization</li>
-                                        <li>Scope of Service Design</li>
-                                        <li>Improving Existing Services - Credit Cards</li>
-                                        <li>Improving Existing Services - MK</li>
-                                        <li>Levels of Impact</li>
-
-                                    </ul>
-                                </AccordionPanel>
-                            </AccordionItem>
-
+                        {course.lessons.map((lesson,index)=>{
+                            return (
+                        <AccordionItem borderTop="none" key={index}>
+                            <AccordionButton>
+                                <Box as="span" flex='1' textAlign='left' padding='16px 0'>
+                                    <div className="flex gap-4 text-headline3 font-headline3">
+                                        <h1 className="text-gray-700" >0{index+1}</h1>
+                                        <h1 className="text-black">{lesson.name}</h1>
+                                    </div>
+                                </Box>
+                                <AccordionIcon />
+                            </AccordionButton>
+                            <AccordionPanel padding='16px 0' className="w-[600px]">
+                                <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]">
+                                    {lesson.sub_lessons.map((sub_lesson,index)=>{
+                                        return (
+                                        <li key={index}>{sub_lesson.name}</li>
+                                        )
+                                    })}
+                                </ul>
+                            </AccordionPanel>
+                        </AccordionItem>
+                            )
+                        })}
                         </Accordion>
-
                     </div>
                 </div>
 
