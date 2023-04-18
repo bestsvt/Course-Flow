@@ -98,4 +98,24 @@ async function getSubscribeCourse(req, res) {
   
 }
 
-export { updateProfile , getSubscribeCourse };
+async function getDesireCourse(req, res) {
+  const userId = req.query.user;
+
+  try {
+    const { data: desireCourses } = await supabase
+    .from('desires')
+    .select('desire_id ,courses (*)')
+    .eq('user_id', userId)
+    
+    return res.json({
+      data: desireCourses,
+    });
+  } catch (error) {
+    console.log("Get desire courses error:", error);
+  }
+  
+}
+
+
+
+export { updateProfile , getSubscribeCourse , getDesireCourse };
