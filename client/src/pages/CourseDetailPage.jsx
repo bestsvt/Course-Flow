@@ -110,7 +110,7 @@ function CourseDetailPage() {
                             </AccordionButton>
                             <AccordionPanel padding='16px 0' className="w-[600px]">
                                 <ul className="text-body2 font-body2 text-gray-700 list-disc px-[10%]">
-                                    {lesson.sub_lessons.map((sub_lesson,index)=>{
+                                    {lesson.sub_lessons.sort((a, b) => a.sub_lesson_id - b.sub_lesson_id).map((sub_lesson,index)=>{
                                         return (
                                         <li key={index}>{sub_lesson.name}</li>
                                         )

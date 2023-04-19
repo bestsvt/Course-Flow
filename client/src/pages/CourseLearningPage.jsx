@@ -74,11 +74,10 @@ function CourseLearningPage() {
                                 </AccordionButton>
                                 <AccordionPanel paddingTop='8px'>
                                     <ul className="text-body2 font-body2 text-gray-700">
-                                    {lesson.sub_lessons.map((sub_lesson,index)=>{
+                                    {lesson.sub_lessons.sort((a, b) => a.sub_lesson_id - b.sub_lesson_id).map((sub_lesson,index)=>{
                                         return (
                                         <li className="flex items-center px-2 py-3 gap-4 hover:cursor-pointer" key={index}
                                         onClick={()=>{navigate(`/courses/1/learning/${sub_lesson.sub_lesson_id}`)}}
-
                                         >
                                         <img src="/image/icon/no-watch.png" alt="icon-status" className="w-[18px] h-[18px]"/> 
                                         <p>{sub_lesson.name}</p>
@@ -116,8 +115,8 @@ function CourseLearningPage() {
                             className="rounded-lg w-[100%] mb-[50px]"
                             // เอาไว้ดูเวลาที่เล่นอยู่ - เวลาทั้งหมดของ Video (หน่วยเป็น sec)
                             onTimeUpdate={(e) => {
-                                console.log(e.target.currentTime);
-                                console.log(e.target.duration); 
+                                console.log('Current Time',e.target.currentTime);
+                                console.log('Duration Time',e.target.duration); 
                             }}
                             // เวลาเล่น video จนจบจะทำงาน function onEnded
                             onEnded={ (e) => {

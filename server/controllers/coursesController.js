@@ -23,10 +23,11 @@ async function getCoursesById(req, res) {
   const userId = req.query.user
 
   try {
-    const { data: course } = await supabase
+    const { data: course, error } = await supabase
       .from("courses")
       .select('* , lessons (* , sub_lessons(*))')
       .eq("course_id", courseId)
+      .order('lesson_id', { foreignTable: 'lessons', ascending: true })
 
     let subscribeStatus;
     let desireStatus;
