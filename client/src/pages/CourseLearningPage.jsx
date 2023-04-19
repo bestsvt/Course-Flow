@@ -1,7 +1,7 @@
 import React, { useEffect , useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 import { Button, 
 Link, 
@@ -12,22 +12,32 @@ AccordionButton,
 AccordionPanel,
 AccordionIcon,
 Box,
-Badge } from "@chakra-ui/react";
+Badge,
+Spinner } from "@chakra-ui/react";
 import useCourses from "../hooks/useCourses";
 
 function CourseLearningPage() {
     const { isAuthenticated , userAuthState} = useAuth();
-    const { course , isLoading , getCoursesById} = useCourses();
+    const { course , isLoading , getCoursesById , getSubLessonById} = useCourses();
     const navigate = useNavigate();
+    const params = useParams()
+    const [lessonName , setLessonName ] = useState()
+    const [lessonVideo , setLessonVideo ] = useState()
     
-    useEffect(() => {
+    // Function get sub lesson to show name and video
+    async function getSubLesson() {
+        const result = await getSubLessonById()
+        setLessonName(result.name);
+        setLessonVideo(result.video);
+    }
 
+    useEffect(() => {
         async function getCourses() {
-        await getCoursesById(userAuthState.user.id);
+            await getCoursesById(userAuthState.user.id);
+            await getSubLesson()
         }   
         getCourses()
-
-      }, []);
+    }, [navigate]);
 
     return (
         <>
@@ -66,7 +76,10 @@ function CourseLearningPage() {
                                     <ul className="text-body2 font-body2 text-gray-700">
                                     {lesson.sub_lessons.map((sub_lesson,index)=>{
                                         return (
-                                        <li className="flex items-center px-2 py-3 gap-4" key={index}>
+                                        <li className="flex items-center px-2 py-3 gap-4 hover:cursor-pointer" key={index}
+                                        onClick={()=>{navigate(`/courses/1/learning/${sub_lesson.sub_lesson_id}`)}}
+
+                                        >
                                         <img src="/image/icon/no-watch.png" alt="icon-status" className="w-[18px] h-[18px]"/> 
                                         <p>{sub_lesson.name}</p>
                                         </li>
@@ -81,12 +94,24 @@ function CourseLearningPage() {
                 </div>
 
                 {/* ———————— Right Section ———————— */}
+                {isLoading? 
+                <div className="w-[68%] flex justify-center items-center">
+                <Spinner
+                thickness='5px'
+                speed='0.5s'
+                emptyColor='gray.200'
+                color='blue.500'
+                width={100}
+                height={100}
+                />
+                </div>
+                :
                 <div className="w-[68%] flex flex-col gap-8">
                     {/* ———————— When Click Sub-Lesson This name and video will change (maybe create some state change when onclick) ———————— */}
-                    <div className="text-headline2 font-headline2 text-black">Wating Name of Sub-Lesson (change when click left section)</div>
+                    <div className="text-headline2 font-headline2 text-black">{lessonName}</div>
                         {/* ———————— Video Section ———————— */}
                     <video
-                            src="/video/demo1.mp4"
+                            src={lessonVideo?.url}
                             controls
                             className="rounded-lg w-[100%] mb-[50px]"
                             // เอาไว้ดูเวลาที่เล่นอยู่ - เวลาทั้งหมดของ Video (หน่วยเป็น sec)
@@ -124,6 +149,9 @@ function CourseLearningPage() {
                     </div>
 
                 </div>
+                
+                }
+                
 
             </section>
 

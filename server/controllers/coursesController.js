@@ -26,7 +26,7 @@ async function getCoursesById(req, res) {
     const { data: course } = await supabase
       .from("courses")
       .select('* , lessons (* , sub_lessons(*))')
-      .eq("course_id", courseId);
+      .eq("course_id", courseId)
 
     let subscribeStatus;
     let desireStatus;
@@ -109,11 +109,27 @@ async function postSubscriptionAndDesire(req, res) {
   } catch (error) {
     console.log("Post subscription and desire error:",error);
   }
-
-
-
-
-
 }
 
-export { getAllCourses, getCoursesById, postSubscriptionAndDesire };
+async function getSubLessonById(req, res) {
+  const courseId = req.params.courseId;
+  const subLessonId = req.params.subLessonId;
+
+  try {
+    const { data: sub_lesson } = await supabase
+    .from("sub_lessons")
+    .select()
+    .eq('sub_lesson_id', subLessonId)
+
+    return res.json({
+      data: sub_lesson
+    });
+
+  } catch (error) {
+    console.log("get SubLesson By Id error:",error);
+  }
+  
+}
+
+
+export { getAllCourses, getCoursesById, postSubscriptionAndDesire, getSubLessonById };

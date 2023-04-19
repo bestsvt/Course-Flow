@@ -82,8 +82,8 @@ function PriceCard(props) {
                     {
                     isAuthenticated ?
                     props.subscribeStatus ? 
-                    // รอเพิ่ม navigate ไปที่หน้า learing page 
-                    <Button variant="primary" className="w-full" onClick={()=>{navigate(`./learning`)}}>Start Learning</Button> 
+                    // รอเพิ่ม navigate ไปที่หน้า learning page 
+                    <Button variant="primary" className="w-full" onClick={()=>{navigate(`./learning/1`)}}>Start Learning</Button> 
                     : 
                     <>
                     {props.desireStatus ? 

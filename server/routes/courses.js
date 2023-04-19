@@ -6,6 +6,7 @@ const coursesRouter = Router();
 
 coursesRouter.get("/", courses_controller.getAllCourses);
 coursesRouter.get("/:courseId", courses_controller.getCoursesById);
+coursesRouter.get("/:courseId/learning/:subLessonId", courses_controller.getSubLessonById);
 
 coursesRouter.use(protect);
 coursesRouter.post("/:courseId", courses_controller.postSubscriptionAndDesire);

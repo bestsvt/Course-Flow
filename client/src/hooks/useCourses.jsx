@@ -74,7 +74,29 @@ const useCourses = () => {
     }
   }
 
-  return { courses, getCourses, getCoursesSuggest, suggest, isLoading, getCoursesById, course , getDesireCourses, desireCourse};
+  async function getSubLessonById() {
+    try {
+      setIsLoading(true);
+      const results = await axios.get(`http://localhost:4000/courses/${params.courseId}/learning/${params.subLessonId}`);
+      setIsLoading(false);
+      return results.data.data[0]
+    } catch (error) {
+      console.log("Get sub-lesson by id error:", error);
+    }
+  }
+
+  return {
+    courses,
+    getCourses,
+    getCoursesSuggest,
+    suggest,
+    isLoading,
+    getCoursesById,
+    course,
+    getDesireCourses,
+    desireCourse,
+    getSubLessonById,
+  };
 };
 
 export default useCourses;
