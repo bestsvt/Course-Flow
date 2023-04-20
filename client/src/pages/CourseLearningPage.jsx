@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 import {
   Button,
@@ -17,18 +17,67 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import useCourses from "../hooks/useCourses";
-import axios from "axios";
 
 function CourseLearningPage() {
-  const { isAuthenticated, userAuthState } = useAuth();
-  const { course, isLoading, getCoursesById, getSubLessonById } = useCourses();
+  const { userAuthState } = useAuth();
+  const {
+    course,
+    isLoading,
+    getCoursesById,
+    getSubLessonById,
+    postLearningSublesson,
+  } = useCourses();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState();
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
-    const result = await getSubLessonById();
+    const result = await getSubLessonById(userAuthState.user.id);
     setLesson(result);
+  }
+
+  // This function work when click (Play Video)
+  async function handlePlayVideo(event) {
+    postLearningSublesson(
+      {
+        status: "inProgress",
+        current_time: event.target.currentTime,
+        action: "play",
+      },
+      lesson.sub_lesson_id,
+      userAuthState.user.id
+    );
+  }
+
+  // This function work when click (Pause Video)
+  async function handlePauseVideo(event) {
+    if (event.target.currentTime !== event.target.duration) {
+      postLearningSublesson(
+        {
+          current_time: event.target.currentTime,
+          action: "pause",
+        },
+        lesson.sub_lesson_id,
+        userAuthState.user.id
+      );
+    }
+  }
+
+  // This function work when video end
+  async function handleEndVideo(event) {
+    postLearningSublesson(
+      {
+        status: "complete",
+        current_time: event.target.currentTime,
+        action: "end",
+      },
+      lesson.sub_lesson_id,
+      userAuthState.user.id
+    );
+  }
+
+  async function handleLoadedMetadata(event) {
+    event.target.currentTime = lesson?.users_sub_lessons[0]?.current_time || 0;
   }
 
   useEffect(() => {
@@ -38,67 +87,7 @@ function CourseLearningPage() {
     }
     getCourses();
   }, [navigate]);
-
-  // This function work when click (Play Video)
-  async function handlePlayVideo(event) {
-    try {
-      await axios.post(
-        `http://localhost:4000/courses/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`,
-        {
-          status: "inProgress",
-          current_time: event.target.currentTime,
-          action: "play",
-        }
-      );
-    } catch (error) {
-      console.log("Function handlePlayVideo error:", error);
-    }
-  }
-
-  // This function work when click (Pause Video)
-  async function handlePauseVideo(event) {
-    if (event.target.currentTime !== event.target.duration) {
-      console.log("Pause at:", event.target.currentTime);
-      try {
-        await axios.post(
-          `http://localhost:4000/courses/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`,
-          {
-            current_time: event.target.currentTime,
-            action: "pause",
-          }
-        );
-      } catch (error) {
-        console.log("Function handlePauseVideo error:", error);
-      }
-    }
-  }
-
-  // This function work when video end
-  async function handleEndVideo(event) {
-    try {
-      await axios.post(
-        `http://localhost:4000/courses/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`,
-        {
-          status: "complete",
-          current_time: event.target.currentTime,
-          action: "end",
-        }
-      );
-    } catch (error) {
-      console.log("Function handleEndVideo error:", error);
-    }
-  }
-
-  // This function work when start video
-  // น่าจะต้องใส่ใน useEffect
-  async function handleLoadedMetadata(event) {
-    console.log("Start Video At 5 Second");
-    event.target.currentTime = 0; // เวลาที่จะให้เริ่มถ้าไม่เจอข้อมูลจากหลังบ้านให้เป็น 0
-    // Start Coding Here 4
-    // Function axios.get
-    // ดึงข้อมูล currentTime จาก table users_sub_lessons
-  }
-
+  
   return (
     <>
       <Navbar />
@@ -122,7 +111,7 @@ function CourseLearningPage() {
             <div className="text-body3 font-body3 text-gray-700">
               5% Complete
             </div>
-            <Progress value={5} />
+            <Progress value={5}/>
           </div>
 
           <Accordion allowMultiple>
@@ -153,15 +142,31 @@ function CourseLearningPage() {
                               key={index}
                               onClick={() => {
                                 navigate(
-                                  `/courses/1/learning/${sub_lesson.sub_lesson_id}`
+                                  `/courses/${course.course_id}/learning/${sub_lesson.sub_lesson_id}`
                                 );
                               }}
                             >
-                              <img
-                                src="/image/icon/no-watch.png"
-                                alt="icon-status"
-                                className="w-[18px] h-[18px]"
-                              />
+                              {sub_lesson.users_sub_lessons[0]?.status ===
+                              "complete" ? (
+                                <img
+                                  src="/image/icon/complete.png"
+                                  alt="icon-status"
+                                  className="w-[18px] h-[18px]"
+                                />
+                              ) : sub_lesson.users_sub_lessons[0]?.status ===
+                                "inProgress" ? (
+                                <img
+                                  src="/image/icon/watched.png"
+                                  alt="icon-status"
+                                  className="w-[18px] h-[18px]"
+                                />
+                              ) : (
+                                <img
+                                  src="/image/icon/no-watch.png"
+                                  alt="icon-status"
+                                  className="w-[18px] h-[18px]"
+                                />
+                              )}
                               <p>{sub_lesson.name}</p>
                             </li>
                           );
@@ -188,7 +193,6 @@ function CourseLearningPage() {
           </div>
         ) : (
           <div className="w-[68%] flex flex-col gap-8">
-            {/* ———————— When Click Sub-Lesson This name and video will change (maybe create some state change when onclick) ———————— */}
             <div className="text-headline2 font-headline2 text-black">
               {lesson?.name}
             </div>
@@ -229,12 +233,7 @@ function CourseLearningPage() {
               </div>
 
               <div className="flex justify-between items-center">
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    console.log(statusVideo);
-                  }}
-                >
+                <Button variant="primary">
                   Send Assignment
                 </Button>
                 <p className="text-gray-700">Assign within 2 days</p>

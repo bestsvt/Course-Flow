@@ -25,8 +25,9 @@ async function getCoursesById(req, res) {
   try {
     const { data: course, error } = await supabase
       .from("courses")
-      .select('* , lessons (* , sub_lessons(*))')
+      .select('* , lessons (* , sub_lessons(*, users_sub_lessons(*)))')
       .eq("course_id", courseId)
+      .eq("lessons.sub_lessons.users_sub_lessons.user_id", userId)
       .order('lesson_id', { foreignTable: 'lessons', ascending: true })
 
     let subscribeStatus;
@@ -115,13 +116,15 @@ async function postSubscriptionAndDesire(req, res) {
 async function getSubLessonById(req, res) {
   const courseId = req.params.courseId;
   const subLessonId = req.params.subLessonId;
+  const userId = req.query.user
 
   try {
     const { data: sub_lesson } = await supabase
     .from("sub_lessons")
-    .select()
+    .select('*, users_sub_lessons(*) ')
     .eq('sub_lesson_id', subLessonId)
-
+    .eq('users_sub_lessons.user_id', userId)
+    
     return res.json({
       data: sub_lesson
     });
