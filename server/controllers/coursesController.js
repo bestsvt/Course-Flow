@@ -55,13 +55,22 @@ async function getCoursesById(req, res) {
       } else {
         desireStatus = false;
       }
-
     }
+
+    // For Button Previous - Next in Learning Page
+    
+    const { data: allLessons } = await supabase
+      .from("getallofcourses")
+      .select('course_id, lesson_id, sub_lesson_id')
+      .eq('course_id',courseId)
+      .order('lesson_id', { ascending: true })
+      .order('sub_lesson_id', { ascending: true })
 
     return res.json({
       data: course,
       subscribeStatus,
-      desireStatus
+      desireStatus,
+      allLessons
     });
   } catch (error) {
     console.log("Get courses by id error:", error);

@@ -29,6 +29,8 @@ function CourseLearningPage() {
   } = useCourses();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState();
+  const [courselesson, setCourselesson] = useState();
+  const [indexLesson, setIndexLesson] = useState();
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
@@ -82,12 +84,26 @@ function CourseLearningPage() {
 
   useEffect(() => {
     async function getCourses() {
-      await getCoursesById(userAuthState.user.id);
+      const result = await getCoursesById(userAuthState.user.id);
+      setCourselesson(result.data.allLessons)
       await getSubLesson();
     }
     getCourses();
   }, [navigate]);
+
+  useEffect(() => {
+    navigateLesson()
+  }, [lesson]);
   
+  function navigateLesson() {
+    const currentLessonIndex = courselesson?.findIndex(
+      (courselesson) =>
+      courselesson.lesson_id === lesson?.lesson_id &&
+      courselesson.sub_lesson_id === lesson?.sub_lesson_id
+    )
+    setIndexLesson(currentLessonIndex)
+  }
+
   return (
     <>
       <Navbar />
@@ -109,9 +125,13 @@ function CourseLearningPage() {
           <div className="flex flex-col gap-2">
             {/* ———————— Waiting Function % Progress ———————— */}
             <div className="text-body3 font-body3 text-gray-700">
-              5% Complete
+              20% Complete
             </div>
-            <Progress value={5}/>
+            <Progress 
+            borderRadius='99px'
+            bg='#E4E6ED'
+            value={20}
+            />
           </div>
 
           <Accordion allowMultiple>
@@ -244,9 +264,27 @@ function CourseLearningPage() {
       </section>
 
       {/* ———————— Button (Next - Previous) ———————— */}
-      <section className="flex justify-between items-center px-16 py-5 shadow-shadow1">
-        <Link>Previous Lesson</Link>
-        <Button variant="primary">Next Lesson</Button>
+      <section className="flex justify-between items-center px-16 py-5 shadow-shadow1 h-[100px]">
+
+        <div>
+          {indexLesson === 0 ? 
+          <p className="font-bold hover:cursor-not-allowed text-gray-500">Previous Lesson</p> 
+          :
+          <Link
+          onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson].sub_lesson_id - 1}`)}}
+          >Previous Lesson</Link>
+          }
+        </div>
+
+        <div>
+        {indexLesson === courselesson?.length-1 ?
+        <Button variant="primary" isDisabled>Next Lesson</Button>
+        :
+        <Button variant="primary"
+        onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson].sub_lesson_id + 1}`)}}
+        >Next Lesson</Button>
+        }
+        </div>
       </section>
       <Footer />
     </>
