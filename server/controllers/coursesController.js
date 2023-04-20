@@ -131,28 +131,46 @@ async function getSubLessonById(req, res) {
   }
   
 }
- async function postLearningSublesson (req, res) {
+
+async function postLearningSublesson (req, res) {
   const courseId = req.params.courseId;
   const subLessonId = req.params.subLessonId;
   const userId = req.query.user;
   const status = req.body.status;
   const action = req.body.action;
   const current_time = req.body.current_time;
-  const create_at = req.body.create_at
-  const updateStatus = {user_id: userId , sub_lesson_id: subLessonId, current_time: current_time, status: status };
-  let msg;
-console.log(action);
+  
   try {
-    //play
+    let updateStatus;
+    const { data } = await supabase
+      .from("users_sub_lessons")
+      .select()
+      .match({user_id: userId , sub_lesson_id: subLessonId})
     
-    await supabase
+    if (action == 'play' && status !== 'complete' && data.length == 0) {
+      updateStatus = {user_id: userId , sub_lesson_id: subLessonId, current_time: current_time, status: status};
+      await supabase
+      .from("users_sub_lessons")
+      .insert(updateStatus)
+    } else if (action == 'pause') {
+      updateStatus = {current_time: current_time, updated_at: new Date() }
+      await supabase
         .from("users_sub_lessons")
-        .insert(updateStatus) 
+        .update(updateStatus)
+        .match({user_id: userId , sub_lesson_id: subLessonId})
+    } else if (action == 'end') {
+      updateStatus = {current_time: current_time, updated_at: new Date(), status: status}
+      await supabase
+        .from("users_sub_lessons")
+        .update(updateStatus)
+        .match({user_id: userId , sub_lesson_id: subLessonId})
+    }
+
     return res.json({
-      message: msg,
+      message: "Insert or Update successfully",
     });
   } catch (error) {
-    console.log("Post subscription and desire error:",error);
+    console.log("post Learning Sub lesson error:",error);
   }
 }
   
