@@ -117,7 +117,7 @@ async function getSubLessonById(req, res) {
   const courseId = req.params.courseId;
   const subLessonId = req.params.subLessonId;
   const userId = req.query.user
-
+  
   try {
     const { data: sub_lesson } = await supabase
     .from("sub_lessons")
@@ -132,7 +132,6 @@ async function getSubLessonById(req, res) {
   } catch (error) {
     console.log("get SubLesson By Id error:",error);
   }
-  
 }
 
 async function postLearningSublesson (req, res) {
@@ -176,8 +175,49 @@ async function postLearningSublesson (req, res) {
     console.log("post Learning Sub lesson error:",error);
   }
 }
+
+async function getLastSubLesson(req, res) {
+  const courseId = req.params.courseId;
+  const userId = req.query.user
+  
+  try {
+    let lastSubLesson;
+
+    const { data: last_sub_lesson } = await supabase
+    .from("lastestsublesson")
+    .select()
+    .match({'course_id':courseId, 'user_id':userId})
+    .order('updated_at', { ascending: false })
+    .limit(1)
+
+    if (last_sub_lesson.length > 0) {
+      lastSubLesson = last_sub_lesson[0].sub_lesson_id
+    } else {
+      const { data: first_sub_lesson } = await supabase
+      .from("getallofcourses")
+      .select()
+      .eq('course_id',courseId)
+      .order('lesson_id', { ascending: true })
+      .order('sub_lesson_id', { ascending: true })
+      .limit(1)
+      lastSubLesson = first_sub_lesson[0].sub_lesson_id
+    }
+
+    return res.json({
+      lastSubLesson: lastSubLesson
+    });
+
+  } catch (error) {
+    console.log("get SubLesson By Id error:",error);
+  }
+}
   
     
-
-
-export { getAllCourses, getCoursesById, postSubscriptionAndDesire, getSubLessonById, postLearningSublesson };
+export {
+  getAllCourses,
+  getCoursesById,
+  postSubscriptionAndDesire,
+  getSubLessonById,
+  postLearningSublesson,
+  getLastSubLesson,
+};

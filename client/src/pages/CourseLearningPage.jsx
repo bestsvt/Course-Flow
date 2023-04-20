@@ -138,7 +138,7 @@ function CourseLearningPage() {
                         .map((sub_lesson, index) => {
                           return (
                             <li
-                              className="flex items-center px-2 py-3 gap-4 hover:cursor-pointer"
+                              className="flex items-center px-2 py-3 gap-4 hover:cursor-pointer hover:bg-gray-100 active:bg-gray-300"
                               key={index}
                               onClick={() => {
                                 navigate(

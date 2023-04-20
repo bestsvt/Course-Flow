@@ -73,17 +73,6 @@ function CourseDetailPage() {
                             src={course.video_trailer.url}
                             controls
                             className="rounded-lg w-[1000px]"
-                            // เอาไว้ดูเวลาที่เล่นอยู่ - เวลาทั้งหมดของ Video (หน่วยเป็น sec)
-                            onTimeUpdate={(e) => {
-                                console.log(e.target.currentTime);
-                                console.log(e.target.duration); 
-                            }}
-                            // เวลาเล่น video จนจบจะทำงาน function onEnded
-                            onEnded={ (e) => {
-                                // ใส่ if เพราะบางทีเวลากด F5 แล้วมันทำงานแล้ว เราต้องการให้มันจบก่อนแล้วค่อยทำงาน
-                                if (e.target.currentTime === e.target.duration) {
-                                    console.log("Ended of video")
-                            }}}
                         />
                     </div>
 
