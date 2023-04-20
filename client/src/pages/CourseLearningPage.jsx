@@ -23,6 +23,7 @@ function CourseLearningPage() {
     const params = useParams()
     const [lessonName , setLessonName ] = useState()
     const [lessonVideo , setLessonVideo ] = useState()
+    const [statusVideo , setStatusVideo ] = useState()
     
     // Function get sub lesson to show name and video
     async function getSubLesson() {
@@ -38,6 +39,46 @@ function CourseLearningPage() {
         }   
         getCourses()
     }, [navigate]);
+
+    // This function work when click (Play Video)
+    async function handlePlayVideo(event) {
+        setStatusVideo("inProgress")
+        console.log('Start Playing Video at:', event.target.currentTime);
+        // Start Coding Here 1
+        // Function axios.post
+        // Upload status inProgress ใส่ใน table users_sub_lessons
+        // ต้องเช็คด้วยว่า ถ้าหาก status เป็น complete อยู่แล้วจะไม่ update ข้อมูลเข้าไป
+    }
+
+    // This function work when click (Pause Video)
+    async function handlePauseVideo(event) {
+        // กรณีที่ video มันจบแล้วมันจะนับว่าเป็นการ pause ด้วย
+        if (event.target.currentTime !== event.target.duration) {
+            console.log("Pause at:", event.target.currentTime)
+        }
+        // Start Coding Here 2
+        // Function axios.put (post หรือ put ?) (หลังบ้านอาจจะใช้ upsert)
+        // Update currentTime ใส่ใน table users_sub_lessons
+    }
+
+    // This function work when video end
+    async function handleEndVideo(event) {
+        setStatusVideo("complete")
+        console.log('Ending of Video');
+        // Start Coding Here 3
+        // Function axios.put (post หรือ put ?) (หลังบ้านอาจจะใช้ upsert)
+        // Update status complete ใส่ใน table users_sub_lessons
+    }
+
+    // This function work when start video
+    // น่าจะต้องใส่ใน useEffect
+    async function handleLoadedMetadata(event) {
+        console.log('Start Video At 5 Second');
+        event.target.currentTime = 5 // เวลาที่จะให้เริ่มถ้าไม่เจอข้อมูลจากหลังบ้านให้เป็น 0
+        // Start Coding Here 4
+        // Function axios.get
+        // ดึงข้อมูล currentTime จาก table users_sub_lessons
+    }
 
     return (
         <>
@@ -113,17 +154,10 @@ function CourseLearningPage() {
                             src={lessonVideo?.url}
                             controls
                             className="rounded-lg w-[100%] mb-[50px]"
-                            // เอาไว้ดูเวลาที่เล่นอยู่ - เวลาทั้งหมดของ Video (หน่วยเป็น sec)
-                            onTimeUpdate={(e) => {
-                                console.log('Current Time',e.target.currentTime);
-                                console.log('Duration Time',e.target.duration); 
-                            }}
-                            // เวลาเล่น video จนจบจะทำงาน function onEnded
-                            onEnded={ (e) => {
-                                // ใส่ if เพราะบางทีเวลากด F5 แล้วมันทำงานแล้ว เราต้องการให้มันจบก่อนแล้วค่อยทำงาน
-                                if (e.target.currentTime === e.target.duration) {
-                                    console.log("Ended of video")
-                            }}}
+                            onPlay={handlePlayVideo}
+                            onPause={handlePauseVideo}
+                            onEnded={handleEndVideo}
+                            onLoadedMetadata={handleLoadedMetadata}
                         />
 
                     {/* ———————— Assignment Card ———————— */}
@@ -141,7 +175,7 @@ function CourseLearningPage() {
                         </div>
 
                         <div className="flex justify-between items-center">
-                            <Button variant='primary'>Send Assignment</Button>
+                            <Button variant='primary' onClick={()=>{console.log(statusVideo)}}>Send Assignment</Button>
                             <p className="text-gray-700">Assign within 2 days</p>
                         </div>
 
