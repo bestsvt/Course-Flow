@@ -131,6 +131,32 @@ async function getSubLessonById(req, res) {
   }
   
 }
+ async function postLearningSublesson (req, res) {
+  const courseId = req.params.courseId;
+  const subLessonId = req.params.subLessonId;
+  const userId = req.query.user;
+  const status = req.body.status;
+  const action = req.body.action;
+  const current_time = req.body.current_time;
+  const create_at = req.body.create_at
+  const updateStatus = {user_id: userId , sub_lesson_id: subLessonId, current_time: current_time, status: status };
+  let msg;
+console.log(action);
+  try {
+    //play
+    
+    await supabase
+        .from("users_sub_lessons")
+        .insert(updateStatus) 
+    return res.json({
+      message: msg,
+    });
+  } catch (error) {
+    console.log("Post subscription and desire error:",error);
+  }
+}
+  
+    
 
 
-export { getAllCourses, getCoursesById, postSubscriptionAndDesire, getSubLessonById };
+export { getAllCourses, getCoursesById, postSubscriptionAndDesire, getSubLessonById, postLearningSublesson };

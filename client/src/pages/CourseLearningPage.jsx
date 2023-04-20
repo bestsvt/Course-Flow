@@ -17,7 +17,7 @@ import {
     Spinner
 } from "@chakra-ui/react";
 import useCourses from "../hooks/useCourses";
-import { update } from "lodash";
+import axios from "axios";
 
 
 function CourseLearningPage() {
@@ -32,7 +32,6 @@ function CourseLearningPage() {
     async function getSubLesson() {
         const result = await getSubLessonById()
         setLesson(result);
-        console.log(result);
 
     }
 
@@ -53,7 +52,7 @@ function CourseLearningPage() {
         // Upload status inProgress ใส่ใน table users_sub_lessons
         // ต้องเช็คด้วยว่า ถ้าหาก status เป็น complete อยู่แล้วจะไม่ update ข้อมูลเข้าไป
         try {
-            const result = await axios.post(`http://localhost:4000/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`, {
+            const result = await axios.post(`http://localhost:4000/courses/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`, {
                 status: statusVideo,
                 current_time: event.target.currentTime,
                 action: "play"
@@ -71,7 +70,7 @@ function CourseLearningPage() {
         if (event.target.currentTime !== event.target.duration) {
             console.log("Pause at:", event.target.currentTime)
             try {
-                const result = await axios.post(`http://localhost:4000/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`, {
+                const result = await axios.post(`http://localhost:4000/courses/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`, {
                     current_time: event.target.currentTime,
                     updated_at: new Date(),
                     action: "pause"
@@ -94,17 +93,17 @@ function CourseLearningPage() {
         // Start Coding Here 3
         // Function axios.put (post หรือ put ?) (หลังบ้านอาจจะใช้ upsert)
         // Update status complete ใส่ใน table users_sub_lessons
-        try {
-            const result = await axios.post(`http://localhost:4000/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`, {
-                status: statusVideo,
-                current_time: event.target.currentTime,
-                updated_at: new Date(),
-                action: "end"
-            });
-            return result
-        } catch (error) {
-            console.log(error);
-        }
+        // try {
+        //     const result = await axios.post(`http://localhost:4000/courses/${course.course_id}/learning/${lesson.sub_lesson_id}?user=${userAuthState.user.id}`, {
+        //         status: statusVideo,
+        //         current_time: event.target.currentTime,
+        //         updated_at: new Date(),
+        //         action: "end"
+        //     });
+        //     return result
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
     // This function work when start video
