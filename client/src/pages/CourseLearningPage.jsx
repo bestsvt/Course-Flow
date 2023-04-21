@@ -96,12 +96,12 @@ function CourseLearningPage() {
   useEffect(() => {
     navigateLesson()
   }, [lesson]);
-  
+
   function navigateLesson() {
     const currentLessonIndex = courselesson?.findIndex(
       (courselesson) =>
-      courselesson.lesson_id === lesson?.lesson_id &&
-      courselesson.sub_lesson_id === lesson?.sub_lesson_id
+        courselesson.lesson_id === lesson?.lesson_id &&
+        courselesson.sub_lesson_id === lesson?.sub_lesson_id
     )
     setIndexLesson(currentLessonIndex)
   }
@@ -112,7 +112,7 @@ function CourseLearningPage() {
 
       <section className="px-[10%] py-[5%] flex justify-center gap-[2%]">
         {/* ———————— Left Section ———————— */}
-        <div className="shadow-shadow1 w-[30%] flex flex-col gap-6 px-6 py-8 overflow-y-scroll hide-scroll h-[1080px] rounded-lg">
+        <div className="shadow-shadow1 w-[30%] flex flex-col gap-6 px-6 py-8 overflow-y-scroll hide-scroll h-[850px] rounded-lg ">
           <div className="text-orange-500 font-body3 mb-4">Course</div>
           {/* Course Deatil */}
           <div className="flex flex-col gap-2">
@@ -129,15 +129,15 @@ function CourseLearningPage() {
             <div className="text-body3 font-body3 text-gray-700">
               {progress}% Complete
             </div>
-            <Progress 
-            borderRadius='99px'
-            bg='#E4E6ED'
-            value={progress}
+            <Progress
+              borderRadius='99px'
+              bg='#E4E6ED'
+              value={progress}
             />
           </div>
 
           <Accordion allowMultiple>
-            {course?.lessons.map((lesson, index) => {
+            {course?.lessons.map((lessons, index) => {
               return (
                 <AccordionItem borderTop="none" key={index}>
                   <AccordionButton paddingBottom={0}>
@@ -147,7 +147,7 @@ function CourseLearningPage() {
                           0{index + 1}
                         </h1>
                         <h1 className="text-headline3 font-headline3 text-black">
-                          {lesson.name}
+                          {lessons.name}
                         </h1>
                       </div>
                     </Box>
@@ -155,12 +155,14 @@ function CourseLearningPage() {
                   </AccordionButton>
                   <AccordionPanel paddingTop="8px">
                     <ul className="text-body2 font-body2 text-gray-700">
-                      {lesson.sub_lessons
+                      {lessons.sub_lessons
                         .sort((a, b) => a.sub_lesson_id - b.sub_lesson_id)
                         .map((sub_lesson, index) => {
                           return (
                             <li
-                              className="flex items-center px-2 py-3 gap-4 hover:cursor-pointer hover:bg-gray-100 active:bg-gray-300"
+                              className={sub_lesson.sub_lesson_id === lesson?.sub_lesson_id ?
+                                "flex items-center px-2 py-3 gap-4 rounded-lg bg-gray-300 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300"
+                                : "flex items-center px-2 py-3 gap-4 rounded-lg hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300"}
                               key={index}
                               onClick={() => {
                                 navigate(
@@ -169,7 +171,7 @@ function CourseLearningPage() {
                               }}
                             >
                               {sub_lesson.users_sub_lessons[0]?.status ===
-                              "complete" ? (
+                                "complete" ? (
                                 <img
                                   src="/image/icon/complete.png"
                                   alt="icon-status"
@@ -189,7 +191,9 @@ function CourseLearningPage() {
                                   className="w-[18px] h-[18px]"
                                 />
                               )}
+
                               <p>{sub_lesson.name}</p>
+
                             </li>
                           );
                         })}
@@ -269,23 +273,23 @@ function CourseLearningPage() {
       <section className="flex justify-between items-center px-16 py-5 shadow-shadow1 h-[100px]">
 
         <div>
-          {indexLesson === 0 ? 
-          <p className="font-bold hover:cursor-not-allowed text-gray-500">Previous Lesson</p> 
-          :
-          <Link
-          onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson - 1].sub_lesson_id}`)}}
-          >Previous Lesson</Link>
+          {indexLesson === 0 ?
+            <p className="font-bold hover:cursor-not-allowed text-gray-500">Previous Lesson</p>
+            :
+            <Link
+              onClick={() => { navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson - 1].sub_lesson_id}`) }}
+            >Previous Lesson</Link>
           }
         </div>
 
         <div>
-        {indexLesson === courselesson?.length-1 ?
-        <Button variant="primary" isDisabled>Next Lesson</Button>
-        :
-        <Button variant="primary"
-        onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson + 1].sub_lesson_id}`)}}
-        >Next Lesson</Button>
-        }
+          {indexLesson === courselesson?.length - 1 ?
+            <Button variant="primary" isDisabled>Next Lesson</Button>
+            :
+            <Button variant="primary"
+              onClick={() => { navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson + 1].sub_lesson_id}`) }}
+            >Next Lesson</Button>
+          }
         </div>
       </section>
       <Footer />

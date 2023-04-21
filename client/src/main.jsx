@@ -15,11 +15,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={theme}>
-        <ScrollToTop>
+        {/* <ScrollToTop> */}
           <AuthProvider>
             <App />
           </AuthProvider>
-        </ScrollToTop>
+        {/* </ScrollToTop> */}
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>
