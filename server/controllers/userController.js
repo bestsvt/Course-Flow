@@ -26,13 +26,16 @@ async function updateProfile(req, res) {
     previousUserProfileImage = userData[0].profile_image;
 
     // เช็คว่าเมลซ้ำใน database ไหม และเช็คต่อว่าเมลซ้ำกับของเดิมหรือไม่
-    if (CheckMailAlreayUsed.length > 0 && !(UpdateUser.email === userData[0].email)) {
-        return res.json({
-          message:
-            "This email address is already in use. Please choose a different email address and try again.",
-        });
+    if (
+      CheckMailAlreayUsed.length > 0 &&
+      !(UpdateUser.email === userData[0].email)
+    ) {
+      return res.json({
+        message:
+          "This email address is already in use. Please choose a different email address and try again.",
+      });
     }
-    
+
     // Check status Image (update, delete, undifined)
     if (statusImage == "update") {
       if (previousUserProfileImage == null) {
@@ -85,9 +88,9 @@ async function getSubscribeCourse(req, res) {
 
   try {
     const { data: subscribeCourses } = await supabase
-    .from('subscriptions')
-    .select('subscription_id ,courses (*)')
-    .eq('user_id', userId)
+      .from("subscriptions")
+      .select("subscription_id, status ,courses (*)")
+      .eq("user_id", userId);
 
     return res.json({
       data: subscribeCourses,
@@ -95,7 +98,6 @@ async function getSubscribeCourse(req, res) {
   } catch (error) {
     console.log("Get subscribe courses error:", error);
   }
-  
 }
 
 async function getDesireCourse(req, res) {
@@ -103,19 +105,16 @@ async function getDesireCourse(req, res) {
 
   try {
     const { data: desireCourses } = await supabase
-    .from('desires')
-    .select('desire_id ,courses (*)')
-    .eq('user_id', userId)
-    
+      .from("desires")
+      .select("desire_id ,courses (*)")
+      .eq("user_id", userId);
+
     return res.json({
       data: desireCourses,
     });
   } catch (error) {
     console.log("Get desire courses error:", error);
   }
-  
 }
 
-
-
-export { updateProfile , getSubscribeCourse , getDesireCourse };
+export { updateProfile, getSubscribeCourse, getDesireCourse };
