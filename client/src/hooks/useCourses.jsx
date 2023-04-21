@@ -74,10 +74,10 @@ const useCourses = () => {
     }
   }
 
-  async function getSubLessonById() {
+  async function getSubLessonById(user_id) {
     try {
       setIsLoading(true);
-      const results = await axios.get(`http://localhost:4000/courses/${params.courseId}/learning/${params.subLessonId}`);
+      const results = await axios.get(`http://localhost:4000/courses/${params.courseId}/learning/${params.subLessonId}?user=${user_id}`);
       setIsLoading(false);
       return results.data.data[0]
     } catch (error) {
@@ -85,6 +85,17 @@ const useCourses = () => {
     }
   }
 
+  async function postLearningSublesson(data , sub_lesson_id , user_id) {
+    try {
+
+      const result = await axios.post(`http://localhost:4000/courses/${course.course_id}/learning/${sub_lesson_id}?user=${user_id}`, data)
+
+      return result
+    } catch (error) {
+      console.log("post Learning Sub lesson error:", error);
+    }
+  }
+  
   return {
     courses,
     getCourses,
@@ -96,6 +107,7 @@ const useCourses = () => {
     getDesireCourses,
     desireCourse,
     getSubLessonById,
+    postLearningSublesson
   };
 };
 

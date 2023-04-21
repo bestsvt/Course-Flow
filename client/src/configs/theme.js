@@ -202,6 +202,13 @@ const components = {
       variant: "default",
     },
   },
+  Progress: {
+    baseStyle: {
+      filledTrack: {
+        bg: 'linear-gradient(90deg, #5697FF, #2558DD)',
+      },
+    }
+  }
 }
   
 const theme = extendTheme({ colors , components, shadows })

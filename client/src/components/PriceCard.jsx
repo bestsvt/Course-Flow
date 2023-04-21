@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
 AlertDialog,
@@ -23,8 +23,9 @@ function PriceCard(props) {
     const { userAuthState , isAuthenticated} = useAuth()
     const toast = useToast()
     const [actionButton, setActionButton] = useState()
-
-    const subscription = async () => {
+    const [lastestSubLesson, setLastestSubLesson] = useState()
+    
+    async function subscription() {
         const result = await axios.post(`http://localhost:4000/courses/${props.courseId}`,
             { user_id: userAuthState.user.id,
                 status: "subscribe"
@@ -66,6 +67,15 @@ function PriceCard(props) {
         setActionButton(action);
         onOpen();
       }
+
+    async function getLastSubLesson() {
+        const result = await axios.get(`http://localhost:4000/courses/${props.courseId}/lastSubLesson?user=${userAuthState.user.id}`)
+        setLastestSubLesson(result.data.lastSubLesson)
+    }
+
+    useEffect(() => {
+        getLastSubLesson()
+      }, []);
     
     return (
         <section>
@@ -83,7 +93,7 @@ function PriceCard(props) {
                     isAuthenticated ?
                     props.subscribeStatus ? 
                     // รอเพิ่ม navigate ไปที่หน้า learning page 
-                    <Button variant="primary" className="w-full" onClick={()=>{navigate(`./learning/1`)}}>Start Learning</Button> 
+                    <Button variant="primary" className="w-full" onClick={()=>{navigate(`./learning/${lastestSubLesson}`)}}>Start Learning</Button> 
                     : 
                     <>
                     {props.desireStatus ? 
