@@ -58,7 +58,6 @@ async function getCoursesById(req, res) {
     }
 
     // For Button Previous - Next in Learning Page
-    
     const { data: allLessons } = await supabase
       .from("getallofcourses")
       .select('course_id, lesson_id, sub_lesson_id')
@@ -66,11 +65,23 @@ async function getCoursesById(req, res) {
       .order('lesson_id', { ascending: true })
       .order('sub_lesson_id', { ascending: true })
 
+    // For Progress bar
+    const { data: progress } = await supabase
+      .from("lastestsublesson")
+      .select()
+      .match({'course_id':courseId, 'user_id':userId, 'status': 'complete'})
+    const { data: totalSubLesson } = await supabase
+      .from("count_sub_lessons")
+      .select()
+      .eq('course_id', courseId)
+    const totalProgress = ( progress.length / totalSubLesson[0].sub_lessons_count ) * 100
+  
     return res.json({
       data: course,
       subscribeStatus,
       desireStatus,
-      allLessons
+      allLessons,
+      totalProgress
     });
   } catch (error) {
     console.log("Get courses by id error:", error);

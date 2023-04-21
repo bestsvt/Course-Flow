@@ -31,6 +31,7 @@ function CourseLearningPage() {
   const [lesson, setLesson] = useState();
   const [courselesson, setCourselesson] = useState();
   const [indexLesson, setIndexLesson] = useState();
+  const [progress, setProgress] = useState();
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
@@ -86,6 +87,7 @@ function CourseLearningPage() {
     async function getCourses() {
       const result = await getCoursesById(userAuthState.user.id);
       setCourselesson(result.data.allLessons)
+      setProgress(Math.round(result.data.totalProgress))
       await getSubLesson();
     }
     getCourses();
@@ -125,12 +127,12 @@ function CourseLearningPage() {
           <div className="flex flex-col gap-2">
             {/* ———————— Waiting Function % Progress ———————— */}
             <div className="text-body3 font-body3 text-gray-700">
-              20% Complete
+              {progress}% Complete
             </div>
             <Progress 
             borderRadius='99px'
             bg='#E4E6ED'
-            value={20}
+            value={progress}
             />
           </div>
 
