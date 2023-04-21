@@ -271,7 +271,7 @@ function CourseLearningPage() {
           <p className="font-bold hover:cursor-not-allowed text-gray-500">Previous Lesson</p> 
           :
           <Link
-          onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson].sub_lesson_id - 1}`)}}
+          onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson - 1].sub_lesson_id}`)}}
           >Previous Lesson</Link>
           }
         </div>
@@ -281,7 +281,7 @@ function CourseLearningPage() {
         <Button variant="primary" isDisabled>Next Lesson</Button>
         :
         <Button variant="primary"
-        onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson].sub_lesson_id + 1}`)}}
+        onClick={()=>{navigate(`/courses/${course.course_id}/learning/${courselesson[indexLesson + 1].sub_lesson_id}`)}}
         >Next Lesson</Button>
         }
         </div>
