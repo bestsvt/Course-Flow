@@ -10,7 +10,7 @@ const useCourses = () => {
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
 
-  async function getCourses (keyword) {
+  async function getCourses(keyword) {
     try {
       // ตัว isLoading เอาไว้ แสดง Spinner ตอนโหลด
       setIsLoading(true);
@@ -31,7 +31,7 @@ const useCourses = () => {
     }
   };
 
-  async function getCoursesSuggest (suggestWord) {
+  async function getCoursesSuggest(suggestWord) {
     try {
       const query = new URLSearchParams();
       query.append("keyword", suggestWord);
@@ -47,7 +47,7 @@ const useCourses = () => {
   async function getCoursesById(userId) {
     // ต้องมาเพิ่มกรณีที่ user คนนั้น sub แล้วหรือยังทีหลัง
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       let api;
       if (userId) {
         api = `http://localhost:4000/courses/${params.courseId}?user=${userId}`
@@ -55,7 +55,7 @@ const useCourses = () => {
         api = `http://localhost:4000/courses/${params.courseId}`
       }
       const results = await axios.get(api);
-      setIsLoading(false);
+      // setIsLoading(false);
       setCourse(results.data.data[0]);
       return results
     } catch (error) {
@@ -76,16 +76,16 @@ const useCourses = () => {
 
   async function getSubLessonById(user_id) {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const results = await axios.get(`http://localhost:4000/courses/${params.courseId}/learning/${params.subLessonId}?user=${user_id}`);
-      setIsLoading(false);
+      // setIsLoading(false);
       return results.data.data[0]
     } catch (error) {
       console.log("Get sub-lesson by id error:", error);
     }
   }
 
-  async function postLearningSublesson(data , sub_lesson_id , user_id) {
+  async function postLearningSublesson(data, sub_lesson_id, user_id) {
     try {
 
       const result = await axios.post(`http://localhost:4000/courses/${course.course_id}/learning/${sub_lesson_id}?user=${user_id}`, data)
@@ -95,7 +95,7 @@ const useCourses = () => {
       console.log("post Learning Sub lesson error:", error);
     }
   }
-  
+
   return {
     courses,
     getCourses,

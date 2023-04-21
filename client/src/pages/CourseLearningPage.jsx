@@ -32,6 +32,7 @@ function CourseLearningPage() {
   const [courselesson, setCourselesson] = useState();
   const [indexLesson, setIndexLesson] = useState();
   const [progress, setProgress] = useState();
+  const [videoStatus, setVideoStatus] = useState();
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
@@ -50,7 +51,9 @@ function CourseLearningPage() {
       lesson.sub_lesson_id,
       userAuthState.user.id
     );
+    setVideoStatus("in progress")
   }
+
 
   // This function work when click (Pause Video)
   async function handlePauseVideo(event) {
@@ -77,11 +80,13 @@ function CourseLearningPage() {
       lesson.sub_lesson_id,
       userAuthState.user.id
     );
+    setVideoStatus("complete")
   }
 
   async function handleLoadedMetadata(event) {
     event.target.currentTime = lesson?.users_sub_lessons[0]?.current_time || 0;
   }
+
 
   useEffect(() => {
     async function getCourses() {
@@ -89,13 +94,16 @@ function CourseLearningPage() {
       setCourselesson(result.data.allLessons)
       setProgress(Math.round(result.data.totalProgress))
       await getSubLesson();
+      setVideoStatus("null")
     }
     getCourses();
-  }, [navigate]);
+  }, [navigate, videoStatus]);
 
   useEffect(() => {
     navigateLesson()
   }, [lesson]);
+
+
 
   function navigateLesson() {
     const currentLessonIndex = courselesson?.findIndex(
