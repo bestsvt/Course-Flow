@@ -208,7 +208,50 @@ const components = {
         bg: 'linear-gradient(90deg, #5697FF, #2558DD)',
       },
     }
-  }
+  },
+  Badge: {
+    variants: {
+      submitted: {
+        color: "#0A7B60",
+        backgroundColor: "#DDF9EF",
+        fontSize: "14px",
+        fontWight: 500,
+        lineHeight: "150%",
+        padding: "4px 8px 4px 8px",
+        borderRadius: "6px",
+        textTransform: "capitalize",
+      },
+      overdue: {
+        color: "#9B2FAC",
+        backgroundColor: "#FAE7F4",
+        fontSize: "14px",
+        fontWight: 500,
+        lineHeight: "150%",
+        padding: "4px 8px 4px 8px",
+        borderRadius: "6px",
+        textTransform: "capitalize",
+      },
+      pending: {
+        color: "#996500",
+        backgroundColor: "#FFFBDB",
+        fontSize: "14px",
+        fontWight: 500,
+        padding: "4px 8px 4px 8px",
+        borderRadius: "6px",
+        textTransform: "capitalize"
+      },
+      inProgress : {
+        color: "#3557CF",
+        backgroundColor: "#EBF0FF",
+        fontSize: "14px",
+        fontWight: 500,
+        lineHeight: "150%",
+        padding: "4px 8px 4px 8px",
+        borderRadius: "6px",
+        textTransform: "capitalize",
+      },
+    },
+  },
 }
   
 const theme = extendTheme({ colors , components, shadows })

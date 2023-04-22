@@ -5,7 +5,7 @@ function CourseCard(props) {
     const navigate = useNavigate();
     return (
     <div className="flex flex-col gap-6 h-[550px] bg-white rounded-lg shadow-shadow1 hover:opacity-75 hover:cursor-pointer relative"
-    onClick={() => { navigate(`/courses/${props.id}`)}}
+    onClick={() => { navigate(`/courses/${props.id}`) ;window.scrollTo(0, 0)}}
     >
         <img className="rounded-t-lg h-[50%] object-cover" src={props.image ? props.image : './image/course/default-image-course.png'}/>
         <div className="px-4 flex flex-col gap-2 mb-5">

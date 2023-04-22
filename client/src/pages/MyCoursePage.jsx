@@ -30,11 +30,9 @@ function MyCoursePage() {
     getCourses()
   }, []);
 
-
   return (
     <>
       <Navbar />
-
       <div className="flex flex-col items-center px-[10%] py-[5%] gap-12 bg-imag-userpage">
         <h1 className="mt-5 text-headline2 font-headline2 text-black">My Courses</h1>
         <Tabs position="relative" variant="unstyled" width="100%">
@@ -42,13 +40,24 @@ function MyCoursePage() {
             <Tab fontSize="24px" textColor="black">
               All Courses
             </Tab>
-            {/* Style in config when not select / hover .. */}
+            {totalInprogress == 0 ?
+            <Tab fontSize="24px" textColor="black" isDisabled>
+              Inprogress
+            </Tab>
+            : 
             <Tab fontSize="24px" textColor="black" >
               Inprogress
             </Tab>
+            }
+            {totalComplete == 0 ?
+            <Tab fontSize="24px" textColor="black" isDisabled>
+              Completed
+            </Tab>
+            : 
             <Tab fontSize="24px" textColor="black" >
               Completed
             </Tab>
+            }
           </TabList>
           <TabIndicator
             mt="-1.5px"
@@ -82,7 +91,10 @@ function MyCoursePage() {
 
                 <TabPanel padding={'0 25px'}>
                   {/* ————————————————————— All Course Section ————————————————————— */}
-                  {/* waiting for map data all course that user subscribe */}
+                  {myCourses?.length == 0 ? 
+                  <div className="flex justify-center text-[50px] font-headline1 text-gray-700 p-10 mx-10 bg-gray-200 rounded-3xl">
+                  You don't have any course.</div>
+                  : 
                   <div className="flex justify-between flex-wrap">
                     {myCourses?.map((course, index) => {
                       return (
@@ -94,17 +106,13 @@ function MyCoursePage() {
                             time={course.courses.total_learning_time}
                             id={course.courses.course_id}
                           />
-                        </div>
-                      )
-                    })}
-                  </div>
+                        </div>)})}
+                  </div>}
                 </TabPanel>
                 <TabPanel padding={'0 25px'}>
                   {/* ————————————————————— Inprogress Section ————————————————————— */}
-                  {/* waiting for map data all course that user subscribe and not completed */}
                   <div className="flex justify-between flex-wrap">
                     {myCourses?.filter(Course => Course.status == "inProgress").map((course, index) => {
-
                       return (
                         <div className="w-[460px] mb-[60px]" key={index}>
                           <CourseCard
@@ -121,7 +129,6 @@ function MyCoursePage() {
                 </TabPanel>
                 <TabPanel padding={'0 25px'}>
                   {/* ————————————————————— Completed Section ————————————————————— */}
-                  {/* waiting for map data all course that user subscribe and completed */}
                   <div className="flex justify-between flex-wrap">
                     {myCourses?.filter(Course => Course.status == "complete").map((course, index) => {
                       return (

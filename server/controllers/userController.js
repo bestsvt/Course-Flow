@@ -42,14 +42,16 @@ async function updateProfile(req, res) {
         // กรณีที่ 2.1 ภาพเดิมไม่มี
         UpdateUser.profile_image = await cloudinaryUpload(
           ...req.files.profile_image,
-          "upload"
+          "upload",
+          "profile_image"
         );
       } else {
         // กรณีที่ 2.2 มีภาพเดิมอยู่แล้ว
         await cloudinaryUpload(previousUserProfileImage, "delete");
         UpdateUser.profile_image = await cloudinaryUpload(
           ...req.files.profile_image,
-          "upload"
+          "upload",
+          "profile_image"
         );
       }
     } else if (statusImage == "delete") {
@@ -90,7 +92,8 @@ async function getSubscribeCourse(req, res) {
     const { data: subscribeCourses } = await supabase
       .from("subscriptions")
       .select("subscription_id, status ,courses (*)")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .order("subscription_id", { ascending: true })
 
     return res.json({
       data: subscribeCourses,

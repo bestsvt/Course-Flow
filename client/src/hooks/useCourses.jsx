@@ -45,9 +45,8 @@ const useCourses = () => {
   };
 
   async function getCoursesById(userId) {
-    // ต้องมาเพิ่มกรณีที่ user คนนั้น sub แล้วหรือยังทีหลัง
     try {
-      // setIsLoading(true);
+      setIsLoading(true);
       let api;
       if (userId) {
         api = `http://localhost:4000/courses/${params.courseId}?user=${userId}`
@@ -55,7 +54,18 @@ const useCourses = () => {
         api = `http://localhost:4000/courses/${params.courseId}`
       }
       const results = await axios.get(api);
-      // setIsLoading(false);
+      setIsLoading(false);
+      setCourse(results.data.data[0]);
+      return results
+    } catch (error) {
+      console.log("Get courses by id error:", error);
+    }
+  }
+
+  // This function using only learning page (for update status progress)
+  async function getCoursesByIdWithOutLoading(userId) {
+    try {
+      const results = await axios.get(`http://localhost:4000/courses/${params.courseId}?user=${userId}`);
       setCourse(results.data.data[0]);
       return results
     } catch (error) {
@@ -76,9 +86,9 @@ const useCourses = () => {
 
   async function getSubLessonById(user_id) {
     try {
-      // setIsLoading(true);
+      setIsLoading(true);
       const results = await axios.get(`http://localhost:4000/courses/${params.courseId}/learning/${params.subLessonId}?user=${user_id}`);
-      // setIsLoading(false);
+      setIsLoading(false);
       return results.data.data[0]
     } catch (error) {
       console.log("Get sub-lesson by id error:", error);
@@ -107,7 +117,8 @@ const useCourses = () => {
     getDesireCourses,
     desireCourse,
     getSubLessonById,
-    postLearningSublesson
+    postLearningSublesson,
+    getCoursesByIdWithOutLoading
   };
 };
 

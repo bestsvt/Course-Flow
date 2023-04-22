@@ -26,6 +26,7 @@ function CourseLearningPage() {
     getCoursesById,
     getSubLessonById,
     postLearningSublesson,
+    getCoursesByIdWithOutLoading
   } = useCourses();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState();
@@ -83,28 +84,37 @@ function CourseLearningPage() {
     setVideoStatus("complete")
   }
 
+  // This function set start time video
   async function handleLoadedMetadata(event) {
     event.target.currentTime = lesson?.users_sub_lessons[0]?.current_time || 0;
   }
 
-
+  // fetch data when click sublesson / refresh
   useEffect(() => {
     async function getCourses() {
       const result = await getCoursesById(userAuthState.user.id);
       setCourselesson(result.data.allLessons)
       setProgress(Math.round(result.data.totalProgress))
       await getSubLesson();
-      setVideoStatus("null")
     }
     getCourses();
-  }, [navigate, videoStatus]);
+  }, [navigate]);
 
   useEffect(() => {
     navigateLesson()
   }, [lesson]);
 
+  useEffect(() => {
+    async function fetch() {
+      const result = await getCoursesByIdWithOutLoading(userAuthState.user.id);
+      setCourselesson(result.data.allLessons)
+      setProgress(Math.round(result.data.totalProgress))
+      setVideoStatus()
+    }
+    fetch();
+  }, [videoStatus]);
 
-
+  // Function for button previous and next lesson
   function navigateLesson() {
     const currentLessonIndex = courselesson?.findIndex(
       (courselesson) =>
@@ -117,7 +127,6 @@ function CourseLearningPage() {
   return (
     <>
       <Navbar />
-
       <section className="px-[10%] py-[5%] flex justify-center gap-[2%]">
         {/* ———————— Left Section ———————— */}
         <div className="shadow-shadow1 w-[30%] flex flex-col gap-6 px-6 py-8 overflow-y-scroll hide-scroll h-[850px] rounded-lg ">
@@ -131,9 +140,7 @@ function CourseLearningPage() {
               {course?.course_summary}
             </div>
           </div>
-
           <div className="flex flex-col gap-2">
-            {/* ———————— Waiting Function % Progress ———————— */}
             <div className="text-body3 font-body3 text-gray-700">
               {progress}% Complete
             </div>
@@ -143,7 +150,6 @@ function CourseLearningPage() {
               value={progress}
             />
           </div>
-
           <Accordion allowMultiple>
             {course?.lessons.map((lessons, index) => {
               return (
@@ -169,8 +175,8 @@ function CourseLearningPage() {
                           return (
                             <li
                               className={sub_lesson.sub_lesson_id === lesson?.sub_lesson_id ?
-                                "flex items-center px-2 py-3 gap-4 rounded-lg bg-gray-300 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300"
-                                : "flex items-center px-2 py-3 gap-4 rounded-lg hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300"}
+                              "flex items-center px-2 py-3 gap-4 rounded-lg bg-gray-300 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300" :
+                              "flex items-center px-2 py-3 gap-4 rounded-lg hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300"}
                               key={index}
                               onClick={() => {
                                 navigate(
@@ -178,30 +184,27 @@ function CourseLearningPage() {
                                 );
                               }}
                             >
-                              {sub_lesson.users_sub_lessons[0]?.status ===
-                                "complete" ? (
-                                <img
-                                  src="/image/icon/complete.png"
-                                  alt="icon-status"
-                                  className="w-[18px] h-[18px]"
-                                />
-                              ) : sub_lesson.users_sub_lessons[0]?.status ===
-                                "inProgress" ? (
-                                <img
-                                  src="/image/icon/watched.png"
-                                  alt="icon-status"
-                                  className="w-[18px] h-[18px]"
-                                />
-                              ) : (
-                                <img
-                                  src="/image/icon/no-watch.png"
-                                  alt="icon-status"
-                                  className="w-[18px] h-[18px]"
-                                />
-                              )}
-
+                              {sub_lesson.users_sub_lessons[0]?.status === "complete" ?
+                              <img
+                                src="/image/icon/complete.png"
+                                alt="icon-status"
+                                className="w-[18px] h-[18px]"
+                              />
+                              : 
+                              sub_lesson.users_sub_lessons[0]?.status === "inProgress" ?
+                              <img
+                                src="/image/icon/watched.png"
+                                alt="icon-status"
+                                className="w-[18px] h-[18px]"
+                              />
+                              :
+                              <img
+                                src="/image/icon/no-watch.png"
+                                alt="icon-status"
+                                className="w-[18px] h-[18px]"
+                              />
+                              }
                               <p>{sub_lesson.name}</p>
-
                             </li>
                           );
                         })}
@@ -245,11 +248,7 @@ function CourseLearningPage() {
             <div className="bg-blue-100 w-full rounded-lg flex flex-col p-6 gap-[25px]">
               <div className="flex justify-between">
                 <p className="text-body1 font-body1 text-black">Assignment</p>
-                <Badge
-                  colorScheme="yellow"
-                  variant="solid"
-                  textTransform="capitalize"
-                >
+                <Badge variant="pending">
                   Pending
                 </Badge>
               </div>
@@ -279,7 +278,6 @@ function CourseLearningPage() {
 
       {/* ———————— Button (Next - Previous) ———————— */}
       <section className="flex justify-between items-center px-16 py-5 shadow-shadow1 h-[100px]">
-
         <div>
           {indexLesson === 0 ?
             <p className="font-bold hover:cursor-not-allowed text-gray-500">Previous Lesson</p>

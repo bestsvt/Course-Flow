@@ -23,47 +23,44 @@ async function getCoursesById(req, res) {
   const userId = req.query.user;
 
   try {
-    const { data: course, error } = await supabase
+
+  let course;
+  let subscribeStatus;
+  let desireStatus;
+  let totalProgress;
+
+  if (userId) {
+
+    // Get Courses if logged in
+    const { data: result } = await supabase
       .from("courses")
       .select("* , lessons (* , sub_lessons(*, users_sub_lessons(*)))")
       .eq("course_id", courseId)
       .eq("lessons.sub_lessons.users_sub_lessons.user_id", userId)
       .order("lesson_id", { foreignTable: "lessons", ascending: true });
+    course = result;
 
-    let subscribeStatus;
-    let desireStatus;
-
-    if (userId) {
-      // Check Subscription
-      const { data: courseSubscription } = await supabase
-        .from("subscriptions")
-        .select()
-        .match({ course_id: courseId, user_id: userId });
-      if (courseSubscription.length > 0) {
-        subscribeStatus = true;
-      } else {
-        subscribeStatus = false;
-      }
-
-      // Check Desire
-      const { data: courseDesire } = await supabase
-        .from("desires")
-        .select()
-        .match({ course_id: courseId, user_id: userId });
-      if (courseDesire.length > 0) {
-        desireStatus = true;
-      } else {
-        desireStatus = false;
-      }
+    // Check Subscription
+    const { data: courseSubscription } = await supabase
+      .from("subscriptions")
+      .select()
+      .match({ course_id: courseId, user_id: userId });
+    if (courseSubscription.length > 0) {
+      subscribeStatus = true;
+    } else {
+      subscribeStatus = false;
     }
 
-    // For Button Previous - Next in Learning Page
-    const { data: allLessons } = await supabase
-      .from("getallofcourses")
-      .select("course_id, lesson_id, sub_lesson_id")
-      .eq("course_id", courseId)
-      .order("lesson_id", { ascending: true })
-      .order("sub_lesson_id", { ascending: true });
+    // Check Desire
+    const { data: courseDesire } = await supabase
+      .from("desires")
+      .select()
+      .match({ course_id: courseId, user_id: userId });
+    if (courseDesire.length > 0) {
+      desireStatus = true;
+    } else {
+      desireStatus = false;
+    }
 
     // For Progress bar
     const { data: progress } = await supabase
@@ -74,18 +71,35 @@ async function getCoursesById(req, res) {
       .from("count_sub_lessons")
       .select()
       .eq("course_id", courseId);
-    const totalProgress =
-      (progress.length / totalSubLesson[0].sub_lessons_count) * 100;
 
+    totalProgress = (progress.length / totalSubLesson[0].sub_lessons_count) * 100;
+    
     if (totalProgress == 100) {
-      await supabase
-        .from("subscriptions")
-        .update({ status: "complete" })
-        .match({ course_id: courseId, user_id: userId });
+    await supabase
+      .from("subscriptions")
+      .update({ status: "complete" })
+      .match({ course_id: courseId, user_id: userId });
+  }
 
+  } else {
+      // if not logged in just get course
+      const { data: result } = await supabase
+      .from("courses")
+      .select("* , lessons (* , sub_lessons(*, users_sub_lessons(*)))")
+      .eq("course_id", courseId)
+      .order("lesson_id", { foreignTable: "lessons", ascending: true });
+      course = result;
     }
 
-    return res.json({
+    // For Button Previous - Next in Learning Page
+    const { data: allLessons } = await supabase
+      .from("getallofcourses")
+      .select("course_id, lesson_id, sub_lesson_id")
+      .eq("course_id", courseId)
+      .order("lesson_id", { ascending: true })
+      .order("sub_lesson_id", { ascending: true });
+
+      return res.json({
       data: course,
       subscribeStatus,
       desireStatus,
@@ -110,7 +124,7 @@ async function postSubscriptionAndDesire(req, res) {
       if (action === "add") {
         await supabase
           .from("desires")
-          .insert({ user_id: userId, course_id: courseId, status: true });
+          .insert({ user_id: userId, course_id: courseId });
         msg = "The course has been added to your desired courses successfully!";
       } else if (action === "remove") {
         await supabase
@@ -131,7 +145,7 @@ async function postSubscriptionAndDesire(req, res) {
 
       await supabase
         .from("subscriptions")
-        .insert({ user_id: userId, course_id: courseId, status: true });
+        .insert({ user_id: userId, course_id: courseId });
       msg = "The course has been successfully enrolled in.";
     }
 
