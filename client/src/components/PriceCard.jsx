@@ -69,8 +69,11 @@ function PriceCard(props) {
       }
 
     async function getLastSubLesson() {
-        const result = await axios.get(`http://localhost:4000/courses/${props.courseId}/lastSubLesson?user=${userAuthState.user.id}`)
-        setLastestSubLesson(result.data.lastSubLesson)
+        // This function only work when logged in
+        if (userAuthState.user) {
+            const result = await axios.get(`http://localhost:4000/courses/${props.courseId}/lastSubLesson?user=${userAuthState.user.id}`)
+            setLastestSubLesson(result.data.lastSubLesson)
+        }
     }
 
     useEffect(() => {
@@ -92,8 +95,7 @@ function PriceCard(props) {
                     {
                     isAuthenticated ?
                     props.subscribeStatus ? 
-                    // รอเพิ่ม navigate ไปที่หน้า learning page 
-                    <Button variant="primary" className="w-full" onClick={()=>{navigate(`./learning/${lastestSubLesson}`)}}>Start Learning</Button> 
+                    <Button variant="primary" className="w-full" onClick={()=>{navigate(`./learning/${lastestSubLesson}`);window.scrollTo(0, 0)}}>Start Learning</Button> 
                     : 
                     <>
                     {props.desireStatus ? 
@@ -110,7 +112,6 @@ function PriceCard(props) {
                     </>
                     }
                     
-                    {/* ใส่ Logic เพิ่มถ้ามี Desire เข้ามาด้วย */}
                     <AlertDialog
                         motionPreset='slideInBottom'
                         leastDestructiveRef={cancelRef}
