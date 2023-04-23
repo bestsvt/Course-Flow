@@ -2,16 +2,27 @@ import { supabase } from "../utils/db.js";
 
 async function getAllCourses(req, res) {
   const keyword = req.query.keyword;
+  const currentPage = req.query.currentPage
+  const itemsPerPage = 9;
+  const offset = (currentPage - 1) * itemsPerPage;
 
   try {
-    const { data: AllCourse } = await supabase
+    const { data: allCourses } = await supabase
       .from("courses")
       .select()
       .ilike("name", `%${keyword}%`)
-      .order("course_id", { ascending: true });
+      .order("course_id", { ascending: true })
 
+    const { data: allCoursesWithPage } = await supabase
+      .from("courses")
+      .select()
+      .ilike("name", `%${keyword}%`)
+      .order("course_id", { ascending: true })
+      .range(offset, offset + itemsPerPage - 1);
+      
     return res.json({
-      data: AllCourse,
+      data: allCoursesWithPage,
+      allCourses
     });
   } catch (error) {
     console.log("Get all courses error:", error);

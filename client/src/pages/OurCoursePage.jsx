@@ -7,25 +7,34 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Spinner
+  Spinner,
+  Collapse,
+  useDisclosure
 } from "@chakra-ui/react";
 import { useAuth } from "../contexts/authentication"
 import { useEffect, useState } from "react"
 import useCourses from "../hooks/useCourses"
+import { Pagination } from 'antd';
 
 function OurCoursePage() {
   const { isAuthenticated } = useAuth();
-  const { courses, getCourses, isLoading, getCoursesSuggest, suggest} = useCourses();
-  const [keyword, setKeyword] = useState("");
-  const [suggestWord, setSuggestWord] = useState("");
+  const { courses, getCourses, isLoading, getCoursesSuggest, suggest, totalCourses} = useCourses();
+  const [ keyword, setKeyword] = useState("");
+  const [ suggestWord, setSuggestWord] = useState("");
+  const [ currentPage, setCurrentPage] = useState(1);
+  const { isOpen, onClose , onOpen} = useDisclosure()
 
   useEffect(() => {
-    getCourses(keyword);
-  }, [keyword]);
+    getCourses(keyword, currentPage);
+  }, [keyword, currentPage]);
 
   useEffect(() => {
     getCoursesSuggest(suggestWord);
   }, [suggestWord]);
+
+  function pagination(pageNumber) {
+    setCurrentPage(pageNumber)  
+  }
 
     return (
         <>
@@ -41,12 +50,13 @@ function OurCoursePage() {
                       placeholder="Search..."
                       type="text"
                       padding='0 45px'
-                      onChange={(event)=>{setSuggestWord(event.target.value)}}
+                      onChange={(event)=>{setSuggestWord(event.target.value); onOpen()}}
                       value={suggestWord}
                       onKeyDown={(event) => {
                         if (event.keyCode === 13) { 
                         // 13 is the keycode for Enter key
                           setKeyword(event.target.value);
+                          onClose()
                         }
                       }}
                     />
@@ -54,7 +64,8 @@ function OurCoursePage() {
                       <FiSearch fontSize={20}/>
                     </InputLeftElement>
                   </InputGroup>
-                  {suggest ? 
+                  {suggest ?
+                  <Collapse in={isOpen} animateOpacity>
                   <div className="absolute w-full flex flex-col shadow-shadow2 z-50 rounded-b-lg">
                     {suggest.filter((item) => {
                         const search = suggestWord.toLowerCase();
@@ -72,7 +83,8 @@ function OurCoursePage() {
                         </div>
                       )
                     })}
-                  </div> 
+                  </div>
+                  </Collapse> 
                   : null}
                 </div>
                   {
@@ -84,26 +96,7 @@ function OurCoursePage() {
                     color='blue.500'
                     size='xl'
                   /> 
-                  : 
-                  (courses?.length > 9) ? 
-                  // courses more than 9
-                  <div className="flex flex-wrap gap-x-[5%] mt-[60px] mb-[40px] h-[1830px] overflow-y-scroll hide-scroll">
-                  {courses.map((course,index) => {
-                    return (
-                      <div className="w-[30%] mb-[60px]" key={index}>
-                        <CourseCard 
-                        name={course.name}
-                        summary={course.course_summary}
-                        image={course.image_cover.url}
-                        time={course.total_learning_time}
-                        id={course.course_id}
-                        />
-                      </div>
-                    )
-                  })
-                  }
-                  </div>
-                  : 
+                  :
                   (courses?.length > 3) ?
                   // courses between 4 and 9
                   <div className="flex flex-wrap gap-x-[5%] mt-[60px] mb-[40px]">
@@ -147,8 +140,15 @@ function OurCoursePage() {
                     Course Not Found
                   </h1>
                   }
-                </div>
-                  
+                  {isLoading ? null : 
+                  <Pagination
+                    total={totalCourses}
+                    current={currentPage}
+                    pageSize={9}
+                    onChange={pagination}
+                    hideOnSinglePage={totalCourses == 0 ? true : false}
+                  />}
+                </div>        
         </div>
         {isAuthenticated ? null : <SubFooter/>}
         <Footer/>

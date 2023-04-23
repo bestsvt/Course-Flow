@@ -54,3 +54,11 @@
 .hide-scroll::-webkit-scrollbar {
     display: none;
 }
+
+.ellipsis-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+}

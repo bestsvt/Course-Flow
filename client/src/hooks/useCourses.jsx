@@ -5,12 +5,13 @@ import { useParams } from "react-router-dom";
 const useCourses = () => {
   const [courses, setCourses] = useState();
   const [course, setCourse] = useState();
+  const [totalCourses, setTotalCourses] = useState();
   const [desireCourse, setDesireCourse] = useState();
   const [suggest, setSuggest] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
 
-  async function getCourses(keyword) {
+  async function getCourses(keyword, currentPage) {
     try {
       // ตัว isLoading เอาไว้ แสดง Spinner ตอนโหลด
       setIsLoading(true);
@@ -21,11 +22,13 @@ const useCourses = () => {
       // ใช้แบบนี้เผื่อกรณีต้องการเพิ่ม keyword อีกจะได้เขียนไม่เยอะ เช่น page
       const query = new URLSearchParams();
       query.append("keyword", keyword);
+      query.append("currentPage", currentPage);
       const results = await axios.get(
         `http://localhost:4000/courses?${query.toString()}`
       );
       setIsLoading(false);
       setCourses(results.data.data);
+      setTotalCourses(results.data.allCourses.length)
     } catch (error) {
       console.log("Get courses error:", error);
     }
@@ -38,7 +41,7 @@ const useCourses = () => {
       const results = await axios.get(
         `http://localhost:4000/courses?${query.toString()}`
       );
-      setSuggest(results.data.data);
+      setSuggest(results.data.allCourses);
     } catch (error) {
       console.log("Get courses suggest error:", error);
     }
@@ -118,7 +121,8 @@ const useCourses = () => {
     desireCourse,
     getSubLessonById,
     postLearningSublesson,
-    getCoursesByIdWithOutLoading
+    getCoursesByIdWithOutLoading,
+    totalCourses
   };
 };
 

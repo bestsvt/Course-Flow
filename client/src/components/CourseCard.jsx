@@ -11,7 +11,7 @@ function CourseCard(props) {
         <div className="px-4 flex flex-col gap-2 mb-5">
             <div className="text-orange-500 font-body3">Course</div>
             <div className="text-headline3 text-black font-body3">{props.name}</div>
-            <div className="">{props.summary}</div>
+            <div className="ellipsis-2">{props.summary}</div>
         </div>     
         <div className="flex items-center gap-6 p-4 border-gray-300 border-t-2 absolute bottom-0 left-0 w-full">
             <div className="flex gap-2.5 items-center"><HiOutlineBookOpen className="text-blue-400 text-[20px]"/>6 Lesson</div>
