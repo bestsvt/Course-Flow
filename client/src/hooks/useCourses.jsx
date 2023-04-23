@@ -76,12 +76,16 @@ const useCourses = () => {
     }
   }
 
-  async function getDesireCourses(userId) {
+  async function getDesireCourses(userId, currentPage) {
     try {
       setIsLoading(true);
-      const results = await axios.get(`http://localhost:4000/user/desire?user=${userId}`);
-      setIsLoading(false);
+      const query = new URLSearchParams();
+      query.append("user", userId);
+      query.append("currentPage", currentPage);
+      const results = await axios.get(`http://localhost:4000/user/desire?${query.toString()}`);
       setDesireCourse(results.data.data);
+      setTotalCourses(results.data.desireCourses.length)
+      setIsLoading(false);
     } catch (error) {
       console.log("Get desire courses error:", error);
     }

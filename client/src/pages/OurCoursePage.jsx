@@ -146,7 +146,7 @@ function OurCoursePage() {
                     current={currentPage}
                     pageSize={9}
                     onChange={pagination}
-                    hideOnSinglePage={totalCourses == 0 ? true : false}
+                    hideOnSinglePage={totalCourses < 9 ? true : false}
                   />}
                 </div>        
         </div>
