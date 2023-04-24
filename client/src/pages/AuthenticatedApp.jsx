@@ -7,6 +7,7 @@ import MyCoursePage from "./MyCoursePage";
 import CourseDetailPage from "./CourseDetailPage";
 import DesireCoursePage from "./DesireCoursePage";
 import CourseLearningPage from "./CourseLearningPage";
+import MyAssignmentPage from "./MyAssignmentPage";
 
 function AuthenticatedApp() {
   return (
@@ -19,6 +20,7 @@ function AuthenticatedApp() {
         <Route path="/desire" element={<DesireCoursePage />} />
         <Route path="/courses/:courseId" element={<CourseDetailPage />} />
         <Route path="/courses/:courseId/learning/:subLessonId" element={<CourseLearningPage />} />
+        <Route path="/myassignment" element={<MyAssignmentPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
