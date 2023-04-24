@@ -1,66 +1,65 @@
-import { Button } from "@chakra-ui/react"; 
+import { Button , Badge , Link } from "@chakra-ui/react"; 
 import { useNavigate } from "react-router-dom";
 
- 
-function AssignmentCard() {
-const navigate = useNavigate();
-return (
-        <div
-            className="flex flex-col w-[1120px] h-[354px] bg-blue-100 rounded-lg
-            px-[8%] py-8"
-          >
-            <div className="flex flex-row justify-between pb-6">
-              <div className="">
-                <h1 className="text-headline3 text-black">
-                  Course: Service Design Essentials
-                </h1>
-                <h1 className="text-body2 text-gray-700">
-                  Introduction: 4 Levels of Service Design in an Organization{" "}
-                </h1>
-              </div>
-              <div className="flex flex-col items-end">
-                <h1 className="bg-[#FFFBDB] text-[#996500] w-[80px] h-[32px] font-medium rounded text-center">
-                  Pending
-                </h1>
-                <h1>Assign within 2 Days</h1>
-              </div>
-            </div>
-            <div className="flex flex-row justify-between rounded-lg bg-white py-6 px-[2%]">
-              <div className="flex flex-col">
-                <h1 className="text-body2 text-black">
-                  What are the 4 elements of service design?
-                </h1>
-                <textarea
-                  name=""
-                  id=""
-                  cols="80"
-                  rows="5"
-                  className="border border-gray-400 rounded-lg p-3"
-                  placeholder="Answer..."
-                ></textarea>
-              </div>
-              <div className="flex flex-col gap-5">
-                <Button
-                  className="w-[140px] mt-[36px]"
-                  variant="primary"
-                  onClick={() => {
-                    navigate("/courses");
-                  }}
-                >
-                  Submit
-                </Button>
-                <div
-                  className="text-blue-500 font-bold hover:cursor-pointer"
-                  onClick={() => {
-                    navigate("/courses");
-                  }}
-                >
-                  Open in Courses
-                </div>
-              </div>
-            </div>
+function AssignmentCard(props) {
+
+  const navigate = useNavigate();
+
+  return (
+      <section className="flex flex-col bg-blue-100 rounded-lg px-24 py-10 gap-9 w-full">
+        <div className="flex flex-col gap-3">
+          <div className="flex justify-between items-center">
+            <h1 className="text-headline3 font-headline3 text-black">
+              Course: {"Course Name"}
+            </h1>
+            <Badge variant="pending">
+                  {'Status of Assignment'}
+            </Badge>
           </div>
+
+          <div className="flex justify-between text-body2 font-body2 text-gray-700">
+            <h1>
+              {"Lesson Name"}: {"Sub-lesson Name"}
+            </h1>
+            <h1>
+              Assign within {'2'} Days
+            </h1>
+          </div>
+        </div>
+
+        <div className="flex flex-row justify-between rounded-lg bg-white p-6 gap-[5%] w-[100%]">
+            <div className="flex flex-col gap-1 w-[80%]">
+              <h1 className="text-body2 font-body2 text-black">
+                {'Question of assignment'}
+              </h1>
+              <textarea
+                name="answer-assignment"
+                id="answer-assignment"
+                cols="30"
+                rows="10"
+                placeholder="Answer..."
+                className="h-[100px] w-full resize-none hide-scroll p-3 rounded-lg border border-gray-400 outline-none"
+              />
+            </div>
+
+            <div className="flex flex-col justify-end items-center gap-4 w-[15%]">
+              <Button
+                className="w-[90%]"
+                variant="primary"
+                onClick={() => {navigate("")}}
+              >
+                Submit
+              </Button>
+              <Link
+                onClick={() => { navigate("")}}
+              >
+                Open in Courses
+              </Link>
+            </div>
+        </div>
+      </section>
 
     )
 }
+
 export default AssignmentCard;
