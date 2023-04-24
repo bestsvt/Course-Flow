@@ -105,15 +105,25 @@ async function getSubscribeCourse(req, res) {
 
 async function getDesireCourse(req, res) {
   const userId = req.query.user;
+  const currentPage = req.query.currentPage
+  const itemsPerPage = 9;
+  const offset = (currentPage - 1) * itemsPerPage;
 
   try {
+    const { data: desireCoursesWithPage } = await supabase
+      .from("desires")
+      .select("desire_id ,courses (*)")
+      .eq("user_id", userId)
+      .range(offset, offset + itemsPerPage - 1);
+
     const { data: desireCourses } = await supabase
       .from("desires")
       .select("desire_id ,courses (*)")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
 
     return res.json({
-      data: desireCourses,
+      data: desireCoursesWithPage,
+      desireCourses
     });
   } catch (error) {
     console.log("Get desire courses error:", error);
