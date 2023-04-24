@@ -25,11 +25,13 @@ function CourseLearningPage() {
     isLoading,
     getCoursesById,
     getSubLessonById,
-    postLearningSublesson,
-    getCoursesByIdWithOutLoading
+    postLearningSublessonAndCreateAssignment,
+    getCoursesByIdWithOutLoading,
+    getSubLessonByIdWithOutLoading
   } = useCourses();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState();
+  const [assignment, setAssignment] = useState();
   const [courselesson, setCourselesson] = useState();
   const [indexLesson, setIndexLesson] = useState();
   const [progress, setProgress] = useState();
@@ -38,12 +40,13 @@ function CourseLearningPage() {
   // Function get sub lesson to show name and video
   async function getSubLesson() {
     const result = await getSubLessonById(userAuthState.user.id);
-    setLesson(result);
+    setLesson(result.data[0]);
+    setAssignment(result.assignment.assignments[0])
   }
 
   // This function work when click (Play Video)
   async function handlePlayVideo(event) {
-    postLearningSublesson(
+    postLearningSublessonAndCreateAssignment(
       {
         status: "inProgress",
         current_time: event.target.currentTime,
@@ -59,7 +62,7 @@ function CourseLearningPage() {
   // This function work when click (Pause Video)
   async function handlePauseVideo(event) {
     if (event.target.currentTime !== event.target.duration) {
-      postLearningSublesson(
+      postLearningSublessonAndCreateAssignment(
         {
           current_time: event.target.currentTime,
           action: "pause",
@@ -72,7 +75,8 @@ function CourseLearningPage() {
 
   // This function work when video end
   async function handleEndVideo(event) {
-    postLearningSublesson(
+    createAssignments()
+    postLearningSublessonAndCreateAssignment(
       {
         status: "complete",
         current_time: event.target.currentTime,
@@ -110,6 +114,8 @@ function CourseLearningPage() {
       setCourselesson(result.data.allLessons)
       setProgress(Math.round(result.data.totalProgress))
       setVideoStatus()
+      const results = await getSubLessonByIdWithOutLoading(userAuthState.user.id);
+      setAssignment(results.assignment.assignments[0])
     }
     fetch();
   }, [videoStatus]);
@@ -122,6 +128,15 @@ function CourseLearningPage() {
         courselesson.sub_lesson_id === lesson?.sub_lesson_id
     )
     setIndexLesson(currentLessonIndex)
+  }
+
+  // Function for create assignment
+  async function createAssignments() {
+    await postLearningSublessonAndCreateAssignment(
+      { action: "create" },
+      lesson.sub_lesson_id,
+      userAuthState.user.id
+    );
   }
 
   return (
@@ -245,16 +260,20 @@ function CourseLearningPage() {
             />
 
             {/* ———————— Assignment Card ———————— */}
+            {assignment?.users_assignments.length > 0 ?
             <div className="bg-blue-100 w-full rounded-lg flex flex-col p-6 gap-[25px]">
               <div className="flex justify-between">
                 <p className="text-body1 font-body1 text-black">Assignment</p>
-                <Badge variant="pending">
-                  Pending
+                <Badge variant={assignment?.users_assignments[0].status}>
+                  {(assignment?.users_assignments[0].status) == 'inProgress' ? 'In Progress' : assignment?.users_assignments[0].status}
                 </Badge>
               </div>
 
-              <div className="flex flex-col gap-1">
-                <p>What are the 4 elements of service design?</p>
+              <div className="flex flex-col gap-3">
+                <p className="text-black text-body2 font-body2">{assignment?.question}</p>
+                {assignment?.users_assignments[0].status == 'submitted' ? 
+                <p className="text-body2 font-body2 text-gray-700 leading-body2">{assignment?.users_assignments[0].answer}</p> 
+                : 
                 <textarea
                   name="answer-assignment"
                   id="answer-assignment"
@@ -262,16 +281,25 @@ function CourseLearningPage() {
                   rows="10"
                   placeholder="Answer..."
                   className="w-full h-[100px] resize-none hide-scroll p-3 rounded-lg border border-gray-400 outline-none"
-                ></textarea>
+                ></textarea>}
+                
               </div>
 
+              {assignment?.users_assignments[0].status == 'submitted' ? null :
               <div className="flex justify-between items-center">
                 <Button variant="primary">
-                  Send Assignment
+                    Send Assignment
                 </Button>
-                <p className="text-gray-700">Assign within 2 days</p>
+                {assignment?.countDeadline < 1 ? 
+                <p className="text-red-600">Missing</p>
+                : 
+                <p className="text-gray-700">Assign within {assignment?.countDeadline == '1' ? `${assignment?.countDeadline} day` : `${assignment?.countDeadline} days`}</p>
+                }
               </div>
-            </div>
+              }
+              
+
+            </div> : null}
           </div>
         )}
       </section>
