@@ -119,15 +119,15 @@ const useCourses = () => {
       console.log("post Learning Sub lesson error:", error);
     }
   }
-  async function postSubmittedAssignments(data, assignment_id) {
+  async function postSubmittedAssignments(data, assignment_id, user_id) {
     try {
-      const result = await axios.put(`http://localhost:4000/assignment/${assignment_id}`, data)
+      const result = await axios.put(`http://localhost:4000/assignments/${assignment_id}?user=${user_id}`, data)
       return result
     } catch (error) {
       console.log("post Learning Sub lesson error:", error);
     }
   }
-  
+
   return {
     courses,
     getCourses,

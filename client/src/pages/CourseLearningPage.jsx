@@ -135,18 +135,17 @@ function CourseLearningPage() {
   // Function for create assignment
   async function createAssignments() {
     await postLearningSublessonAndCreateAssignment(
-      { action: "create"},
+      { action: "create" },
       lesson.sub_lesson_id,
       userAuthState.user.id
     );
   }
 
-async function submitAssignments(event){
-   await postSubmittedAssignments(
+  async function submitAssignments() {
+    await postSubmittedAssignments(
       {
         status: "submitted",
-        created_at: event.target.created_at,
-        action: "end",
+        action: "submit",
         answer: answer,
         submitted_time: new Date()
       },
@@ -154,7 +153,7 @@ async function submitAssignments(event){
       userAuthState.user.id
     )
   }
-
+ 
 
   return (
     <>
@@ -207,8 +206,8 @@ async function submitAssignments(event){
                           return (
                             <li
                               className={sub_lesson.sub_lesson_id === lesson?.sub_lesson_id ?
-                              "flex items-center px-2 py-3 gap-4 rounded-lg bg-gray-300 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300" :
-                              "flex items-center px-2 py-3 gap-4 rounded-lg hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300"}
+                                "flex items-center px-2 py-3 gap-4 rounded-lg bg-gray-300 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300" :
+                                "flex items-center px-2 py-3 gap-4 rounded-lg hover:cursor-pointer hover:bg-gray-200 active:bg-gray-300"}
                               key={index}
                               onClick={() => {
                                 navigate(
@@ -217,24 +216,24 @@ async function submitAssignments(event){
                               }}
                             >
                               {sub_lesson.users_sub_lessons[0]?.status === "complete" ?
-                              <img
-                                src="/image/icon/complete.png"
-                                alt="icon-status"
-                                className="w-[18px] h-[18px]"
-                              />
-                              : 
-                              sub_lesson.users_sub_lessons[0]?.status === "inProgress" ?
-                              <img
-                                src="/image/icon/watched.png"
-                                alt="icon-status"
-                                className="w-[18px] h-[18px]"
-                              />
-                              :
-                              <img
-                                src="/image/icon/no-watch.png"
-                                alt="icon-status"
-                                className="w-[18px] h-[18px]"
-                              />
+                                <img
+                                  src="/image/icon/complete.png"
+                                  alt="icon-status"
+                                  className="w-[18px] h-[18px]"
+                                />
+                                :
+                                sub_lesson.users_sub_lessons[0]?.status === "inProgress" ?
+                                  <img
+                                    src="/image/icon/watched.png"
+                                    alt="icon-status"
+                                    className="w-[18px] h-[18px]"
+                                  />
+                                  :
+                                  <img
+                                    src="/image/icon/no-watch.png"
+                                    alt="icon-status"
+                                    className="w-[18px] h-[18px]"
+                                  />
                               }
                               <p>{sub_lesson.name}</p>
                             </li>
@@ -278,46 +277,46 @@ async function submitAssignments(event){
 
             {/* ———————— Assignment Card ———————— */}
             {assignment?.users_assignments.length > 0 ?
-            <div className="bg-blue-100 w-full rounded-lg flex flex-col p-6 gap-[25px]">
-              <div className="flex justify-between">
-                <p className="text-body1 font-body1 text-black">Assignment</p>
-                <Badge variant={assignment?.users_assignments[0].status}>
-                  {(assignment?.users_assignments[0].status) == 'inProgress' ? 'In Progress' : assignment?.users_assignments[0].status}
-                </Badge>
-              </div>
+              <div className="bg-blue-100 w-full rounded-lg flex flex-col p-6 gap-[25px]">
+                <div className="flex justify-between">
+                  <p className="text-body1 font-body1 text-black">Assignment</p>
+                  <Badge variant={assignment?.users_assignments[0].status}>
+                    {(assignment?.users_assignments[0].status) == 'inProgress' ? 'In Progress' : assignment?.users_assignments[0].status}
+                  </Badge>
+                </div>
 
-              <div className="flex flex-col gap-3">
-                <p className="text-black text-body2 font-body2">{assignment?.question}</p>
-                {assignment?.users_assignments[0].status == 'submitted' ? 
-                <p className="text-body2 font-body2 text-gray-700 leading-body2">{assignment?.users_assignments[0].answer}</p> 
-                : 
-                <textarea
-                  onChange={(event)=>{setAnswer(event.target.value)}}
-                  name="answer-assignment"
-                  id="answer-assignment"
-                  cols="30"
-                  rows="10"
-                  placeholder="Answer..."
-                  className="w-full h-[100px] resize-none hide-scroll p-3 rounded-lg border border-gray-400 outline-none"
-                ></textarea>}
-                
-              </div>
+                <div className="flex flex-col gap-3">
+                  <p className="text-black text-body2 font-body2">{assignment?.question}</p>
+                  {assignment?.users_assignments[0].status == 'submitted' ?
+                    <p className="text-body2 font-body2 text-gray-700 leading-body2">{assignment?.users_assignments[0].answer}</p>
+                    :
+                    <textarea
+                      onChange={(event) => { setAnswer(event.target.value) }}
+                      name="answer-assignment"
+                      id="answer-assignment"
+                      cols="30"
+                      rows="10"
+                      placeholder="Answer..."
+                      className="w-full h-[100px] resize-none hide-scroll p-3 rounded-lg border border-gray-400 outline-none"
+                    ></textarea>}
 
-              {assignment?.users_assignments[0].status == 'submitted' ? null :
-              <div className="flex justify-between items-center">
-                <Button variant="primary" onClick={()=>{submitAssignments}}>
-                    Send Assignment
-                </Button>
-                {assignment?.countDeadline < 1 ? 
-                <p className="text-red-600">Missing</p>
-                : 
-                <p className="text-gray-700">Assign within {assignment?.countDeadline == '1' ? `${assignment?.countDeadline} day` : `${assignment?.countDeadline} days`}</p>
+                </div>
+
+                {assignment?.users_assignments[0].status == 'submitted' ? null :
+                  <div className="flex justify-between items-center">
+                    <Button variant="primary" onClick={submitAssignments}>
+                      Send Assignment
+                    </Button>
+                    {assignment?.countDeadline < 1 ?
+                      <p className="text-red-600">Missing</p>
+                      :
+                      <p className="text-gray-700">Assign within {assignment?.countDeadline == '1' ? `${assignment?.countDeadline} day` : `${assignment?.countDeadline} days`}</p>
+                    }
+                  </div>
                 }
-              </div>
-              }
-              
 
-            </div> : null}
+
+              </div> : null}
           </div>
         )}
       </section>
