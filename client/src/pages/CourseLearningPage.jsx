@@ -380,7 +380,7 @@ function CourseLearningPage() {
                       Send Assignment
                   </Button>
                   <Button 
-                  variant="primary" 
+                  variant="draft" 
                   onClick={()=>{setSaveIsLoading(true); handleSaveDraft()}}
                   isLoading={saveIsLoading}
                   loadingText='Saving'>

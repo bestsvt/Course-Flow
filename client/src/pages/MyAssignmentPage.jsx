@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 function MyAssignmentPage() {
   const { userAuthState } = useAuth();
   const [assignments, setAssignments] = useState();
+  const [status, setStatus] = useState();
 
   async function getAssignments() {
     const result = await axios.get(`http://localhost:4000/assignments?user=${userAuthState.user.id}`);
@@ -23,9 +24,7 @@ function MyAssignmentPage() {
   }
   useEffect(() => {
     getAssignments()
-  }, []);
-
-  console.log(assignments);
+  }, [status]);
 
   return (
     <>
@@ -73,7 +72,7 @@ function MyAssignmentPage() {
                       courseName={assignment.course_name}
                       lessonName={assignment.lesson_name}
                       subLessonName={assignment.sub_lesson_name}
-                      status={assignment.status}
+                      assignmentStatus={assignment.status}
                       question={assignment.question}
                       answer={assignment.answer}
                       duration={assignment.duration}
@@ -81,6 +80,9 @@ function MyAssignmentPage() {
                       subLessonId={assignment.sub_lesson_id}
                       createdAt={assignment.created_at}
                       countDeadline={assignment.countDeadline}
+                      assignmentId={assignment.assignment_id}
+                      status={status}
+                      setStatus={setStatus}
                       />
                     )
                   })}
@@ -97,7 +99,7 @@ function MyAssignmentPage() {
                       courseName={assignment.course_name}
                       lessonName={assignment.lesson_name}
                       subLessonName={assignment.sub_lesson_name}
-                      status={assignment.status}
+                      assignmentStatus={assignment.status}
                       question={assignment.question}
                       answer={assignment.answer}
                       duration={assignment.duration}
@@ -105,6 +107,9 @@ function MyAssignmentPage() {
                       subLessonId={assignment.sub_lesson_id}
                       createdAt={assignment.created_at}
                       countDeadline={assignment.countDeadline}
+                      assignmentId={assignment.assignment_id}
+                      status={status}
+                      setStatus={setStatus}
                       />
                     )
                   })}
@@ -121,7 +126,7 @@ function MyAssignmentPage() {
                       courseName={assignment.course_name}
                       lessonName={assignment.lesson_name}
                       subLessonName={assignment.sub_lesson_name}
-                      status={assignment.status}
+                      assignmentStatus={assignment.status}
                       question={assignment.question}
                       answer={assignment.answer}
                       duration={assignment.duration}
@@ -129,6 +134,9 @@ function MyAssignmentPage() {
                       subLessonId={assignment.sub_lesson_id}
                       createdAt={assignment.created_at}
                       countDeadline={assignment.countDeadline}
+                      assignmentId={assignment.assignment_id}
+                      status={status}
+                      setStatus={setStatus}
                       />
                     )
                   })}
@@ -145,7 +153,7 @@ function MyAssignmentPage() {
                       courseName={assignment.course_name}
                       lessonName={assignment.lesson_name}
                       subLessonName={assignment.sub_lesson_name}
-                      status={assignment.status}
+                      assignmentStatus={assignment.status}
                       question={assignment.question}
                       answer={assignment.answer}
                       duration={assignment.duration}
@@ -153,6 +161,9 @@ function MyAssignmentPage() {
                       subLessonId={assignment.sub_lesson_id}
                       createdAt={assignment.created_at}
                       countDeadline={assignment.countDeadline}
+                      assignmentId={assignment.assignment_id}
+                      status={status}
+                      setStatus={setStatus}
                       />
                     )
                   })}
@@ -169,7 +180,7 @@ function MyAssignmentPage() {
                       courseName={assignment.course_name}
                       lessonName={assignment.lesson_name}
                       subLessonName={assignment.sub_lesson_name}
-                      status={assignment.status}
+                      assignmentStatus={assignment.status}
                       question={assignment.question}
                       answer={assignment.answer}
                       duration={assignment.duration}
@@ -177,6 +188,9 @@ function MyAssignmentPage() {
                       subLessonId={assignment.sub_lesson_id}
                       createdAt={assignment.created_at}
                       countDeadline={assignment.countDeadline}
+                      assignmentId={assignment.assignment_id}
+                      status={status}
+                      setStatus={setStatus}
                       />
                     )
                   })}
