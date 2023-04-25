@@ -38,6 +38,7 @@ function CourseLearningPage() {
   const [progress, setProgress] = useState();
   const [videoStatus, setVideoStatus] = useState();
   const [answer, setAnswer] = useState();
+  const [draft, setDraft] = useState();
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
@@ -152,6 +153,19 @@ function CourseLearningPage() {
       assignment.assignment_id,
       userAuthState.user.id
     )
+  }
+
+  async function draftAssignment(event){
+    await postSubmittedAssignments(
+    {
+          status: "in progress",
+          action: "draft",
+          answer: answer,
+          update_at: new Date()
+        },
+        assignment.assignment_id,
+        userAuthState.user.id
+  )
   }
  
 
@@ -306,6 +320,9 @@ function CourseLearningPage() {
                   <div className="flex justify-between items-center">
                     <Button variant="primary" onClick={submitAssignments}>
                       Send Assignment
+                    </Button>
+                    <Button variant="primary" onClick={draftAssignment}>
+	                    Send Draft
                     </Button>
                     {assignment?.countDeadline < 1 ?
                       <p className="text-red-600">Missing</p>
