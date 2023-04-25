@@ -2,6 +2,7 @@ import express from "express";
 import authRouter from "./routes/auth.js"
 import userRouter from "./routes/user.js";
 import coursesRouter from "./routes/courses.js";
+import assignmentRouter from "./routes/assignments.js"
 import cors from 'cors';
 import dotenv from "dotenv";
 import cloudinary from "cloudinary";
@@ -24,6 +25,7 @@ async function init() {
     app.use("/auth", authRouter);
     app.use("/user", userRouter);
     app.use("/courses", coursesRouter);
+    app.use("/assignments", assignmentRouter);
 
     app.get("*", (req, res) => {
       res.status(404).send("Not found");
