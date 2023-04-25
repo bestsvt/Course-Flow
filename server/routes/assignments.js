@@ -4,6 +4,8 @@ import { protect } from "../middlewares/protect.js";
 
 const assignmentsRouter = Router();
 
+assignmentsRouter.get("/", assignments_controller.getAllAssignment);
+
 assignmentsRouter.use(protect);
 
 assignmentsRouter.put("/:assignmentId/save", assignments_controller.putSaveDraftAssignment);

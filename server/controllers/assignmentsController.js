@@ -1,5 +1,53 @@
 import { supabase } from "../utils/db.js";
 
+async function getAllAssignment(req, res) {
+
+  const userId = req.query.user
+
+  try {
+    const { data: assignments } = await supabase
+      .from("getallassignments")
+      .select()
+      .eq('user_id', userId)
+      .order("created_at", { ascending: false })
+
+    function checkDeadLine(createDate, duration) {
+        const createTime = new Date(createDate);
+        const dueDate = new Date(createTime.getTime() + duration * 24 * 60 * 60 * 1000);
+        const timeDiff = dueDate.getTime() - new Date().getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return daysDiff
+    }
+
+    // loop for add deadline
+    for (let i = 0; i < assignments.length; i++) {
+      const status = assignments[i].status;
+      const duration = assignments[i].duration
+      const countDeadline = checkDeadLine(assignments[i].created_at , duration)
+      const daysAfterCreated = (new Date() - new Date(assignments[i].created_at))/(1000 * 60 * 60 * 24)
+
+      // add deadline
+      assignments[i].countDeadline = countDeadline
+
+      // Check ว่าสร้างมาแล้วกี่วัน มากกว่า duration ของ assignment ไหม
+      // และมี status ต้องไม่เท่ากับ overdue / submitted
+      if (daysAfterCreated >= duration && status !== 'overdue' && status !== 'submitted' && status !== 'submitted late') {
+        await supabase
+          .from("users_assignments")
+          .update({ status: "overdue", updated_at: new Date()})
+          .eq('user_assignment_id', assignments[i].user_assignment_id);
+      }
+  
+    }
+    
+    return res.json({
+      data: assignments
+    });
+  } catch (error) {
+    console.log("get All Assignment error: ", error);
+  }
+}
+
 async function putSaveDraftAssignment(req, res) {
   const answer = req.body.answer
   const userId = req.query.user
@@ -77,5 +125,6 @@ async function putSubmitAssignment(req, res) {
 
 export {
   putSaveDraftAssignment,
-  putSubmitAssignment
+  putSubmitAssignment,
+  getAllAssignment
 };
