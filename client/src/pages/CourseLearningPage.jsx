@@ -27,7 +27,8 @@ function CourseLearningPage() {
     getSubLessonById,
     postLearningSublessonAndCreateAssignment,
     getCoursesByIdWithOutLoading,
-    getSubLessonByIdWithOutLoading
+    getSubLessonByIdWithOutLoading,
+    postSubmittedAssignments
   } = useCourses();
   const navigate = useNavigate();
   const [lesson, setLesson] = useState();
@@ -36,6 +37,7 @@ function CourseLearningPage() {
   const [indexLesson, setIndexLesson] = useState();
   const [progress, setProgress] = useState();
   const [videoStatus, setVideoStatus] = useState();
+  const [answer, setAnswer] = useState();
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
@@ -133,11 +135,26 @@ function CourseLearningPage() {
   // Function for create assignment
   async function createAssignments() {
     await postLearningSublessonAndCreateAssignment(
-      { action: "create" },
+      { action: "create"},
       lesson.sub_lesson_id,
       userAuthState.user.id
     );
   }
+
+async function submitAssignments(event){
+   await postSubmittedAssignments(
+      {
+        status: "submitted",
+        created_at: event.target.created_at,
+        action: "end",
+        answer: answer,
+        submitted_time: new Date()
+      },
+      assignment.assignment_id,
+      userAuthState.user.id
+    )
+  }
+
 
   return (
     <>
@@ -275,6 +292,7 @@ function CourseLearningPage() {
                 <p className="text-body2 font-body2 text-gray-700 leading-body2">{assignment?.users_assignments[0].answer}</p> 
                 : 
                 <textarea
+                  onChange={(event)=>{setAnswer(event.target.value)}}
                   name="answer-assignment"
                   id="answer-assignment"
                   cols="30"
@@ -287,7 +305,7 @@ function CourseLearningPage() {
 
               {assignment?.users_assignments[0].status == 'submitted' ? null :
               <div className="flex justify-between items-center">
-                <Button variant="primary">
+                <Button variant="primary" onClick={()=>{submitAssignments}}>
                     Send Assignment
                 </Button>
                 {assignment?.countDeadline < 1 ? 
