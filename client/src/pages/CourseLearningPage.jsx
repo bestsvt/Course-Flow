@@ -15,8 +15,18 @@ import {
   Box,
   Badge,
   Spinner,
+  useToast,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  useDisclosure
 } from "@chakra-ui/react";
 import useCourses from "../hooks/useCourses";
+import axios from "axios";
 
 function CourseLearningPage() {
   const { userAuthState } = useAuth();
@@ -35,13 +45,20 @@ function CourseLearningPage() {
   const [courselesson, setCourselesson] = useState();
   const [indexLesson, setIndexLesson] = useState();
   const [progress, setProgress] = useState();
-  const [videoStatus, setVideoStatus] = useState();
+  const [status, setStatus] = useState();
+  const [answer, setAnswer] = useState();
+  const [sendIsLoading, setSendIsLoading] = useState(false);
+  const [saveIsLoading, setSaveIsLoading] = useState(false);
+  const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
     const result = await getSubLessonById(userAuthState.user.id);
     setLesson(result.data[0]);
     setAssignment(result.assignment.assignments[0])
+    setAnswer(result.assignment.assignments[0].users_assignments[0]?.answer);
   }
 
   // This function work when click (Play Video)
@@ -55,9 +72,8 @@ function CourseLearningPage() {
       lesson.sub_lesson_id,
       userAuthState.user.id
     );
-    setVideoStatus("in progress")
+    setStatus("Video In-progress")
   }
-
 
   // This function work when click (Pause Video)
   async function handlePauseVideo(event) {
@@ -78,19 +94,22 @@ function CourseLearningPage() {
     createAssignments()
     postLearningSublessonAndCreateAssignment(
       {
-        status: "complete",
+        status: "watched",
         current_time: event.target.currentTime,
         action: "end",
       },
       lesson.sub_lesson_id,
       userAuthState.user.id
     );
-    setVideoStatus("complete")
+    setStatus("Video End")
   }
 
   // This function set start time video
   async function handleLoadedMetadata(event) {
     event.target.currentTime = lesson?.users_sub_lessons[0]?.current_time || 0;
+    if (lesson?.users_sub_lessons[0]?.current_time >= event.target.duration) {
+      event.target.currentTime = 0
+    }
   }
 
   // fetch data when click sublesson / refresh
@@ -113,12 +132,14 @@ function CourseLearningPage() {
       const result = await getCoursesByIdWithOutLoading(userAuthState.user.id);
       setCourselesson(result.data.allLessons)
       setProgress(Math.round(result.data.totalProgress))
-      setVideoStatus()
+      setStatus()
       const results = await getSubLessonByIdWithOutLoading(userAuthState.user.id);
       setAssignment(results.assignment.assignments[0])
+      setAnswer(results.assignment.assignments[0].users_assignments[0]?.answer);
     }
     fetch();
-  }, [videoStatus]);
+    setSaveIsLoading(false)
+  }, [status]);
 
   // Function for button previous and next lesson
   function navigateLesson() {
@@ -137,6 +158,65 @@ function CourseLearningPage() {
       lesson.sub_lesson_id,
       userAuthState.user.id
     );
+  }
+
+  // Function Save draft answer
+  async function handleSaveDraft() {
+    if (answer == null) {
+      toast({
+        title: "You haven't typed anything. Please enter your answer before saving as a draft.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } else {
+      const result = await axios.put(`http://localhost:4000/assignments/${assignment.assignment_id}/save?user=${userAuthState.user.id}`,
+      {answer: answer},
+      );
+      toast({
+        title: result.data.message,
+        isClosable: true,
+        position: 'top',
+        status: 'success',
+        colorScheme: "blue",
+        duration: 5000
+      })
+      setStatus("Save Draft Assignment")
+    }
+    setSaveIsLoading(false)
+  }
+
+  // Function send answer
+  async function handleSubmitAssignment() {
+    if (answer == null) {
+      toast({
+        title: "You haven't typed anything. Please enter your answer before submitting.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+      
+    } else {
+    const result = await axios.put(`http://localhost:4000/assignments/${assignment.assignment_id}/submit?user=${userAuthState.user.id}`, 
+    { 
+      answer: answer,
+      subLessonId: lesson.sub_lesson_id
+    }
+    );
+    toast({
+      title: result.data.message,
+      isClosable: true,
+      position: 'top',
+      status: 'success',
+      colorScheme: "blue",
+      duration: 5000
+    })
+    setStatus("Submit Assignment")
+    }
+    onClose()
+    setSendIsLoading(false)
   }
 
   return (
@@ -206,6 +286,7 @@ function CourseLearningPage() {
                                 className="w-[18px] h-[18px]"
                               />
                               : 
+                              sub_lesson.users_sub_lessons[0]?.status === "watched" || 
                               sub_lesson.users_sub_lessons[0]?.status === "inProgress" ?
                               <img
                                 src="/image/icon/watched.png"
@@ -271,7 +352,8 @@ function CourseLearningPage() {
 
               <div className="flex flex-col gap-3">
                 <p className="text-black text-body2 font-body2">{assignment?.question}</p>
-                {assignment?.users_assignments[0].status == 'submitted' ? 
+                {assignment?.users_assignments[0].status == 'submitted' ||
+                assignment?.users_assignments[0].status == 'submitted late' ? 
                 <p className="text-body2 font-body2 text-gray-700 leading-body2">{assignment?.users_assignments[0].answer}</p> 
                 : 
                 <textarea
@@ -281,15 +363,31 @@ function CourseLearningPage() {
                   rows="10"
                   placeholder="Answer..."
                   className="w-full h-[100px] resize-none hide-scroll p-3 rounded-lg border border-gray-400 outline-none"
+                  value={answer ? answer : ''}
+                  onChange={(e) => setAnswer(e.target.value)}
                 ></textarea>}
                 
               </div>
 
-              {assignment?.users_assignments[0].status == 'submitted' ? null :
+              {assignment?.users_assignments[0].status == 'submitted' ||
+                assignment?.users_assignments[0].status == 'submitted late' ? null :
               <div className="flex justify-between items-center">
-                <Button variant="primary">
-                    Send Assignment
-                </Button>
+                <div className="flex justify-center items-center gap-6 ">
+                  <Button 
+                  variant="primary" 
+                  onClick={()=>{setSendIsLoading(true); onOpen()}}
+                  isLoading={sendIsLoading}
+                  loadingText='Submitting'>
+                      Send Assignment
+                  </Button>
+                  <Button 
+                  variant="primary" 
+                  onClick={()=>{setSaveIsLoading(true); handleSaveDraft()}}
+                  isLoading={saveIsLoading}
+                  loadingText='Saving'>
+                      Save as draft
+                  </Button>
+                </div>
                 {assignment?.countDeadline < 1 ? 
                 <p className="text-red-600">Missing</p>
                 : 
@@ -297,9 +395,30 @@ function CourseLearningPage() {
                 }
               </div>
               }
-              
-
             </div> : null}
+            <AlertDialog
+              motionPreset='slideInBottom'
+              leastDestructiveRef={cancelRef}
+              onClose={onClose}
+              isOpen={isOpen}
+              isCentered
+            >
+              <AlertDialogOverlay />
+              <AlertDialogContent borderRadius={24}>
+                <AlertDialogHeader className="text-body1 font-body1 text-black" >
+                  Confirmation
+                </AlertDialogHeader>
+                <hr className="h-[1px] bg-gray-300 mb-3" />
+                <AlertDialogCloseButton onClick={()=>{setSendIsLoading(false)}}/>
+                <AlertDialogBody className="text-body2 font-body2 text-gray-700">
+                Are you sure you want to send this assignment? Once it's sent, you won't be able to make any changes.
+                </AlertDialogBody>
+                <AlertDialogFooter gap={3}>
+                  <Button variant="secondary" ref={cancelRef} onClick={()=>{onClose();setSendIsLoading(false)}}>Cancel</Button>
+                  <Button variant="primary" onClick={()=>{handleSubmitAssignment()}}>Send Assignment</Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         )}
       </section>

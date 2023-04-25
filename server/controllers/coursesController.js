@@ -202,7 +202,7 @@ async function getSubLessonById(req, res) {
       assignment[0].assignments[0].countDeadline = countDeadline
       // Check ว่าสร้างมาแล้วกี่วัน มากกว่า duration ของ assignment ไหม
       // และมี status ต้องไม่เท่ากับ overdue / submitted
-      if (daysAfterCreated >= duration && status !== 'overdue' && status !== 'submitted') {
+      if (daysAfterCreated >= duration && status !== 'overdue' && status !== 'submitted' && status !== 'submitted late') {
         await supabase
           .from("users_assignments")
           .update({ status: "overdue", updated_at: new Date()})
@@ -235,7 +235,7 @@ async function postLearningSublessonAndCreateAssignment(req, res) {
       .select()
       .match({ user_id: userId, sub_lesson_id: subLessonId });
 
-    if (action == "play" && status !== "complete" && data.length == 0) {
+    if (action == "play" && status !== 'watched' && status !== "complete" && data.length == 0) {
       updateStatus = {
         user_id: userId,
         sub_lesson_id: subLessonId,

@@ -242,7 +242,17 @@ const components = {
       },
       inProgress : {
         color: "#3557CF",
-        backgroundColor: "#EBF0FF",
+        backgroundColor: "#D2DCFF",
+        fontSize: "14px",
+        fontWight: 500,
+        lineHeight: "150%",
+        padding: "4px 8px 4px 8px",
+        borderRadius: "6px",
+        textTransform: "capitalize",
+      },
+      'submitted late' : {
+        color: "#F1D3BB",
+        backgroundColor: "#A12830",
         fontSize: "14px",
         fontWight: 500,
         lineHeight: "150%",
