@@ -1,12 +1,46 @@
-import React from 'react'
+import React from "react";
+import { HiOutlineBookOpen, HiOutlineClipboardCheck, HiOutlineLogout } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const SidebarAdmin = () => {
+  const navigate = useNavigate();
   return (
-    <section className='w-[320px] h-screen bg-pink-200 flex flex-col items-center'>
-      <img src="/image/logo/CourseFlow.png" alt="" className='w-[240px]'/>
-      <h1>Admin Panel Control</h1>
-    </section>
-  ) 
-}
+    <section className="w-[320px] h-screen bg-white border-r divide-solid  border-[#D6D9E4]">
+      <div className="p-10 text-center">
+        <img
+          src="/image/logo/CourseFlow.png"
+          alt="logo"
+          className="w-[240px] mb-6"
+        />
+        <h1 className="mb-16 text-[#646D89]">Admin Panel Control</h1>
+      </div>
 
-export default SidebarAdmin
+      <div className="flex text-[#424C6B] font-headline1  w-ful py-4 px-6 items-center gap-4 cursor-pointer hover:bg-gray-200 active:bg-gray-200"
+      onClick={()=>{navigate('/admin/courselist')}}
+      >
+        <span className="text-blue-300 text-lg">
+          <HiOutlineBookOpen />
+        </span>
+        <span>Course</span>
+      </div>
+      <div className="flex text-[#424C6B] font-headline1  w-full py-4 px-6 mb-[468px] items-center gap-4 cursor-pointer hover:bg-gray-200" 
+      onClick={()=>{navigate('/admin/assignmentlist')}}
+      >
+        <span className="text-blue-300 text-lg">
+          <HiOutlineClipboardCheck />
+        </span>
+        <span>Assignment</span>
+      </div>
+      <div className="flex text-[#424C6B] font-headline1  w-full py-4 px-6 items-center gap-4 cursor-pointer hover:bg-gray-200"
+      onClick={()=>{navigate('/admin/login')}}
+      >
+        <span className="text-blue-300 text-lg">
+          <HiOutlineLogout />
+        </span>
+        <span>Log out</span>
+      </div>
+    </section>
+  );
+};
+
+export default SidebarAdmin;
