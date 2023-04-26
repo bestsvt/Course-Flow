@@ -51,8 +51,8 @@ function Navbar() {
                 <MenuItem icon={<HiOutlineBookOpen className="text-blue-300 text-lg" />} onClick={() => { navigate("/mycourses")}}>
                   <p className="text-gray-700 font-headline1">My Courses</p>
                 </MenuItem>
-                <MenuItem icon={<HiOutlineClipboardCheck className="text-blue-300 text-lg" />} >
-                  <p className="text-gray-700 font-headline1">My Homework</p>
+                <MenuItem icon={<HiOutlineClipboardCheck className="text-blue-300 text-lg" />} onClick={() => { navigate("/myassignments")}}>
+                  <p className="text-gray-700 font-headline1">My Assignments</p>
                 </MenuItem>
                 <MenuItem icon={<FaRegStar className="text-blue-300 text-lg" />} onClick={() => { navigate("/desire")}}>
                   <p className="text-gray-700 font-headline1">My Desire Courses</p>

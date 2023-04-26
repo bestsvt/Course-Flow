@@ -92,6 +92,32 @@ const components = {
         color: "gray.500",
         opacity: 1,
       },
+    },
+    draft:{
+      bg: "white",
+      color: "blue.500",
+      boxShadow: "shadow1",
+      border: '1px solid',
+      borderRadius: "12px",
+      height: "60px",
+      fontSizes: "16px",
+      fontWeight: 700,
+      padding: "18px 32px",
+      _hover: {
+        color: "blue.100",
+        _disabled: {
+          color: "gray.600",
+          bg: "gray.400",
+          opacity: 1,
+        },
+      },
+      _active: {
+        color: "blue.500",
+      },
+      _disabled: {
+        color: "gray.500",
+        opacity: 1,
+      },
     }
   }},
 

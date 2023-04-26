@@ -20,7 +20,7 @@ function AuthenticatedApp() {
         <Route path="/desire" element={<DesireCoursePage />} />
         <Route path="/courses/:courseId" element={<CourseDetailPage />} />
         <Route path="/courses/:courseId/learning/:subLessonId" element={<CourseLearningPage />} />
-        <Route path="/myassignment" element={<MyAssignmentPage />} />
+        <Route path="/myassignments" element={<MyAssignmentPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

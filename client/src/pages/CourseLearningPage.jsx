@@ -197,7 +197,6 @@ function CourseLearningPage() {
         status: 'error',
         duration: 5000
       })
-      
     } else {
     const result = await axios.put(`http://localhost:4000/assignments/${assignment.assignment_id}/submit?user=${userAuthState.user.id}`, 
     { 
@@ -381,7 +380,7 @@ function CourseLearningPage() {
                       Send Assignment
                   </Button>
                   <Button 
-                  variant="primary" 
+                  variant="draft" 
                   onClick={()=>{setSaveIsLoading(true); handleSaveDraft()}}
                   isLoading={saveIsLoading}
                   loadingText='Saving'>
