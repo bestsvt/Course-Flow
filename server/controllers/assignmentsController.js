@@ -9,7 +9,8 @@ async function getAllAssignment(req, res) {
       .from("getallassignments")
       .select()
       .eq('user_id', userId)
-      .order("created_at", { ascending: false })
+      .order('submitted_time', {nullsFirst: true})
+      .order("created_at", { ascending: true })
 
     function checkDeadLine(createDate, duration) {
         const createTime = new Date(createDate);
