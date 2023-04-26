@@ -6,11 +6,12 @@ const SidebarAdmin = () => {
   const navigate = useNavigate();
   return (
     <section className="w-[320px] h-screen bg-white border-r divide-solid  border-[#D6D9E4]">
-      <div className="p-10 text-center">
+      <div className="flex flex-col py-10 px-8 items-center">
         <img
           src="/image/logo/CourseFlow.png"
           alt="logo"
-          className="w-[240px] mb-6"
+          className="w-[174px] h-[19px] mb-6 cursor-pointer"
+          onClick={()=>{navigate('/')}}
         />
         <h1 className="mb-16 text-[#646D89]">Admin Panel Control</h1>
       </div>
