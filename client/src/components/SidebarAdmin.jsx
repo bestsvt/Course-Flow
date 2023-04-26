@@ -2,8 +2,8 @@ import React from 'react'
 
 const SidebarAdmin = () => {
   return (
-    <div className='w-[240px] h-screen bg-pink-200'>
-      <div>SidebarAdmin</div>
+    <div className='w-[15%] h-screen bg-pink-200'>
+      <div>SidebarAdminnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn</div>
     </div>
   )
 }
