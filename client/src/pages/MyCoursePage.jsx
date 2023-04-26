@@ -40,24 +40,12 @@ function MyCoursePage() {
             <Tab fontSize="24px" textColor="black">
               All Courses
             </Tab>
-            {totalInprogress == 0 ?
-            <Tab fontSize="24px" textColor="black" isDisabled>
+            <Tab fontSize="24px" textColor="black" isDisabled={totalInprogress == 0 ? true : false}>
               Inprogress
             </Tab>
-            : 
-            <Tab fontSize="24px" textColor="black" >
-              Inprogress
-            </Tab>
-            }
-            {totalComplete == 0 ?
-            <Tab fontSize="24px" textColor="black" isDisabled>
+            <Tab fontSize="24px" textColor="black" isDisabled={totalComplete == 0 ? true : false}>
               Completed
             </Tab>
-            : 
-            <Tab fontSize="24px" textColor="black" >
-              Completed
-            </Tab>
-            }
           </TabList>
           <TabIndicator
             mt="-1.5px"

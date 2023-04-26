@@ -11,6 +11,6 @@ coursesRouter.get("/:courseId/lastSubLesson", courses_controller.getLastSubLesso
 
 coursesRouter.use(protect);
 coursesRouter.post("/:courseId", courses_controller.postSubscriptionAndDesire);
-coursesRouter.post("/:courseId/learning/:subLessonId", courses_controller.postLearningSublesson);
+coursesRouter.post("/:courseId/learning/:subLessonId", courses_controller.postLearningSublessonAndCreateAssignment);
 
 export default coursesRouter;
