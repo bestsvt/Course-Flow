@@ -63,16 +63,18 @@ function CourseLearningPage() {
 
   // This function work when click (Play Video)
   async function handlePlayVideo(event) {
-    postLearningSublessonAndCreateAssignment(
-      {
-        status: "inProgress",
-        current_time: event.target.currentTime,
-        action: "play",
-      },
-      lesson.sub_lesson_id,
-      userAuthState.user.id
-    );
-    setStatus("Video In-progress")
+    if (lesson.users_sub_lessons.length == 0) {
+      postLearningSublessonAndCreateAssignment(
+        {
+          status: "inProgress",
+          current_time: event.target.currentTime,
+          action: "play",
+        },
+        lesson.sub_lesson_id,
+        userAuthState.user.id
+      );
+      setStatus("Video In-progress")
+    }
   }
 
   // This function work when click (Pause Video)
@@ -85,7 +87,7 @@ function CourseLearningPage() {
         },
         lesson.sub_lesson_id,
         userAuthState.user.id
-      );
+      );  
     }
   }
 
