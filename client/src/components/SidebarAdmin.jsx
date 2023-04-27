@@ -33,7 +33,7 @@ const SidebarAdmin = () => {
         <span>Assignment</span>
       </div>
       <div className="flex text-[#424C6B] font-headline1  w-full py-4 px-6 items-center gap-4 cursor-pointer hover:bg-gray-200"
-      onClick={()=>{navigate('/admin/login')}}
+      onClick={()=>{navigate('/admin/')}}
       >
         <span className="text-blue-300 text-lg">
           <HiOutlineLogout />
