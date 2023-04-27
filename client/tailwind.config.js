@@ -75,7 +75,10 @@ export default {
       boxShadow: {
         shadow1: "4px 4px 24px rgba(0, 0, 0, 0.08)",
         shadow2: "2px 2px 12px rgba(64, 50, 133, 0.12)",
-      }      
+      },
+      fontFamily: {
+        nunito:'Nunito'
+      }     
     },
   },
   plugins: [],
