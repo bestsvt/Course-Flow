@@ -49,6 +49,7 @@ function CourseLearningPage() {
   const [answer, setAnswer] = useState();
   const [sendIsLoading, setSendIsLoading] = useState(false);
   const [saveIsLoading, setSaveIsLoading] = useState(false);
+  const [pauseTime, setPauseTime] = useState();
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
@@ -63,32 +64,25 @@ function CourseLearningPage() {
 
   // This function work when click (Play Video)
   async function handlePlayVideo(event) {
-    postLearningSublessonAndCreateAssignment(
-      {
-        status: "inProgress",
-        current_time: event.target.currentTime,
-        action: "play",
-      },
-      lesson.sub_lesson_id,
-      userAuthState.user.id
-    );
-    setStatus("Video In-progress")
-  }
-
-  // This function work when click (Pause Video)
-  async function handlePauseVideo(event) {
-    if (event.target.currentTime !== event.target.duration) {
+    if (lesson.users_sub_lessons.length == 0) {
       postLearningSublessonAndCreateAssignment(
         {
+          status: "inProgress",
           current_time: event.target.currentTime,
-          action: "pause",
+          action: "play",
         },
         lesson.sub_lesson_id,
         userAuthState.user.id
       );
+      setStatus("Video In-progress")
     }
   }
 
+  // This function work every time video play (to save time that play until end)
+  async function handleTimeUpdate(event) {
+      setPauseTime(event.target.currentTime)
+  }
+  
   // This function work when video end
   async function handleEndVideo(event) {
     createAssignments()
@@ -114,18 +108,49 @@ function CourseLearningPage() {
 
   // fetch data when click sublesson / refresh
   useEffect(() => {
-    async function getCourses() {
+    async function fetch() {
       const result = await getCoursesById(userAuthState.user.id);
       setCourselesson(result.data.allLessons)
       setProgress(Math.round(result.data.totalProgress))
       await getSubLesson();
     }
-    getCourses();
+    if (pauseTime !== lesson?.users_sub_lessons[0]?.current_time && pauseTime !== 0) {
+      postLearningSublessonAndCreateAssignment(
+        {
+          current_time: pauseTime,
+          action: "pause",
+        },
+        lesson.sub_lesson_id,
+        userAuthState.user.id
+      );
+      setPauseTime()
+    }
+    fetch();
   }, [navigate]);
 
   useEffect(() => {
     navigateLesson()
   }, [lesson]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (pauseTime !== lesson?.users_sub_lessons[0]?.current_time && pauseTime !== 0) {
+        postLearningSublessonAndCreateAssignment(
+          {
+            current_time: pauseTime,
+            action: "pause",
+          },
+          lesson.sub_lesson_id,
+          userAuthState.user.id
+        );
+        setPauseTime();
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [pauseTime]);
 
   useEffect(() => {
     async function fetch() {
@@ -334,9 +359,9 @@ function CourseLearningPage() {
               controls
               className="rounded-lg w-[100%] mb-[50px]"
               onPlay={handlePlayVideo}
-              onPause={handlePauseVideo}
               onEnded={handleEndVideo}
               onLoadedMetadata={handleLoadedMetadata}
+              onTimeUpdate={handleTimeUpdate}
             />
 
             {/* ———————— Assignment Card ———————— */}
@@ -385,6 +410,16 @@ function CourseLearningPage() {
                   isLoading={saveIsLoading}
                   loadingText='Saving'>
                       Save as draft
+                  </Button>
+                  <Button 
+                  variant="draft" 
+                  onClick={()=>{console.log(pauseTime)}}>
+                      Check
+                  </Button>
+                  <Button 
+                  variant="draft" 
+                  onClick={()=>{console.log(lesson?.users_sub_lessons[0]?.current_time)}}>
+                      Check2
                   </Button>
                 </div>
                 {assignment?.countDeadline < 1 ? 
