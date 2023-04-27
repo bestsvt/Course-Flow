@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import EditLessonPage from "./EditLessonPage";
 import EditCoursePage from './EditCoursePage';
-import EditAssignmentPage from './AddAssignmentPage';
+import EditAssignmentPage from './EditAssignmentPage';
 import CourseListPage from './CourseListPage';
 import AssignmentListPage from './AssignmentListPage';
 import AddLessonPage from './AddLessonPage';
