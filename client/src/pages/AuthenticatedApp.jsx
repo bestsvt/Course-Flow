@@ -32,7 +32,7 @@ function AuthenticatedApp() {
         <Route path="/myassignments" element={<MyAssignmentPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
-        <Route path="/admin/" element={<LoginPage />} />
+        {/* <Route path="/admin/" element={<LoginPage />} />
         <Route path="/admin/editlesson" element={<EditLessonPage />} />
         <Route path="/admin/editcourse" element={<EditCoursePage />} />
         <Route path="/admin/editassignment" element={<EditAssignmentPage />} />
@@ -40,7 +40,7 @@ function AuthenticatedApp() {
         <Route path="/admin/assignmentlist" element={<AssignmentListPage />} />
         <Route path="/admin/addlesson" element={<AddLessonPage />} />
         <Route path="/admin/addcourse" element={<AddCoursePage />} />
-        <Route path="/admin/addassignment" element={<AddAssignmentPage />} />
+        <Route path="/admin/addassignment" element={<AddAssignmentPage />} /> */}
 
       </Routes>
     </div>
