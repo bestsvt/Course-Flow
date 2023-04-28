@@ -71,7 +71,7 @@ function AuthProvider(props) {
   };
 
   // Check Admin logged in ?
-  // const isAdminAuthenticated = Boolean(localStorage.getItem("tokenAdmin"));
+  const isAdminAuthenticated = Boolean(localStorage.getItem("tokenAdmin"));
   
   return (
     <AuthContext.Provider
