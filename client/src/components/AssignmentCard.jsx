@@ -45,6 +45,7 @@ function AssignmentCard(props) {
         duration: 5000
       })
       props.setStatus("Save Draft Assignment")
+      setAnswer(props.answer)
     }
     setSaveIsLoading(false)
   }
@@ -63,7 +64,7 @@ function AssignmentCard(props) {
     const result = await axios.put(`http://localhost:4000/assignments/${props.assignmentId}/submit?user=${userAuthState.user.id}`, 
     { 
       answer: answer,
-      subLessonId: lesson.sub_lesson_id
+      subLessonId: props.subLessonId
     }
     );
     toast({
@@ -75,6 +76,7 @@ function AssignmentCard(props) {
       duration: 5000
     })
     props.setStatus("Submit Assignment")
+    setAnswer(props.answer)
     }
     onClose()
     setSendIsLoading(false)

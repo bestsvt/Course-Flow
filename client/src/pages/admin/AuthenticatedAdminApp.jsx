@@ -8,6 +8,7 @@ import AssignmentListPage from './AssignmentListPage';
 import AddLessonPage from './AddLessonPage';
 import AddCoursePage from './AddCoursePage';
 import AddAssignmentPage from "./AddAssignmentPage";
+import NotFoundPageAdmin from "./NotFoundPageAdmin";
 
 function AuthenticatedAdminApp() {
   return (
@@ -22,6 +23,7 @@ function AuthenticatedAdminApp() {
         <Route path="/addlesson" element={<AddLessonPage />} />
         <Route path="/addcourse" element={<AddCoursePage />} />
         <Route path="/addassignment" element={<AddAssignmentPage />} />
+        <Route path="*" element={<NotFoundPageAdmin />} />
       </Routes>
     </div>
   );

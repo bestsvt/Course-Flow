@@ -6,12 +6,11 @@ import jwtDecode from "jwt-decode";
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
+  const navigate = useNavigate();
   const [userAuthState, setUserAuthState] = useState({
     error: null,
     user: null,
   });
-
-  const navigate = useNavigate();
 
   const login = async (data) => {
     try {
@@ -51,10 +50,32 @@ function AuthProvider(props) {
     setUserAuthState({ ...userAuthState, user: userDataFromToken });
   }
   
+  // —————————————————— Admin Section ——————————————————
 
+  const [adminAuthState, setAdminAuthState] = useState({ user: null });
+  
+  // Login Admin
+  const loginAdmin = async (data) => {
+    try {
+      // Start Coding Here
+
+    } catch (error) {
+      console.log("Login Admin Error", error);
+      alert("Oops, it looks like an error has occurred. Please try again later.")
+    }
+  };
+
+  // Logout Admin
+  const logoutAdmin = () => {
+      // Start Coding Here
+  };
+
+  // Check Admin logged in ?
+  // const isAdminAuthenticated = Boolean(localStorage.getItem("tokenAdmin"));
+  
   return (
     <AuthContext.Provider
-      value={{ userAuthState, setUserAuthState, login, logout, registration, isAuthenticated }}
+      value={{ userAuthState, setUserAuthState, login, logout, registration, isAuthenticated, loginAdmin, logoutAdmin, isAdminAuthenticated }}
     >
       {props.children}
     </AuthContext.Provider>
