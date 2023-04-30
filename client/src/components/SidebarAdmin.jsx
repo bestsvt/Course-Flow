@@ -19,7 +19,7 @@ const SidebarAdmin = () => {
       </div>
 
       <div className="flex text-[#424C6B] font-headline1  w-ful py-4 px-6 items-center gap-4 cursor-pointer hover:bg-gray-200 active:bg-gray-200"
-      onClick={()=>{navigate('/admin/courselist')}}
+      onClick={()=>{navigate('/admin/')}}
       >
         <span className="text-blue-300 text-lg">
           <HiOutlineBookOpen />

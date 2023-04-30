@@ -16,7 +16,7 @@ function AuthenticatedAdminApp() {
       <Routes>
         <Route path="/" element={<CourseListPage />} />
         <Route path="/editlesson" element={<EditLessonPage />} />
-        <Route path="/editcourse" element={<EditCoursePage />} />
+        <Route path="/editcourse/:courseId" element={<EditCoursePage />} />
         <Route path="/editassignment" element={<EditAssignmentPage />} />
         <Route path="/assignmentlist" element={<AssignmentListPage />} />
         <Route path="/addlesson" element={<AddLessonPage />} />
