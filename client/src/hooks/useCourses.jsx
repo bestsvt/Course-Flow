@@ -11,7 +11,7 @@ const useCourses = () => {
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
 
-  async function getCourses(keyword, currentPage, itemsPerPage) {
+  async function getCourses(keyword, currentPage) {
     try {
       // ตัว isLoading เอาไว้ แสดง Spinner ตอนโหลด
       setIsLoading(true);
@@ -23,7 +23,6 @@ const useCourses = () => {
       const query = new URLSearchParams();
       query.append("keyword", keyword);
       query.append("currentPage", currentPage);
-      query.append("itemsPerPage", itemsPerPage);
       const results = await axios.get(
         `http://localhost:4000/courses?${query.toString()}`
       );
