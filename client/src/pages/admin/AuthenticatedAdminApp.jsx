@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "./LoginPage";
+import AdminLoginPage from "./AdminLoginPage";
 import EditLessonPage from "./EditLessonPage";
 import EditCoursePage from './EditCoursePage';
 import EditAssignmentPage from './EditAssignmentPage';
@@ -14,11 +14,10 @@ function AuthenticatedAdminApp() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<CourseListPage />} />
         <Route path="/editlesson" element={<EditLessonPage />} />
         <Route path="/editcourse" element={<EditCoursePage />} />
         <Route path="/editassignment" element={<EditAssignmentPage />} />
-        <Route path="/courselist" element={<CourseListPage />} />
         <Route path="/assignmentlist" element={<AssignmentListPage />} />
         <Route path="/addlesson" element={<AddLessonPage />} />
         <Route path="/addcourse" element={<AddCoursePage />} />

@@ -1,9 +1,11 @@
 import React from "react";
 import { HiOutlineBookOpen, HiOutlineClipboardCheck, HiOutlineLogout } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/authentication";
 
 const SidebarAdmin = () => {
   const navigate = useNavigate();
+  const { logoutAdmin } = useAuth()
   return (
     <section className="w-[320px] h-screen bg-white border-r divide-solid  border-[#D6D9E4]">
       <div className="flex flex-col py-10 px-8 items-center">
@@ -33,7 +35,7 @@ const SidebarAdmin = () => {
         <span>Assignment</span>
       </div>
       <div className="flex text-[#424C6B] font-headline1  w-full py-4 px-6 items-center gap-4 cursor-pointer hover:bg-gray-200"
-      onClick={()=>{navigate('/admin/')}}
+      onClick={logoutAdmin}
       >
         <span className="text-blue-300 text-lg">
           <HiOutlineLogout />

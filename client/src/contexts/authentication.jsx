@@ -35,10 +35,10 @@ function AuthProvider(props) {
   // logout
   const logout = () => {
     localStorage.removeItem("token")
-	  setUserAuthState({ ...userAuthState, user: null })
+    setUserAuthState({ ...userAuthState, user: null })
     navigate("/");
   };
-  
+
   const isAuthenticated = Boolean(localStorage.getItem("token"));
 
   // When Refresh state.user will change to Null
@@ -49,15 +49,16 @@ function AuthProvider(props) {
     const userDataFromToken = jwtDecode(token);
     setUserAuthState({ ...userAuthState, user: userDataFromToken });
   }
-  
+
   // —————————————————— Admin Section ——————————————————
 
   const [adminAuthState, setAdminAuthState] = useState({ user: null });
-  
+
   // Login Admin
   const loginAdmin = async (data) => {
     try {
-      // Start Coding Here
+      const result = await axios.post("http://localhost:4000/auth/loginAdmin", data);
+      return result
 
     } catch (error) {
       console.log("Login Admin Error", error);
@@ -67,15 +68,23 @@ function AuthProvider(props) {
 
   // Logout Admin
   const logoutAdmin = () => {
-      // Start Coding Here
+    localStorage.removeItem("tokenAdmin")
+    setAdminAuthState({ ...adminAuthState, user: null })
+    navigate("/admin");
   };
 
   // Check Admin logged in ?
   const isAdminAuthenticated = Boolean(localStorage.getItem("tokenAdmin"));
-  
+
+  if (isAdminAuthenticated && !adminAuthState.user) {
+    const tokenAdmin = localStorage.getItem("tokenAdmin");
+    const adminDataFromToken = jwtDecode(tokenAdmin);
+    setAdminAuthState({ ...adminAuthState, user: adminDataFromToken });
+  }
+
   return (
     <AuthContext.Provider
-      value={{ userAuthState, setUserAuthState, login, logout, registration, isAuthenticated, loginAdmin, logoutAdmin, isAdminAuthenticated }}
+      value={{ userAuthState, setUserAuthState, login, logout, registration, isAuthenticated, loginAdmin, logoutAdmin, isAdminAuthenticated , adminAuthState , setAdminAuthState}}
     >
       {props.children}
     </AuthContext.Provider>
