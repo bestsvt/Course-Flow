@@ -15,6 +15,7 @@ Th,
 Td,
 TableContainer, } from "@chakra-ui/react";
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 const AddCoursePage = () => {
   const {
@@ -23,6 +24,7 @@ const AddCoursePage = () => {
     formState: { errors, isSubmitting },
     trigger,
   } = useForm();
+  const navigate = useNavigate();
 
   return (
     <div className='flex'>
@@ -34,7 +36,7 @@ const AddCoursePage = () => {
         <nav className='h-[100px] border-gray-400 border-b bg-white flex justify-between px-10 py-4 items-center'>
             <h1 className='text-headline3 font-headline3 text-black'>Add Course</h1>
             <div className='flex gap-4'>
-              <Button variant='secondary'>Cancel</Button>
+              <Button variant='secondary' onClick={()=>{navigate('/admin')}}>Cancel</Button>
               <Button variant='primary'>Create</Button>
             </div>
         </nav>
