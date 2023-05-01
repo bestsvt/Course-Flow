@@ -8,7 +8,8 @@ import {
   FormErrorMessage,
   FormLabel,
   FormControl,
-  Link
+  Link,
+  useToast
 } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from "../../contexts/admin";
@@ -20,37 +21,36 @@ const AddLessonPage = () => {
     register,
     formState: { errors, isSubmitting },
     trigger,
-    control 
+    control,
+    watch,
+    setValue 
   } = useForm({
     defaultValues: {
-      sub_lesson: [{ sub_lesson_name: null, video: null }]
+      sub_lesson: [{ sub_lesson_name: '', video: null }]
     }
   });
   const {
     fields,
     append,
-    prepend,
     remove,
-    swap,
-    move,
-    insert,
-    replace
   } = useFieldArray({
     control,
     name: "sub_lesson"
   });
-
-  const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState('');
+  const toast = useToast()
+  const subLessons = watch("sub_lesson");
+  const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState([]);
   const navigate = useNavigate();
   const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonFiled} = useAdmin()
 
-  function handleVideoChange (event) {
+  function handleVideoChange (event, index) {
     const videoFile = event.target.files[0];
-    console.log(videoFile);
     const allowedTypes = /(\.mp4|\.mov|\.avi)$/i;
     const maxFileSize = 20 * 1024 * 1024;
     if (!allowedTypes.test(videoFile.name)) {
-      setErrorUploadVideoMessage("Invalid file type. Please select a valid video file.");
+      const newErrors = [...errorUploadVideoMessage];
+      newErrors[index] = "Invalid file type. Please select a valid video file.";
+      setErrorUploadVideoMessage(newErrors);
       toast({
         title: "Invalid file type. Please select a valid video file.",
         isClosable: true,
@@ -59,7 +59,9 @@ const AddLessonPage = () => {
         duration: 5000
       })
     } else if (videoFile.size > maxFileSize) {
-      setErrorUploadVideoMessage("File size too large. Choose an image under 20MB.");
+      const newErrors = [...errorUploadVideoMessage];
+      newErrors[index] = "File size too large. Choose an image under 20MB.";
+      setErrorUploadVideoMessage(newErrors);  
       toast({
         title: "File size too large. Choose an image under 20MB.",
         isClosable: true,
@@ -68,19 +70,26 @@ const AddLessonPage = () => {
         duration: 5000
       })
     } else {
-      setAdminCourse({...adminCourse, video_file: videoFile})
-      setAdminCourse({...adminCourse, video: URL.createObjectURL(videoFile)})
+      const newErrors = [...errorUploadVideoMessage];
+      newErrors[index] = null;
+      setErrorUploadVideoMessage(newErrors);
+      setValue(`sub_lesson.${index}.video`, videoFile);
     }
   };
   
-
-  const handleRemoveVideo = () => {
-	  setAdminCourse({...adminCourse, video_file: null})
-    setAdminCourse({...adminCourse, video: null})
-    setErrorUploadVideoMessage()
+  const handleRemoveVideo = (index) => {
+	  setValue(`sub_lesson.${index}.video`, null);
+    const newErrors = [...errorUploadVideoMessage];
+    newErrors[index] = null;
+    setErrorUploadVideoMessage(newErrors);
 	};
 
-  const onSubmit = (data) => console.log("subLesson", data);
+  function onSubmit(data) {
+    setAdminLesson([...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}])
+    setAdminCourse({...adminCourse, lesson: [...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}], testeieiei: [...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}]})
+    navigate('/admin/addcourse')
+    setAdminLessonFiled({})
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -107,7 +116,9 @@ const AddLessonPage = () => {
           </div>
           <div className="flex gap-4">
             <Button variant="secondary">Cancel</Button>
-            <Button variant="primary" type="submit">Create</Button>
+            <Button variant="primary" 
+            type="submit"
+            >Create</Button>
           </div>
         </nav>
         {/* ————————————— Content Section ————————————— */}
@@ -141,7 +152,7 @@ const AddLessonPage = () => {
             
             {fields.map((item,index) => {
               return (
-            <div className="flex flex-row gap-6 justify-between bg-gray-100 border border-[#E4E6ED] rounded-lg p-6" key={item.id}>
+            <div className="flex flex-row gap-6 justify-between bg-gray-100 border border-[#E4E6ED] rounded-lg px-6 py-9" key={item.id}>
               <img
                 src="/image/icon/drag.png"
                 alt="drag-icon"
@@ -149,17 +160,17 @@ const AddLessonPage = () => {
               />
               <div className="flex flex-col grow gap-6">
                 <FormControl isRequired>
-                  <FormLabel htmlFor="sub_lesson_name" color='black'>Sub-lesson Name</FormLabel>
+                  <FormLabel htmlFor={`sub_lesson_name${index}`} color='black'>Sub-lesson Name</FormLabel>
                   <Input
                     variant="normal"
-                    id="sub_lesson_name"
+                    id={`sub_lesson_name${index}`}
                     placeholder="Enter ..."
                     width='70%'
                     {...register(`sub_lesson.${index}.sub_lesson_name`)}
                     // onChange={(event)=>{setAdminCourse({...adminCourse , course_name: event.target.value})}}
                     // value={adminCourse.course_name}
                     onBlur={() => {
-                      trigger('sub_lesson_name');
+                      trigger(`sub_lesson_name${index}`);
                     }}
                   />
                   <FormErrorMessage>
@@ -168,43 +179,41 @@ const AddLessonPage = () => {
                 </FormControl>
 
                 {/* —————————————————— Video Section —————————————————— */}
-                
                 <div className='flex flex-col gap-2'>
                   <h1 className='text-body2 font-headline3 text-black'>
                   Video <span className='text-red-500'>*</span>
                   </h1>
                   <div className="relative flex justify-start w-[160px] h-[160px] px-0">
-                    {false ?
+                    {subLessons[index].video ?
                     <>
                     <video
                         className="rounded-2xl shadow-shadow2"
-                        // src={adminCourse.video}
+                        src={URL.createObjectURL(subLessons[index].video)}
                         controls
                       />
                     <img
                       src="/image/icon/delete.png"
                       alt="delete-button"
                       className="absolute w-[20px] h-[20px] cursor-pointer hover:opacity-90 top-2 right-2"
-                      // onClick={handleRemoveVideo}
+                      onClick={()=>{handleRemoveVideo(index)}}
                     />
                     </>
                     :
-                    <FormControl>
-                    <FormLabel htmlFor="video" className='cursor-pointer'>
+                    <FormControl isInvalid={errorUploadVideoMessage[index]}>
+                    <FormLabel htmlFor={`sub_lesson.${index}.video`} className='cursor-pointer'>
                     <Input 
                     type="file" 
                     hidden
-                    id="video"
-                    // onChange={handleVideoChange}
-                    {...register(`sub_lesson.${index}.video`)}
+                    id={`sub_lesson.${index}.video`}  
+                    onChange={(event)=>{handleVideoChange(event, index)}}
                     />
                     <div className="bg-gray-200 w-[160px] h-[160px] rounded-2xl flex flex-col justify-center text-center text-blue-400 hover:opacity-50">
                       <h1 className="text-[30px]">+</h1>
                       <h1 className="text-[15px]">Upload Video</h1>
                     </div>
                     </FormLabel>
-                    <FormErrorMessage>
-                      {/* {errorUploadVideoMessage} */}
+                    <FormErrorMessage width='500px'>
+                      {errorUploadVideoMessage[index]}
                     </FormErrorMessage>
                     </FormControl>
                     }
@@ -214,7 +223,9 @@ const AddLessonPage = () => {
               {fields.length == 1 ? 
               <div className="text-gray-500 font-bold text-base">Delete</div> 
               :
-              <Link onClick={() => remove(index)}>Delete</Link>
+              <Link onClick={() => 
+                remove(index)
+              }>Delete</Link>
               }
             </div>
               );

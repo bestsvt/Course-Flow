@@ -18,6 +18,7 @@ useToast } from "@chakra-ui/react";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '../../contexts/admin';
+import axios from 'axios';
 
 const AddCoursePage = () => {
   const {
@@ -28,11 +29,11 @@ const AddCoursePage = () => {
   } = useForm();
   const navigate = useNavigate();
   const toast = useToast()
-  const { adminCourse , setAdminCourse } = useAdmin()
+  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonFiled} = useAdmin()
   const [errorUploadCoverImageMessage, setErrorUploadCoverImageMessage] = useState('');
   const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState('');
 
-  function handleFileChange (event) {
+  function handleFileChange(event) {
     const imageFile = event.target.files[0];
     const allowedTypes = /(\.jpeg|\.png|\.jpg)$/i;
     const maxFileSize = 5 * 1024 * 1024;
@@ -55,18 +56,16 @@ const AddCoursePage = () => {
         duration: 5000
       })
     } else {
-      setAdminCourse({...adminCourse, cover_image_file: imageFile})
-      setAdminCourse({...adminCourse, cover_image: URL.createObjectURL(imageFile)})
+      setAdminCourse({...adminCourse, cover_image_file: imageFile, cover_image: URL.createObjectURL(imageFile)})
     }
   };
 
-  const handleRemoveImage = () => {
-	  setAdminCourse({...adminCourse, cover_image_file: null})
-    setAdminCourse({...adminCourse, cover_image: null})
+  function handleRemoveImage() {
+	  setAdminCourse({...adminCourse, cover_image_file: null, cover_image: null})
     setErrorUploadCoverImageMessage()
 	};
 
-  function handleVideoChange (event) {
+  function handleVideoChange(event) {
     const videoFile = event.target.files[0];
     console.log(videoFile);
     const allowedTypes = /(\.mp4|\.mov|\.avi)$/i;
@@ -90,17 +89,48 @@ const AddCoursePage = () => {
         duration: 5000
       })
     } else {
-      setAdminCourse({...adminCourse, video_file: videoFile})
-      setAdminCourse({...adminCourse, video: URL.createObjectURL(videoFile)})
+      setAdminCourse({...adminCourse, video_file: videoFile, video: URL.createObjectURL(videoFile)})
     }
   };
   
-
-  const handleRemoveVideo = () => {
-	  setAdminCourse({...adminCourse, video_file: null})
-    setAdminCourse({...adminCourse, video: null})
+  function handleRemoveVideo() {
+	  setAdminCourse({...adminCourse, video_file: null, video: null})
     setErrorUploadVideoMessage()
 	};
+
+  async function onSubmit() {
+    const formData = new FormData();
+
+    // loop for append all key in object
+    for (let key in adminCourse) {
+      // cover_image and video just show preview
+      if (key !== 'cover_image' && key !== 'video' && key !== 'lesson') {
+        formData.append(key, adminCourse[key]);
+      }
+    }
+
+    // —————————————————— อาจจะใช้หรือไม่ใช้ก็ได้ ——————————————————
+    // —————————————————— คิดต่อต้องเพิ่ม sub-lesson-video ยังไง ——————————————————
+    const lessons = adminCourse.lesson
+    for (let i = 0; i < lessons.length; i++) {
+      const lesson = lessons[i];
+      const lessonKey = `lesson[${i}]`;
+      // Append lesson name
+      formData.append(`${lessonKey}[lesson_name]`, lesson.lesson_name);
+      // Append sublesson data
+      for (let j = 0; j < lesson.sub_lesson.length; j++) {
+        const subLesson = lesson.sub_lesson[j];
+        const subLessonKey = `${lessonKey}[sub_lesson][${j}]`;
+        formData.append(`${subLessonKey}[sub_lesson_name]`, subLesson.sub_lesson_name);
+        formData.append('sub_lesson_videos', subLesson.video, subLesson.sub_lesson_name);
+      }
+    }
+    
+    const results = await axios.post(`http://localhost:4000/admin/courses`, formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  }
 
   return (
     <div className='flex'>
@@ -113,7 +143,7 @@ const AddCoursePage = () => {
             <h1 className='text-headline3 font-headline3 text-black'>Add Course</h1>
             <div className='flex gap-4'>
               <Button variant='secondary' onClick={()=>{navigate('/admin')}}>Cancel</Button>
-              <Button variant='primary'>Create</Button>
+              <Button variant='primary' onClick={onSubmit}>Create</Button>
             </div>
         </nav>
         {/* ————————————— Content Section ————————————— */}
@@ -327,6 +357,7 @@ const AddCoursePage = () => {
             </Button>
           </div>
           {/* Lesson Table Section */}
+          {adminLesson.length > 0 ?
           <TableContainer borderRadius={10}>
             <Table>
               <Thead >
@@ -339,53 +370,25 @@ const AddCoursePage = () => {
               </Thead>
               <Tbody bg='white' color='black'>
                 {/* Wating Map Data */}
-                <Tr>
-                  <Td>1</Td>
-                  <Td>Introduction</Td>
-                  <Td>10</Td>
-                  <Td>
-                    <div className='flex gap-4 justify-center'>
-                      <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]'/>
-                      <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]'/>
-                    </div>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td>2</Td>
-                  <Td>Service Design Theories and Principles</Td>
-                  <Td>10</Td>
-                  <Td>
-                    <div className='flex gap-4 justify-center'>
-                      <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]'/>
-                      <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]'/>
-                    </div>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td>3</Td>
-                  <Td>Understanding Users and Finding Opportunities</Td>
-                  <Td>10</Td>
-                  <Td>
-                    <div className='flex gap-4 justify-center'>
-                      <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]'/>
-                      <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]'/>
-                    </div>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td>4</Td>
-                  <Td>Identifying and Validating Opportunities for Design</Td>
-                  <Td>10</Td>
-                  <Td>
-                    <div className='flex gap-4 justify-center'>
-                      <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]'/>
-                      <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]'/>
-                    </div>
-                  </Td>
-                </Tr>
+                {adminLesson.map((lesson,index)=>{
+                  return (
+                    <Tr key={index}>
+                      <Td>{index + 1}</Td>
+                      <Td>{lesson.lesson_name}</Td>
+                      <Td>{lesson.sub_lesson.length}</Td>
+                      <Td>
+                        <div className='flex gap-4 justify-center'>
+                          <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]'/>
+                          <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]'/>
+                        </div>
+                      </Td>
+                    </Tr>
+                  )
+                })}
               </Tbody>
             </Table>
           </TableContainer>
+          : null}
 
         
         </div>

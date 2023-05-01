@@ -1,4 +1,5 @@
 import { supabase } from "../utils/db.js";
+import { cloudinaryUpload } from "../utils/upload.js";
 
 async function getAllCourses(req, res) {
     const keyword = req.query.keyword;
@@ -49,8 +50,26 @@ async function getAllCourses(req, res) {
   async function createCourse(req, res) {
     
     try {
-
-      
+      let createCourse = {
+        name: req.body.course_name,
+        course_detail: req.body.course_detail,
+        category: req.body.category,
+        price: req.body.price,
+        total_learning_time: req.body.learning_time,
+        course_summary: req.body.summary,
+        created_at: new Date(),
+        update_at: new Date()
+      }
+      // createCourse.image_cover = await cloudinaryUpload(
+      //   ...req.files.cover_image_file,
+      //   "upload",
+      //   "cover_image_course"
+      // );
+      // createCourse.video_trailer = await cloudinaryUpload(
+      //   ...req.files.video_file,
+      //   "upload",
+      //   "video_trailer_course"
+      // );
 
       return res.json({
         message: 'Course Created successfully!'
