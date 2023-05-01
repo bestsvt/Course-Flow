@@ -105,7 +105,6 @@ const CourseListPage = () => {
       const results = await axios.delete(
         `http://localhost:4000/admin/courses/${courseId}`
       );
-      console.log(results);
       setIsLoading(false)
     } catch (error) {
       console.log("Delete courses Admin error:", error);

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SidebarAdmin from '../../components/SidebarAdmin';
 import { 
 Input,
@@ -13,9 +13,11 @@ Tbody,
 Tr,
 Th,
 Td,
-TableContainer, } from "@chakra-ui/react";
+TableContainer,
+useToast } from "@chakra-ui/react";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useAdmin } from '../../contexts/admin';
 
 const AddCoursePage = () => {
   const {
@@ -25,6 +27,80 @@ const AddCoursePage = () => {
     trigger,
   } = useForm();
   const navigate = useNavigate();
+  const toast = useToast()
+  const { adminCourse , setAdminCourse } = useAdmin()
+  const [errorUploadCoverImageMessage, setErrorUploadCoverImageMessage] = useState('');
+  const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState('');
+
+  function handleFileChange (event) {
+    const imageFile = event.target.files[0];
+    const allowedTypes = /(\.jpeg|\.png|\.jpg)$/i;
+    const maxFileSize = 5 * 1024 * 1024;
+    if (!allowedTypes.test(imageFile.name)) {
+      setErrorUploadCoverImageMessage("Invalid file type. Please select a valid image file.");
+      toast({
+        title: "Invalid file type. Please select a valid image file.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } else if (imageFile.size > maxFileSize) {
+      setErrorUploadCoverImageMessage("File size too large. Choose an image under 5MB.");
+      toast({
+        title: "File size too large. Choose an image under 5MB.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } else {
+      setAdminCourse({...adminCourse, cover_image_file: imageFile})
+      setAdminCourse({...adminCourse, cover_image: URL.createObjectURL(imageFile)})
+    }
+  };
+
+  const handleRemoveImage = () => {
+	  setAdminCourse({...adminCourse, cover_image_file: null})
+    setAdminCourse({...adminCourse, cover_image: null})
+    setErrorUploadCoverImageMessage()
+	};
+
+  function handleVideoChange (event) {
+    const videoFile = event.target.files[0];
+    console.log(videoFile);
+    const allowedTypes = /(\.mp4|\.mov|\.avi)$/i;
+    const maxFileSize = 20 * 1024 * 1024;
+    if (!allowedTypes.test(videoFile.name)) {
+      setErrorUploadVideoMessage("Invalid file type. Please select a valid video file.");
+      toast({
+        title: "Invalid file type. Please select a valid video file.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } else if (videoFile.size > maxFileSize) {
+      setErrorUploadVideoMessage("File size too large. Choose an image under 20MB.");
+      toast({
+        title: "File size too large. Choose an image under 20MB.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    } else {
+      setAdminCourse({...adminCourse, video_file: videoFile})
+      setAdminCourse({...adminCourse, video: URL.createObjectURL(videoFile)})
+    }
+  };
+  
+
+  const handleRemoveVideo = () => {
+	  setAdminCourse({...adminCourse, video_file: null})
+    setAdminCourse({...adminCourse, video: null})
+    setErrorUploadVideoMessage()
+	};
 
   return (
     <div className='flex'>
@@ -51,6 +127,8 @@ const AddCoursePage = () => {
                 variant="normal"
                 id="course_name"
                 placeholder="Enter ..."
+                onChange={(event)=>{setAdminCourse({...adminCourse , course_name: event.target.value})}}
+                value={adminCourse.course_name}
                 onBlur={() => {
                   trigger('course_name');
                 }}
@@ -67,6 +145,8 @@ const AddCoursePage = () => {
                   variant="normal"
                   id="price"
                   placeholder="Enter ..."
+                  onChange={(event)=>{setAdminCourse({...adminCourse , price: event.target.value})}}
+                  value={adminCourse.price}
                   onBlur={() => {
                     trigger('price');
                   }}
@@ -83,6 +163,8 @@ const AddCoursePage = () => {
                   variant="normal"
                   id="total_learning_time"
                   placeholder="Enter ..."
+                  onChange={(event)=>{setAdminCourse({...adminCourse , learning_time: event.target.value})}}
+                  value={adminCourse.learning_time}
                   onBlur={() => {
                     trigger('total_learning_time');
                   }}
@@ -99,6 +181,8 @@ const AddCoursePage = () => {
                   variant="normal"
                   id="category"
                   placeholder="Enter ..."
+                  onChange={(event)=>{setAdminCourse({...adminCourse , category: event.target.value})}}
+                  value={adminCourse.category}
                   onBlur={() => {
                     trigger('category');
                   }}
@@ -116,6 +200,8 @@ const AddCoursePage = () => {
                 variant="normal"
                 id="course_summary"
                 placeholder="Enter ..."
+                onChange={(event)=>{setAdminCourse({...adminCourse , summary: event.target.value})}}
+                value={adminCourse.summary}
                 onBlur={() => {
                   trigger('course_summary');
                 }}
@@ -137,6 +223,8 @@ const AddCoursePage = () => {
                 resize='none'
                 className='hide-scroll'
                 variant='normal'
+                onChange={(event)=>{setAdminCourse({...adminCourse , course_detail: event.target.value})}}
+                value={adminCourse.course_detail}
                 onBlur={() => {
                   trigger('course_detail');
                 }}
@@ -152,27 +240,28 @@ const AddCoursePage = () => {
               Cover image <span className='text-red-500'>*</span>
               </h1>
               <div className="relative flex justify-start w-[320px] h-[320px] px-0">
-                {false ?
+                {adminCourse.cover_image ?
                 <>
                 <img
                   alt="cover-image-preview"
                   className="rounded-2xl w-full h-full shadow-shadow2 object-cover"
-                  src={'/image/course/default-image-course.png'}
+                  src={adminCourse.cover_image}
                 />
                 <img
                   src="/image/icon/delete.png"
                   alt="delete-button"
                   className="absolute w-[32px] h-[32px] cursor-pointer hover:opacity-90 top-2 right-2"
+                  onClick={handleRemoveImage}
                 />
                 </>
                 :
-                <FormControl>
+                <FormControl isInvalid={errorUploadCoverImageMessage}>
                 <FormLabel htmlFor="cover_image" className='cursor-pointer'>
                 <Input 
                 type="file" 
                 hidden
                 id="cover_image"
-                // onChange={handleFileChange}
+                onChange={handleFileChange}
                 />
                 <div className="bg-gray-100 w-[320px] h-[320px] rounded-2xl flex flex-col justify-center text-center text-blue-400 shadow-shadow2 hover:opacity-50">
                   <h1 className="text-[60px]">+</h1>
@@ -180,7 +269,7 @@ const AddCoursePage = () => {
                 </div>
                 </FormLabel>
                 <FormErrorMessage>
-                  {'Error Message'}
+                  {errorUploadCoverImageMessage}
                 </FormErrorMessage>
                 </FormControl>
                 }
@@ -193,26 +282,28 @@ const AddCoursePage = () => {
               Video Trailer <span className='text-red-500'>*</span>
               </h1>
               <div className="relative flex justify-start w-[320px] h-[320px] px-0">
-                {false ?
+                {adminCourse.video ?
                 <>
                 <video
                     className="rounded-2xl shadow-shadow2"
-                    src={'/video/demo1.mp4'}
+                    src={adminCourse.video}
+                    controls
                   />
                 <img
                   src="/image/icon/delete.png"
                   alt="delete-button"
                   className="absolute w-[32px] h-[32px] cursor-pointer hover:opacity-90 top-2 right-2"
+                  onClick={handleRemoveVideo}
                 />
                 </>
                 :
-                <FormControl>
+                <FormControl isInvalid={errorUploadVideoMessage}>
                 <FormLabel htmlFor="video_trailer" className='cursor-pointer'>
                 <Input 
                 type="file" 
                 hidden
                 id="video_trailer"
-                // onChange={handleFileChange}
+                onChange={handleVideoChange}
                 />
                 <div className="bg-gray-100 w-[320px] h-[320px] rounded-2xl flex flex-col justify-center text-center text-blue-400 shadow-shadow2 hover:opacity-50">
                   <h1 className="text-[60px]">+</h1>
@@ -220,7 +311,7 @@ const AddCoursePage = () => {
                 </div>
                 </FormLabel>
                 <FormErrorMessage>
-                  {'Error Message'}
+                  {errorUploadVideoMessage}
                 </FormErrorMessage>
                 </FormControl>
                 }
@@ -231,7 +322,7 @@ const AddCoursePage = () => {
           {/* Lesson Section */}
           <div className='flex justify-between items-center'>
             <h1 className='text-headline3 font-headline3 text-black'>Lesson</h1>
-            <Button variant='primary'>
+            <Button variant='primary' onClick={()=>{navigate('/admin/addlesson')}}>
               + Add Lesson
             </Button>
           </div>

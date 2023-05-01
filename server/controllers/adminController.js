@@ -46,6 +46,20 @@ async function getAllCourses(req, res) {
     }
   }
 
+  async function createCourse(req, res) {
+    
+    try {
+
+      
+
+      return res.json({
+        message: 'Course Created successfully!'
+      });
+    } catch (error) {
+      console.log("Create course error:", error);
+    }
+  }
+
   async function updateCourse(req, res) {
     const courseId = req.params.courseId;
 
@@ -57,8 +71,8 @@ async function getAllCourses(req, res) {
         message: 'Course updated successfully!'
       });
     } catch (error) {
-      console.log("Delete course error:", error);
+      console.log("Update course error:", error);
     }
   }
 
-export { getAllCourses , deleteCourse , updateCourse};
+export { getAllCourses , deleteCourse , updateCourse , createCourse };
