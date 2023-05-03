@@ -86,7 +86,7 @@ const AddLessonPage = () => {
 
   function onSubmit(data) {
     setAdminLesson([...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}])
-    setAdminCourse({...adminCourse, lesson: [...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}], testeieiei: [...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}]})
+    setAdminCourse({...adminCourse, lesson: [...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}]})
     navigate('/admin/addcourse')
     setAdminLessonFiled({})
   }

@@ -50,8 +50,6 @@ async function getCoursesById(req, res) {
       .eq("lessons.sub_lessons.users_sub_lessons.user_id", userId)
     course = result;
 
-    console.log(errorCourse);
-
     // Check Subscription
     const { data: courseSubscription } = await supabase
       .from("subscriptions")
@@ -181,12 +179,12 @@ async function getSubLessonById(req, res) {
       .eq("sub_lesson_id", subLessonId)
       .eq("users_sub_lessons.user_id", userId);
 
-    const { data: assignment, error:errorAssignment } = await supabase
+    const { data: assignment } = await supabase
       .from("sub_lessons")
       .select("*, assignments (*, users_assignments(*)) ")
       .eq("sub_lesson_id", subLessonId)
       .eq("assignments.users_assignments.user_id", userId)
-      
+
     function checkDeadLine(createDate, duration) {
       const createTime = new Date(createDate);
       const dueDate = new Date(createTime.getTime() + duration * 24 * 60 * 60 * 1000);
@@ -194,20 +192,23 @@ async function getSubLessonById(req, res) {
       const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
       return daysDiff
     }
-    // Check ว่ามี assignments อยู่แล้วหรือยัง
-    if (assignment[0].assignments[0].users_assignments.length > 0) {
-      const status = assignment[0].assignments[0].users_assignments[0].status;
-      const duration = assignment[0].assignments[0].duration
-      const countDeadline = checkDeadLine(assignment[0].assignments[0].users_assignments[0].created_at,assignment[0].assignments[0].duration)
-      const daysAfterCreated = (new Date() - new Date(assignment[0].assignments[0].users_assignments[0].created_at))/(1000 * 60 * 60 * 24)
-      assignment[0].assignments[0].countDeadline = countDeadline
-      // Check ว่าสร้างมาแล้วกี่วัน มากกว่า duration ของ assignment ไหม
-      // และมี status ต้องไม่เท่ากับ overdue / submitted
-      if (daysAfterCreated >= duration && status !== 'overdue' && status !== 'submitted' && status !== 'submitted late') {
-        await supabase
-          .from("users_assignments")
-          .update({ status: "overdue", updated_at: new Date()})
-          .eq('user_assignment_id', assignment[0].assignments[0].users_assignments[0].user_assignment_id);
+
+    if (assignment[0].assignments.length > 0) {
+      // Check ว่ามี assignments อยู่แล้วหรือยัง
+      if (assignment[0].assignments[0].users_assignments.length > 0) {
+        const status = assignment[0].assignments[0].users_assignments[0].status;
+        const duration = assignment[0].assignments[0].duration
+        const countDeadline = checkDeadLine(assignment[0].assignments[0].users_assignments[0].created_at,assignment[0].assignments[0].duration)
+        const daysAfterCreated = (new Date() - new Date(assignment[0].assignments[0].users_assignments[0].created_at))/(1000 * 60 * 60 * 24)
+        assignment[0].assignments[0].countDeadline = countDeadline
+        // Check ว่าสร้างมาแล้วกี่วัน มากกว่า duration ของ assignment ไหม
+        // และมี status ต้องไม่เท่ากับ overdue / submitted
+        if (daysAfterCreated >= duration && status !== 'overdue' && status !== 'submitted' && status !== 'submitted late') {
+          await supabase
+            .from("users_assignments")
+            .update({ status: "overdue", updated_at: new Date()})
+            .eq('user_assignment_id', assignment[0].assignments[0].users_assignments[0].user_assignment_id);
+        }
       }
     }
 
@@ -224,7 +225,7 @@ async function postLearningSublessonAndCreateAssignment(req, res) {
   const courseId = req.params.courseId;
   const subLessonId = req.params.subLessonId;
   const userId = req.query.user;
-  const status = req.body.status;
+  let status = req.body.status;
   const action = req.body.action;
   const current_time = req.body.current_time;
   let msg;
@@ -253,6 +254,16 @@ async function postLearningSublessonAndCreateAssignment(req, res) {
         .match({ user_id: userId, sub_lesson_id: subLessonId });
       msg = "Update successfully"
     } else if (action == "end") {
+      // Check this sub-lesson have assignments or not
+      const { data: assignments } = await supabase
+        .from("assignments")
+        .select()
+        .eq('sub_lesson_id', subLessonId);
+      // if not have assignment let status complelte
+      if (assignments.length == 0) {
+        status = 'complete'
+      }
+      // if have assignment let status watched
       updateStatus = {
         current_time: current_time,
         updated_at: new Date(),
@@ -270,20 +281,23 @@ async function postLearningSublessonAndCreateAssignment(req, res) {
         .select()
         .eq('sub_lesson_id', subLessonId);
 
-      const { data: checkAlredyCreated } = await supabase
-        .from("users_assignments")
-        .select()
-        .match({user_id: userId ,assignment_id: assignments[0].assignment_id}); 
-
-      if (checkAlredyCreated.length == 0) {
-        // length = 0 -- Don't have assignment yet
-        await supabase.from("users_assignments").insert(
-          {
-          user_id: userId,
-          assignment_id: assignments[0].assignment_id,
-        });
-        msg = "Create assignment successfully"
+      if (assignments.length > 0) {
+        const { data: checkAlredyCreated } = await supabase
+          .from("users_assignments")
+          .select()
+          .match({user_id: userId ,assignment_id: assignments[0].assignment_id}); 
+  
+        if (checkAlredyCreated.length == 0) {
+          // length = 0 -- Don't have assignment yet
+          await supabase.from("users_assignments").insert(
+            {
+            user_id: userId,
+            assignment_id: assignments[0].assignment_id,
+          });
+          msg = "Create assignment successfully"
+        }
       }
+
     }
 
     return res.json({

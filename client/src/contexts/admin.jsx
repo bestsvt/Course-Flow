@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
 
 const AdminContext = React.createContext();
 
@@ -17,7 +14,6 @@ function AdminProvider(props) {
     lesson: '',
     price: '',
     summary: '',
-    testeieiei: '',
     video: '',
     video_file: ''
   })

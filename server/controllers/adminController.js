@@ -104,17 +104,20 @@ async function createCourse(req, res) {
           }
         }
 
+        let createSubLesson = {
+          lesson_id: lessonId,
+          name: lesson[i].sub_lesson[j].sub_lesson_name,
+        };
+        
+        createSubLesson.video = await cloudinaryUpload(
+          videoFile,
+          "upload",
+          "sub_lesson_video"
+        );
 
         //เหลือเอาไฟล์จาก sub lesson ขึ้น cloudinary ตอน insert
         //รอสร้างเงื่อนไขจาก FE ไม่ให้สร้าง ชื่อ sub lesson ซ้ำกันภายในคอส
-
-        await supabase
-          .from("sub_lessons")
-          .insert({
-            lesson_id: lessonId,
-            name: lesson[i].sub_lesson[j].sub_lesson_name,
-            video: videoFile,
-          });
+        await supabase.from("sub_lessons").insert(createSubLesson);
 
       }
     }
