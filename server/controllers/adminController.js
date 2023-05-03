@@ -30,14 +30,28 @@ async function getAllCourses(req, res) {
   }
 }
 
+async function getCoursesById(req, res) {
+  const courseId = req.params.courseId;
+ 
+  try {
+    const { data: CoursesById } = await supabase
+    .from("courses")
+    .select("* , lessons (* , sub_lessons(*, users_sub_lessons(*)))")
+    .eq("course_id", courseId)
+    .order("lesson_id", { foreignTable: "lessons", ascending: true });
+    return res.json({
+      data: CoursesById
+    });
+  } catch (error) {
+    console.log("Get courses by id error:", error);
+  }
+}
+
 async function deleteCourse(req, res) {
   const courseId = req.params.courseId;
 
   try {
-    await supabase
-      .from('courses')
-      .delete()
-      .eq('course_id', courseId)
+    await supabase.from("courses").delete().eq("course_id", courseId);
 
     console.log("Deleted Success");
 
@@ -110,7 +124,7 @@ async function createCourse(req, res) {
           lesson_id: lessonId,
           name: lesson[i].sub_lesson[j].sub_lesson_name,
         };
-        
+
         createSubLesson.video = await cloudinaryUpload(
           videoFile,
           "upload",
@@ -120,10 +134,8 @@ async function createCourse(req, res) {
         //เหลือเอาไฟล์จาก sub lesson ขึ้น cloudinary ตอน insert
         //รอสร้างเงื่อนไขจาก FE ไม่ให้สร้าง ชื่อ sub lesson ซ้ำกันภายในคอส
         await supabase.from("sub_lessons").insert(createSubLesson);
-
       }
     }
-
 
     return res.json({
       message: "Course Created successfully!",
@@ -145,4 +157,10 @@ async function updateCourse(req, res) {
   }
 }
 
-export { getAllCourses, deleteCourse, updateCourse, createCourse };
+export {
+  getAllCourses,
+  deleteCourse,
+  updateCourse,
+  createCourse,
+  getCoursesById,
+};
