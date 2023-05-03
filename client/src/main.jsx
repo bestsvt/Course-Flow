@@ -13,7 +13,7 @@ import { AdminProvider } from "./contexts/admin";
 jwtInterceptor();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={theme}>
           <AuthProvider>
@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </AuthProvider>
       </ChakraProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 

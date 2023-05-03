@@ -478,7 +478,9 @@ const EditCoursePage = () => {
                       <Td>
                         <div className='flex gap-4 justify-center'>
                           <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]' />
-                          <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]' />
+                          <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px] hover:cursor-pointer'
+                          onClick={()=>{navigate(`/admin/editlesson/${lesson.lesson_id}`)}}
+                          />
                         </div>
                       </Td>
                     </Tr>

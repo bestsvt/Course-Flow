@@ -48,6 +48,23 @@ async function getCoursesById(req, res) {
   }
 }
 
+async function getLessonById(req, res) {
+  const lessonId = req.params.lessonId
+ 
+  try {
+    const { data: lessonById } = await supabase
+      .from("lessons")
+      .select("* , sub_lessons (*)")
+      .eq("lesson_id", lessonId)
+
+    return res.json({
+      data: lessonById
+    });
+  } catch (error) {
+    console.log("Get courses by id error:", error);
+  }
+}
+
 async function deleteCourse(req, res) {
   const courseId = req.params.courseId;
 
@@ -67,7 +84,7 @@ async function deleteCourse(req, res) {
       .from("courses")
       .select("* , lessons (* , sub_lessons(*, users_sub_lessons(*)))")
       .eq("course_id", courseId)
-      
+
     for (let i = 0; i < subLessonData[0].lessons.length; i++) {
       for (let j = 0; j < subLessonData[0].lessons[i].sub_lessons.length; j++) {
         dataForDelete.push(subLessonData[0].lessons[i].sub_lessons[j].video)
@@ -191,4 +208,5 @@ export {
   updateCourse,
   createCourse,
   getCoursesById,
+  getLessonById
 };
