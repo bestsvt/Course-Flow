@@ -112,7 +112,7 @@ const AddCoursePage = () => {
     // —————————————————— อาจจะใช้หรือไม่ใช้ก็ได้ ——————————————————
     // —————————————————— คิดต่อต้องเพิ่ม sub-lesson-video ยังไง ——————————————————
     const lessons = adminCourse.lesson
-    for (let i = 0; i < lessons.length; i++) {
+    for (let i = 0; i < lessons?.length; i++) {
       const lesson = lessons[i];
       const lessonKey = `lesson[${i}]`;
       // Append lesson name
@@ -130,6 +130,8 @@ const AddCoursePage = () => {
     {
       headers: { "Content-Type": "multipart/form-data" },
     });
+
+    
   }
 
   return (

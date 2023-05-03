@@ -59,18 +59,18 @@ async function createCourse(req, res) {
       created_at: new Date(),
       update_at: new Date(),
     };
-    // createCourse.image_cover = await cloudinaryUpload(
-    //   ...req.files.cover_image_file,
-    //   "upload",
-    //   "cover_image_course"
-    // );
-    // createCourse.video_trailer = await cloudinaryUpload(
-    //   ...req.files.video_file,
-    //   "upload",
-    //   "video_trailer_course"
-    // );
+    createCourse.image_cover = await cloudinaryUpload(
+      ...req.files.cover_image_file,
+      "upload",
+      "cover_image_course"
+    );
+    createCourse.video_trailer = await cloudinaryUpload(
+      ...req.files.video_file,
+      "upload",
+      "video_trailer_course"
+    );
 
-    // await supabase.from("courses").insert(createCourse);
+    await supabase.from("courses").insert(createCourse);
 
     const { data: course } = await supabase
       .from("courses")
@@ -78,9 +78,9 @@ async function createCourse(req, res) {
       .order("course_id", { ascending: false })
       .limit(1);
 
+    const courseId = course[0].course_id;
     const lesson = req.body.lesson;
     const subLessonVideos = req.files.sub_lesson_videos;
-    const courseId = course[0].course_id;
 
     for (let i = 0; i < lesson.length; i++) {
       await supabase
@@ -92,7 +92,6 @@ async function createCourse(req, res) {
         .order("lesson_id", { ascending: false })
         .limit(1);
       let lessonId = lessonData[0].lesson_id;
-      console.log(lesson[i].lesson_name);
 
       for (let j = 0; j < lesson[i].sub_lesson.length; j++) {
         let videoFile;
@@ -105,18 +104,21 @@ async function createCourse(req, res) {
           }
         }
 
-        console.log("sub_lesson_name", lesson[i].sub_lesson[j].sub_lesson_name);
-        console.log("video", videoFile);
 
-        // await supabase
-        //   .from("sub_lessons")
-        //   .insert({
-        //     lesson_id: lessonId,
-        //     name: lesson[i].sub_lesson[j].sub_lesson_name,
-        //     video: videoFile,
-        //   });
+        //เหลือเอาไฟล์จาก sub lesson ขึ้น cloudinary ตอน insert
+        //รอสร้างเงื่อนไขจาก FE ไม่ให้สร้าง ชื่อ sub lesson ซ้ำกันภายในคอส
+
+        await supabase
+          .from("sub_lessons")
+          .insert({
+            lesson_id: lessonId,
+            name: lesson[i].sub_lesson[j].sub_lesson_name,
+            video: videoFile,
+          });
+
       }
     }
+
 
     return res.json({
       message: "Course Created successfully!",
