@@ -110,6 +110,7 @@ const CourseListPage = () => {
       console.log("Delete courses Admin error:", error);
       setIsLoading(false)
     }
+    onCloseDelete()
   }
 
   // Change format time to MM/DD/YYYY TT:TT(AM)

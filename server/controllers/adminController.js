@@ -34,10 +34,12 @@ async function deleteCourse(req, res) {
   const courseId = req.params.courseId;
 
   try {
-    // await supabase
-    //   .from('courses')
-    //   .delete()
-    //   .eq('course_id', courseId)
+    await supabase
+      .from('courses')
+      .delete()
+      .eq('course_id', courseId)
+
+    console.log("Deleted Success");
 
     return res.json({
       message: "Course deleted successfully!",
