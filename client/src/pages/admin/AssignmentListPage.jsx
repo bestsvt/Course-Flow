@@ -12,7 +12,7 @@ import {
   Tr,
   Th,
   Td,
-  Box,
+  TableContainer,
   Image,
 } from "@chakra-ui/react";
 
@@ -44,114 +44,123 @@ const AssignmentListPage = () => {
           </div>
         </nav>
         {/* ————————————— Content Section ————————————— */}
-        <div className='h-full'>
+        <div className='h-full p-10 bg-gray-100 flex flex-col items-center gap-10'>
         {/* ————————————— Start Coding Here ————————————— */}
-        <Box className='flex justify-center items-start overflow-y-scroll h-[745px] w-full hide-scroll'>
-            <Table colorScheme="gray.200"  className='mx-10 my-12 '>
-              <Thead position="sticky" top={0} bgColor="gray.300" >
-                <Tr className="h-10">
-                  <Th color="gray.800" fontSize="body3" fontWeight="body3">Assignment detail</Th>
-                  <Th color="gray.800" fontSize="body3" fontWeight="body3">Course</Th>
-                  <Th color="gray.800" fontSize="body3" fontWeight="body3">Lesson</Th>
-                  <Th color="gray.800" fontSize="body3" fontWeight="body3">Sub-lesson</Th>
-                  <Th color="gray.800" fontSize="body3" fontWeight="body3">Created date</Th>
-                  <Th color="gray.800" fontSize="body3" fontWeight="body3">Action</Th>
+        
+        <TableContainer borderRadius={10} width='100%'>
+            <Table>
+              <Thead>
+                <Tr bg='#E4E6ED'>
+                  <Th width='18%' textTransform="capitalize" fontSize="14px" fontWeight="400" color='#424C6B' fontFamily='Inter'>Assignment detail</Th>
+                  <Th width='18%' textTransform="capitalize" fontSize="14px" fontWeight="400" color='#424C6B' fontFamily='Inter'>Course</Th>
+                  <Th width='18%' textTransform="capitalize" fontSize="14px" fontWeight="400" color='#424C6B' fontFamily='Inter'>Lesson</Th>
+                  <Th width='18%' textTransform="capitalize" fontSize="14px" fontWeight="400" color='#424C6B' fontFamily='Inter'>Sub-lesson</Th>
+                  <Th width='18%' textTransform="capitalize" fontSize="14px" fontWeight="400" color='#424C6B' fontFamily='Inter'>Created date</Th>
+                  <Th width='10%' textTransform="capitalize" fontSize="14px" fontWeight="400" color='#424C6B' fontFamily='Inter'>Action</Th>
                 </Tr>
               </Thead>
-              <Tbody>
+              <Tbody bg='white' color='black'>
 
 {/* Mock */}
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
                     <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
                     </Td>
                   </Tr>
 
                   
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
                     <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
                     </Td>
                   </Tr>
 
                   
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
                     <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
                     </Td>
                   </Tr>
 
                   
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
                     <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
                     </Td>
                   </Tr>
 
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
                     <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
-                    </Td>
-                  </Tr>
-
-                  
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
-                    <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
                     </Td>
                   </Tr>
 
                   
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
                     <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
                     </Td>
                   </Tr>
 
                   
-                  <Tr className="h-24 text-body2 font-body2 text-black">
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">What are the 4 elem...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Service Design Essen...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">Introduction</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">4 Levels of Service D...</Td>
-                    <Td fontSize="body2" fontWeight="body2" paddingRight="16px" paddingTop="0px">12/02/2022 10:30PM</Td>
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
                     <Td className="flex justify-center items-center">
-                      <Image boxSize='20px' src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/><Image boxSize='20px' src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
+                    </Td>
+                  </Tr>
+
+                  
+                  <Tr className="text-body2 font-body2 text-black">
+                    <Td fontSize="body2" fontWeight="body2">What are the 4 elem...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Service Design Essen...</Td>
+                    <Td fontSize="body2" fontWeight="body2">Introduction</Td>
+                    <Td fontSize="body2" fontWeight="body2">4 Levels of Service D...</Td>
+                    <Td fontSize="body2" fontWeight="body2">12/02/2022 10:30PM</Td>
+                    <Td className="flex justify-center items-center">
+                      <Image width={25} height={25} src="\image\icon\bin.png" alt="Bin Icon" className='mx-2 my-14'/>
+                      <Image width={25} height={25} src="\image\icon\edit.png" alt="Edit Icon" className='mx-2 my-14' />
                     </Td>
                   </Tr>
 
@@ -159,7 +168,7 @@ const AssignmentListPage = () => {
 
               </Tbody>
             </Table>
-          </Box>
+          </TableContainer>
         </div>
       </div>
     </div>
