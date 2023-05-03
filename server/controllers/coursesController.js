@@ -43,13 +43,14 @@ async function getCoursesById(req, res) {
   if (userId) {
 
     // Get Courses if logged in
-    const { data: result } = await supabase
+    const { data: result, error:errorCourse } = await supabase
       .from("courses")
       .select("* , lessons (* , sub_lessons(*, users_sub_lessons(*)))")
       .eq("course_id", courseId)
       .eq("lessons.sub_lessons.users_sub_lessons.user_id", userId)
-      .order("lesson_id", { foreignTable: "lessons", ascending: true });
     course = result;
+
+    console.log(errorCourse);
 
     // Check Subscription
     const { data: courseSubscription } = await supabase
@@ -180,7 +181,7 @@ async function getSubLessonById(req, res) {
       .eq("sub_lesson_id", subLessonId)
       .eq("users_sub_lessons.user_id", userId);
 
-    const { data: assignment } = await supabase
+    const { data: assignment, error:errorAssignment } = await supabase
       .from("sub_lessons")
       .select("*, assignments (*, users_assignments(*)) ")
       .eq("sub_lesson_id", subLessonId)

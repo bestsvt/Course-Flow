@@ -85,7 +85,7 @@ function CourseDetailPage() {
                     <div className="flex flex-col gap-6"  >
                         <h1 className="text-headline2 font-headline2 text-black">Module Samples</h1>
                         <Accordion allowMultiple>
-                        {course.lessons.map((lesson,index)=>{
+                        {course.lessons.sort((a, b) => a.lesson_id - b.lesson_id).map((lesson,index)=>{
                             return (
                         <AccordionItem borderTop="none" key={index}>
                             <AccordionButton>

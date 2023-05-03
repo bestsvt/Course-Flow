@@ -55,7 +55,9 @@ function CourseLearningPage() {
 
   // Function get sub lesson to show name and video
   async function getSubLesson() {
+    console.log("Working 1");
     const result = await getSubLessonById(userAuthState.user.id);
+    console.log(result);
     setLesson(result.data[0]);
     setAssignment(result.assignment.assignments[0])
     setAnswer(result.assignment.assignments[0].users_assignments[0]?.answer);
@@ -247,7 +249,9 @@ function CourseLearningPage() {
             />
           </div>
           <Accordion allowMultiple>
-            {course?.lessons.map((lessons, index) => {
+            {course?.lessons
+            .sort((a, b) => a.lesson_id - b.lesson_id)
+            .map((lessons, index) => {
               return (
                 <AccordionItem borderTop="none" key={index}>
                   <AccordionButton paddingBottom={0}>
