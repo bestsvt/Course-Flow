@@ -12,13 +12,13 @@ async function getAllCourses(req, res) {
       .from("getallcourses")
       .select()
       .ilike("name", `%${keyword}%`)
-      .order("created_at", { ascending: true });
+      .order("created_at", { ascending: false });
 
     const { data: allCoursesWithPage } = await supabase
       .from("getallcourses")
       .select()
       .ilike("name", `%${keyword}%`)
-      .order("created_at", { ascending: true })
+      .order("created_at", { ascending: false })
       .range(offset, offset + itemsPerPage - 1);
 
     return res.json({
@@ -39,6 +39,7 @@ async function getCoursesById(req, res) {
     .select("* , lessons (* , sub_lessons(*, users_sub_lessons(*)))")
     .eq("course_id", courseId)
     .order("lesson_id", { foreignTable: "lessons", ascending: true });
+
     return res.json({
       data: CoursesById
     });
@@ -51,9 +52,34 @@ async function deleteCourse(req, res) {
   const courseId = req.params.courseId;
 
   try {
-    await supabase.from("courses").delete().eq("course_id", courseId);
 
-    console.log("Deleted Success");
+    let dataForDelete = []
+    const { data: courseData } = await supabase
+      .from("courses")
+      .select("image_cover , video_trailer")
+      .eq("course_id", courseId)
+
+    for (const file of Object.values(courseData[0])) {
+      dataForDelete.push(file)
+    }
+
+    const { data: subLessonData } = await supabase
+      .from("courses")
+      .select("* , lessons (* , sub_lessons(*, users_sub_lessons(*)))")
+      .eq("course_id", courseId)
+      
+    for (let i = 0; i < subLessonData[0].lessons.length; i++) {
+      for (let j = 0; j < subLessonData[0].lessons[i].sub_lessons.length; j++) {
+        dataForDelete.push(subLessonData[0].lessons[i].sub_lessons[j].video)
+      }
+    }
+
+    for (let file of dataForDelete) {
+      console.log('File: ',file);
+      await cloudinaryUpload(file, "delete", undefined, file.resource_type);
+    }
+
+    await supabase.from("courses").delete().eq("course_id", courseId);
 
     return res.json({
       message: "Course deleted successfully!",
@@ -148,6 +174,8 @@ async function createCourse(req, res) {
 async function updateCourse(req, res) {
   const courseId = req.params.courseId;
 
+  console.log(courseId);
+  console.log(req.body);
   try {
     return res.json({
       message: "Course updated successfully!",

@@ -24,10 +24,12 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
+  useToast
 } from "@chakra-ui/react";
 import { Pagination } from 'antd';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useAdmin } from '../../contexts/admin';
 
 const CourseListPage = () => {
 
@@ -42,6 +44,8 @@ const CourseListPage = () => {
   const { isOpen, onClose , onOpen} = useDisclosure()
   const cancelRef = React.useRef()
   const navigate = useNavigate();
+  const toast = useToast()
+  const { setAdminCourse } = useAdmin()
   const { 
     isOpen: isOpenDelete, 
     onClose: onCloseDelete, 
@@ -105,6 +109,15 @@ const CourseListPage = () => {
       const results = await axios.delete(
         `http://localhost:4000/admin/courses/${courseId}`
       );
+      toast({
+        title: results.data.message,
+        isClosable: true,
+        position: 'top',
+        status: 'success',
+        colorScheme: "blue",
+        duration: 5000
+      })
+      getCoursesAdmin(keyword)
       setIsLoading(false)
     } catch (error) {
       console.log("Delete courses Admin error:", error);
@@ -181,7 +194,22 @@ const CourseListPage = () => {
               </Collapse> 
             : null}
             </div>
-            <Button variant='primary' onClick={()=>{navigate(`/admin/addcourse`)}}>+ Add Course</Button>
+            <Button variant='primary' onClick={()=>{
+            setAdminCourse({
+            category: '',
+            course_detail: '',
+            course_name: '',
+            cover_image: '',
+            cover_image_file: null,
+            learning_time: '',
+            lesson: [],
+            price: '',
+            summary: '',
+            video: '',
+            video_file: null
+            });
+            navigate(`/admin/addcourse`)}}>+ Add Course
+            </Button>
           </div>
         </nav>
         {/* ————————————— Content Section ————————————— */}

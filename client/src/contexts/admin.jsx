@@ -9,16 +9,16 @@ function AdminProvider(props) {
     course_detail: '',
     course_name: '',
     cover_image: '',
-    cover_image_file: '',
+    cover_image_file: null,
     learning_time: '',
-    lesson: '',
+    lesson: [],
     price: '',
     summary: '',
     video: '',
-    video_file: ''
+    video_file: null
   })
   const [adminLesson, setAdminLesson] = useState([])
-  const [adminLessonField, setAdminLessonFiled] = useState({})
+  const [adminLessonField, setAdminLessonFiled] = useState({ name: '' })
 
 
 

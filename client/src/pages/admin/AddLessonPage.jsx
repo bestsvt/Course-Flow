@@ -85,10 +85,10 @@ const AddLessonPage = () => {
 	};
 
   function onSubmit(data) {
-    setAdminLesson([...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}])
-    setAdminCourse({...adminCourse, lesson: [...adminLesson, {...adminLessonField, sub_lesson: data.sub_lesson}]})
-    navigate('/admin/addcourse')
-    setAdminLessonFiled({})
+    setAdminLesson([...adminLesson, {...adminLessonField, sub_lessons: data.sub_lesson}])
+    setAdminCourse({...adminCourse, lesson: [...adminLesson, {...adminLessonField, sub_lessons: data.sub_lesson}]})
+    navigate(-1)
+    setAdminLessonFiled({ name: '' })
   }
 
   return (
@@ -101,21 +101,23 @@ const AddLessonPage = () => {
         {/* ————————————— Navbar Section ————————————— */}
         <nav className="h-[100px] border-gray-400 border-b bg-white flex justify-between px-10 py-4 items-center">
           <div className="flex items-center gap-4">
-            <ArrowBackIcon boxSize={7} color="#9AA1B9" onClick={()=>{navigate('/admin/addcourse')}}/>
+            <ArrowBackIcon boxSize={7} color="#9AA1B9" onClick={()=>{navigate(-1)}}/>
             <div className="flex flex-col">
+              {adminCourse.course_name ?
               <h1 className="text-body3 font-body3 text-gray-600">
                 Course{" "}
                 <span className="text-black">
                   ‘{adminCourse.course_name}’
                 </span>
               </h1>
+              : null}
               <h1 className="text-headline3 font-headline3 text-black">
                 Add Lesson
               </h1>
             </div>
           </div>
           <div className="flex gap-4">
-            <Button variant="secondary">Cancel</Button>
+            <Button variant="secondary" onClick={()=>{navigate(-1)}}>Cancel</Button>
             <Button variant="primary" 
             type="submit"
             >Create</Button>
@@ -127,15 +129,15 @@ const AddLessonPage = () => {
           <div className="flex flex-col gap-10 bg-white px-24 py-10 rounded-2xl border border-gray-400">
 
             <FormControl isRequired>
-              <FormLabel htmlFor="course_name" color='black'>Lesson Name</FormLabel>
+              <FormLabel htmlFor="name" color='black'>Lesson Name</FormLabel>
               <Input
                 variant="normal"
-                id="lesson_name"
+                id="name"
                 placeholder="Enter ..."
-                onChange={(event)=>{setAdminLessonFiled({...adminLessonField , lesson_name: event.target.value})}}
-                value={adminLessonField.lesson_name}
+                onChange={(event)=>{setAdminLessonFiled({...adminLessonField , name: event.target.value})}}
+                value={adminLessonField.name}
                 onBlur={() => {
-                  trigger('lesson_name');
+                  trigger('name');
                 }}
               />
               <FormErrorMessage>

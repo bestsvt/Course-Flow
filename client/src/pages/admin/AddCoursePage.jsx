@@ -14,7 +14,16 @@ Tr,
 Th,
 Td,
 TableContainer,
-useToast } from "@chakra-ui/react";
+useToast,
+AlertDialog,
+AlertDialogBody,
+AlertDialogFooter,
+AlertDialogHeader,
+AlertDialogContent,
+AlertDialogOverlay,
+AlertDialogCloseButton,
+useDisclosure,
+ } from "@chakra-ui/react";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '../../contexts/admin';
@@ -32,6 +41,13 @@ const AddCoursePage = () => {
   const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonFiled} = useAdmin()
   const [errorUploadCoverImageMessage, setErrorUploadCoverImageMessage] = useState('');
   const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState('');
+  const [lessonIndex, setLessonIndex] = useState();
+  const [submitLoading , setSubmitLoading] = useState(false)
+  const { 
+    isOpen: isOpenDeleteLesson, 
+    onClose: onCloseDeleteLesson, 
+    onOpen: onOpenDeleteLesson} = useDisclosure()
+  const cancelRef = React.useRef()
 
   function handleFileChange(event) {
     const imageFile = event.target.files[0];
@@ -67,7 +83,6 @@ const AddCoursePage = () => {
 
   function handleVideoChange(event) {
     const videoFile = event.target.files[0];
-    console.log(videoFile);
     const allowedTypes = /(\.mp4|\.mov|\.avi)$/i;
     const maxFileSize = 20 * 1024 * 1024;
     if (!allowedTypes.test(videoFile.name)) {
@@ -99,8 +114,9 @@ const AddCoursePage = () => {
 	};
 
   async function onSubmit() {
-    const formData = new FormData();
+    setSubmitLoading(true)
 
+    const formData = new FormData();
     // loop for append all key in object
     for (let key in adminCourse) {
       // cover_image and video just show preview
@@ -109,29 +125,51 @@ const AddCoursePage = () => {
       }
     }
 
-    // —————————————————— อาจจะใช้หรือไม่ใช้ก็ได้ ——————————————————
-    // —————————————————— คิดต่อต้องเพิ่ม sub-lesson-video ยังไง ——————————————————
     const lessons = adminCourse.lesson
     for (let i = 0; i < lessons?.length; i++) {
       const lesson = lessons[i];
       const lessonKey = `lesson[${i}]`;
       // Append lesson name
-      formData.append(`${lessonKey}[lesson_name]`, lesson.lesson_name);
+      formData.append(`${lessonKey}[lesson_name]`, lesson.name);
       // Append sublesson data
-      for (let j = 0; j < lesson.sub_lesson.length; j++) {
-        const subLesson = lesson.sub_lesson[j];
+      for (let j = 0; j < lesson.sub_lessons.length; j++) {
+        const subLesson = lesson.sub_lessons[j];
         const subLessonKey = `${lessonKey}[sub_lesson][${j}]`;
         formData.append(`${subLessonKey}[sub_lesson_name]`, subLesson.sub_lesson_name);
         formData.append('sub_lesson_videos', subLesson.video, subLesson.sub_lesson_name);
       }
     }
-    
     const results = await axios.post(`http://localhost:4000/admin/courses`, formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
     });
+    setSubmitLoading(false)
+    if (results.data.message && results.data.message.includes('successfully')) {
+      toast({
+        title: results.data.message,
+        isClosable: true,
+        position: 'top',
+        status: 'success',
+        colorScheme: "blue",
+        duration: 5000
+      })
+      navigate('/admin')
+    } else {
+      toast({
+        title: "Sorry, there was a problem with the server. Course creation failed. Please try again later.",
+        isClosable: true,
+        position: 'top',
+        status: 'error',
+        duration: 5000
+      })
+    }
+  }
 
-    
+  function deleteLesson() {
+    let lessons = adminLesson
+    lessons.splice(lessonIndex, 1);
+    setAdminLesson(lessons)
+    onCloseDeleteLesson()
   }
 
   return (
@@ -145,7 +183,7 @@ const AddCoursePage = () => {
             <h1 className='text-headline3 font-headline3 text-black'>Add Course</h1>
             <div className='flex gap-4'>
               <Button variant='secondary' onClick={()=>{navigate('/admin')}}>Cancel</Button>
-              <Button variant='primary' onClick={onSubmit}>Create</Button>
+              <Button variant='primary' onClick={onSubmit} isLoading={submitLoading}>Create</Button>
             </div>
         </nav>
         {/* ————————————— Content Section ————————————— */}
@@ -164,6 +202,7 @@ const AddCoursePage = () => {
                 onBlur={() => {
                   trigger('course_name');
                 }}
+                isRequired
               />
               <FormErrorMessage>
                 {errors.course_name && errors.course_name.message}
@@ -182,6 +221,7 @@ const AddCoursePage = () => {
                   onBlur={() => {
                     trigger('price');
                   }}
+                  type='number'
                 />
                 <FormErrorMessage>
                   {errors.price && errors.price.message}
@@ -200,6 +240,7 @@ const AddCoursePage = () => {
                   onBlur={() => {
                     trigger('total_learning_time');
                   }}
+                  type='number'
                 />
                 <FormErrorMessage>
                   {errors.total_learning_time && errors.total_learning_time.message}
@@ -376,12 +417,15 @@ const AddCoursePage = () => {
                   return (
                     <Tr key={index}>
                       <Td>{index + 1}</Td>
-                      <Td>{lesson.lesson_name}</Td>
-                      <Td>{lesson.sub_lesson.length}</Td>
+                      <Td>{lesson.name}</Td>
+                      <Td>{lesson.sub_lessons.length}</Td>
                       <Td>
                         <div className='flex gap-4 justify-center'>
-                          <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]'/>
-                          <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]'/>
+                          <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]'
+                          onClick={()=>{setLessonIndex(index); onOpenDeleteLesson()}}/>
+                          <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px]'
+                          onClick={()=>{setLessonIndex(index); onOpenEditLesson()}}
+                          />
                         </div>
                       </Td>
                     </Tr>
@@ -391,8 +435,34 @@ const AddCoursePage = () => {
             </Table>
           </TableContainer>
           : null}
-
-        
+          {/* ——————————————————— Confirmation Delete Lesson ——————————————————— */}
+          <AlertDialog
+               motionPreset='slideInBottom'
+               leastDestructiveRef={cancelRef}
+               onClose={onCloseDeleteLesson}
+               isOpen={isOpenDeleteLesson}
+               isCentered
+           >
+              <AlertDialogOverlay/>
+              <AlertDialogContent borderRadius={24}  >
+                  <AlertDialogHeader className="text-body1 font-body1 text-black" >
+                  Confirmation
+                  </AlertDialogHeader>
+                  <hr className="h-[1px] bg-gray-300 mb-3" />
+                  <AlertDialogCloseButton/>
+                  <AlertDialogBody className="text-body2 font-body2 text-gray-700">
+                  Are you sure you want to delete this lesson?
+                  </AlertDialogBody>
+                  <AlertDialogFooter gap={3}>
+                      <Button variant="secondary" ref={cancelRef} onClick={onCloseDeleteLesson}>
+                      Cancel
+                      </Button>
+                      <Button variant="primary" onClick={deleteLesson}>
+                      Delete
+                      </Button>
+                  </AlertDialogFooter>
+              </AlertDialogContent>
+           </AlertDialog>
         </div>
       </div>
     </div>

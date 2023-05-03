@@ -1,19 +1,20 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs/promises";
 
-const cloudinaryUpload = async (file, imageStatus, folder) => {
+const cloudinaryUpload = async (file, status, folder, resource_type) => {
   try {
     let result;
-    if (imageStatus === "upload") {
+    if (status === "upload") {
       result = await cloudinary.uploader.upload(file.path, {
         folder: `courseFlow/${folder}`,
         type: "private",
         resource_type: 'auto',
       })
       await fs.unlink(file.path);
-    } else if (imageStatus === "delete") {
+    } else if (status === "delete") {
       await cloudinary.uploader.destroy(file.public_id, {
-        type: "private"
+        type: "private",
+        resource_type: resource_type
       });
     } else {
       throw new Error("Invalid Image Status");

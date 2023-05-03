@@ -14,7 +14,7 @@ const courseUpload = multerUpload.fields([
 adminRouter.get("/courses", admin_controller.getAllCourses);
 adminRouter.get("/courses/:courseId", admin_controller.getCoursesById);
 adminRouter.post("/courses", courseUpload, admin_controller.createCourse);
-adminRouter.put("/courses/:courseId", admin_controller.updateCourse);
+adminRouter.put("/courses/:courseId", courseUpload, admin_controller.updateCourse);
 adminRouter.delete("/courses/:courseId", admin_controller.deleteCourse);
 
 export default adminRouter;
