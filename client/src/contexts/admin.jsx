@@ -7,7 +7,20 @@ const AdminContext = React.createContext();
 
 function AdminProvider(props) {
 
-  const [adminCourse, setAdminCourse] = useState({})
+  const [adminCourse, setAdminCourse] = useState({
+    category: '',
+    course_detail: '',
+    course_name: '',
+    cover_image: '',
+    cover_image_file: '',
+    learning_time: '',
+    lesson: '',
+    price: '',
+    summary: '',
+    testeieiei: '',
+    video: '',
+    video_file: ''
+  })
   const [adminLesson, setAdminLesson] = useState([])
   const [adminLessonField, setAdminLessonFiled] = useState({})
 
