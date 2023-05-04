@@ -8,13 +8,13 @@ async function getAllCourses(req, res) {
 
   try {
     const { data: allCourses } = await supabase
-      .from("courses")
+      .from("getallcourses")
       .select()
       .ilike("name", `%${keyword}%`)
       .order("course_id", { ascending: true })
 
     const { data: allCoursesWithPage } = await supabase
-      .from("courses")
+      .from("getallcourses")
       .select()
       .ilike("name", `%${keyword}%`)
       .order("course_id", { ascending: true })

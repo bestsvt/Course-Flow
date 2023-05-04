@@ -30,6 +30,8 @@ import {
     const toast = useToast()
 
     async function onSubmit(values) {
+      setErrorEmailMessage('')
+      setErrorPasswordMessage('')
       const result = await login(values);
       const message = result.data.message;
       if (/\bstart\b/i.test(message)) {
@@ -45,7 +47,7 @@ import {
           colorScheme: "blue",
           duration: 5000
         })
-        navigate("/")
+        navigate(-1)
       } else if (/\bemail\b/i.test(message)) {
         setErrorEmailMessage(message)
         toast({

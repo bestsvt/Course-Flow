@@ -88,11 +88,12 @@ function MyCoursePage() {
                       return (
                         <div className="w-[460px] mb-[60px]" key={index}>
                           <CourseCard
-                            name={course.courses.name}
-                            summary={course.courses.course_summary}
-                            image={course.courses.image_cover.url}
-                            time={course.courses.total_learning_time}
-                            id={course.courses.course_id}
+                            name={course.name}
+                            summary={course.course_summary}
+                            image={course.image_cover.url}
+                            time={course.total_learning_time}
+                            id={course.course_id}
+                            lessonCount={course.lessons_count}
                           />
                         </div>)})}
                   </div>}
@@ -104,11 +105,12 @@ function MyCoursePage() {
                       return (
                         <div className="w-[460px] mb-[60px]" key={index}>
                           <CourseCard
-                            name={course.courses.name}
-                            summary={course.courses.course_summary}
-                            image={course.courses.image_cover.url}
-                            time={course.courses.total_learning_time}
-                            id={course.courses.course_id}
+                            name={course.name}
+                            summary={course.course_summary}
+                            image={course.image_cover.url}
+                            time={course.total_learning_time}
+                            id={course.course_id}
+                            lessonCount={course.lessons_count}
                           />
                         </div>
                       )
@@ -122,11 +124,12 @@ function MyCoursePage() {
                       return (
                         <div className="w-[460px] mb-[60px]" key={index}>
                           <CourseCard
-                            name={course.courses.name}
-                            summary={course.courses.course_summary}
-                            image={course.courses.image_cover.url}
-                            time={course.courses.total_learning_time}
-                            id={course.courses.course_id}
+                            name={course.name}
+                            summary={course.course_summary}
+                            image={course.image_cover.url}
+                            time={course.total_learning_time}
+                            id={course.course_id}
+                            lessonCount={course.lessons_count}
                           />
                         </div>
                       )

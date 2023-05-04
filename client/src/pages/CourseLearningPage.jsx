@@ -413,16 +413,6 @@ function CourseLearningPage() {
                   loadingText='Saving'>
                       Save as draft
                   </Button>
-                  <Button 
-                  variant="draft" 
-                  onClick={()=>{console.log(pauseTime)}}>
-                      Check
-                  </Button>
-                  <Button 
-                  variant="draft" 
-                  onClick={()=>{console.log(lesson?.users_sub_lessons[0]?.current_time)}}>
-                      Check2
-                  </Button>
                 </div>
                 {assignment?.countDeadline < 1 ? 
                 <p className="text-red-600">Missing</p>

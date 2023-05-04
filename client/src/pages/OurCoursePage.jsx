@@ -36,6 +36,8 @@ function OurCoursePage() {
     setCurrentPage(pageNumber)  
   }
 
+  console.log(courses);
+
     return (
         <>
         <Navbar/>
@@ -109,6 +111,7 @@ function OurCoursePage() {
                         image={course.image_cover.url}
                         time={course.total_learning_time}
                         id={course.course_id}
+                        lessonCount={course.lessons_count}
                         />
                       </div>
                     )
@@ -128,6 +131,7 @@ function OurCoursePage() {
                         image={course.image_cover.url}
                         time={course.total_learning_time}
                         id={course.course_id}
+                        lessonCount={course.lessons_count}
                         />
                       </div>
                     )

@@ -90,10 +90,11 @@ async function getSubscribeCourse(req, res) {
 
   try {
     const { data: subscribeCourses } = await supabase
-      .from("subscriptions")
-      .select("subscription_id, status ,courses (*)")
+      .from("subscribecourses")
+      .select()
       .eq("user_id", userId)
       .order("subscription_id", { ascending: true })
+      
 
     return res.json({
       data: subscribeCourses,
@@ -111,15 +112,15 @@ async function getDesireCourse(req, res) {
 
   try {
     const { data: desireCoursesWithPage } = await supabase
-      .from("desires")
-      .select("desire_id ,courses (*)")
+      .from("desirecourses")
+      .select()
       .eq("user_id", userId)
       .range(offset, offset + itemsPerPage - 1);
 
     const { data: desireCourses } = await supabase
-      .from("desires")
-      .select("desire_id ,courses (*)")
-      .eq("user_id", userId)
+      .from("desirecourses")
+      .select()
+      .eq("user_id", userId)      
 
     return res.json({
       data: desireCoursesWithPage,

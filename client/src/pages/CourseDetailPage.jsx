@@ -66,7 +66,7 @@ function CourseDetailPage() {
                 {/* ———————————————————————— Left Section ———————————————————————— */}
                 <div className="flex flex-col gap-28 w-[1000px] py-14" >
                     <div >
-                        <Link href='/courses' className="flex items-center gap-1 mb-3">
+                        <Link className="flex items-center gap-1 mb-3" onClick={()=>{navigate(-1)}}>
                             <ArrowBackIcon mx='2px'/>Back 
                         </Link>
                         <video
