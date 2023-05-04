@@ -2,7 +2,7 @@
 
 CourseFlow is a web application that allows users to browse, learn, and subscribe courses on various topics. The platform is designed to be user-friendly and easy to navigate, providing a seamless learning experience for users.
 
-<img width='1000px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683211140/CourseFlow_vg1qt8.png'/>
+<img width='800px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683211140/CourseFlow_vg1qt8.png'/>
 
 # Features
 CourseFlow offers the following features:
@@ -11,6 +11,8 @@ CourseFlow offers the following features:
 
 - **Course list**: Users can browse and search for courses.
 
+<img width='700px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683214658/screencapture-localhost-5173-courses-2023-05-04-22_33_54_vchfsz.png' alt="course-list-demo"/>
+
 - **Course details**: Users can view course descriptions, syllabi, and other relevant information.
 
 - **Enroll in courses**: Users can enroll in courses and track their progress.
@@ -18,6 +20,8 @@ CourseFlow offers the following features:
 - **Video lessons**: Courses are broken down into lessons and sub-lessons, with video content for each sub-lesson.
 
 - **Assignments**: Users can complete assignments associated with each sub-lesson, and track their progress.
+
+<img width='700px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683214658/screencapture-localhost-5173-courses-1-learning-11-2023-05-04-22_34_22_vrltar.png' alt="video-assignments-demo"/>
 
 - **Progress tracking**: Users can track their progress in each course they've enrolled in.
 
