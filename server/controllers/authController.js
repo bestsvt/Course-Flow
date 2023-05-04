@@ -90,4 +90,48 @@ async function login(req, res) {
 	})
 }
 
-export { register , login }
+async function loginAdmin(req, res) {
+  
+  const username = req.body.username;
+  const password = req.body.password;
+
+  const { data: userAdmin } = await supabase
+    .from('admins')
+    .select()
+    .eq("username", username);
+
+  const admin = userAdmin[0];
+
+  if (!admin) {
+    return res.json({
+      message: "Username not found",
+    });
+  }
+
+  const isValidPassword = (password == admin.password);
+
+  if (!isValidPassword) {
+    return res.json({
+      message: "Password not valid"
+    })
+  }
+
+  const tokenAdmin = jwt.sign(
+      {
+          admin_id: admin.admin_id,
+          username: admin.username,
+      },
+      process.env.SECRET_KEY,
+      {
+          expiresIn: '15d',
+      }
+  );
+  
+
+  return res.json({ 
+  message: "Congratulations! You have successfully logged in. Welcome back to our platform.",
+  tokenAdmin 
+})
+}
+
+export { register , login , loginAdmin }

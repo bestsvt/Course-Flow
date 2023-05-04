@@ -288,6 +288,36 @@ const components = {
       },
     },
   },
+  Textarea: {
+    variants: {
+      normal: {
+        height: '48px',
+        p: '12px 16px 12px 12px',
+        border: '1px solid',
+        borderColor: 'gray.400',
+        bg: 'white',
+        color: 'black',
+        borderRadius: '8px',
+        fontSize: '16px',
+        fontWeight: '400',
+        _focus: {
+          borderColor: 'orange.500'
+        },
+        _disabled: {
+          bg: 'gray.200',
+          color: 'gray.600'
+        },
+        _invalid: {
+          borderColor: '#9B2FAC',
+          backgroundImage: "url('./image/icon/exclamation-warning.png')",
+          backgroundPosition: "96%",
+          backgroundRepeat: "no-repeat",
+        },
+        _placeholder: { opacity: "1", color: 'gray.500' }
+      }
+    }
+
+  } 
 }
   
 const theme = extendTheme({ colors , components, shadows })

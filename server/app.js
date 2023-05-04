@@ -3,6 +3,7 @@ import authRouter from "./routes/auth.js"
 import userRouter from "./routes/user.js";
 import coursesRouter from "./routes/courses.js";
 import assignmentsRouter from "./routes/assignments.js";
+import adminRouter from "./routes/admin.js";
 import cors from 'cors';
 import dotenv from "dotenv";
 import cloudinary from "cloudinary";
@@ -26,7 +27,8 @@ async function init() {
     app.use("/user", userRouter);
     app.use("/courses", coursesRouter);
     app.use("/assignments", assignmentsRouter);
-
+    app.use("/admin", adminRouter);
+    
     app.get("*", (req, res) => {
       res.status(404).send("Not found");
     });

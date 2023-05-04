@@ -270,7 +270,9 @@ function CourseLearningPage() {
             />
           </div>
           <Accordion allowMultiple>
-            {course?.lessons.map((lessons, index) => {
+            {course?.lessons
+            .sort((a, b) => a.lesson_id - b.lesson_id)
+            .map((lessons, index) => {
               return (
                 <AccordionItem borderTop="none" key={index}>
                   <AccordionButton paddingBottom={0}>
