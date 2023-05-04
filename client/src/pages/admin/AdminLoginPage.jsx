@@ -31,12 +31,12 @@ const AdminLoginPage = () => {
   const toast = useToast()
 
   async function onSubmit(values) {
+    console.log(values);
     setErrorUsernameMessage('')
     setErrorPasswordMessage('')
     const result = await loginAdmin(values);
     let message = result.data.message
     if (/\bsuccessfully\b/i.test(message)) {
-      console.log('Working na 1');
       const tokenAdmin = result.data.tokenAdmin;
       localStorage.setItem("tokenAdmin", tokenAdmin);
       const adminDataFromToken = jwtDecode(tokenAdmin);
@@ -127,7 +127,7 @@ const AdminLoginPage = () => {
             {errorPasswordMessage}
           </FormErrorMessage>
         </FormControl>
-        <Button variant="primary" isLoading={isSubmitting} type="submit" width="full" /*onClick={()=>navigate('/admin/courselist')}*/ >
+        <Button variant="primary" isLoading={isSubmitting} type="submit" width="full">
           Log in
         </Button>
 
