@@ -38,7 +38,7 @@ const AddCoursePage = () => {
   } = useForm();
   const navigate = useNavigate();
   const toast = useToast()
-  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonFiled} = useAdmin()
+  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson } = useAdmin()
   const [errorUploadCoverImageMessage, setErrorUploadCoverImageMessage] = useState('');
   const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState('');
   const [lessonIndex, setLessonIndex] = useState();

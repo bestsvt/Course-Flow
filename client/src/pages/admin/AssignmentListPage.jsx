@@ -25,7 +25,7 @@ import axios from 'axios';
 const AssignmentListPage = () => {
 
   const [ keyword, setKeyword] = useState("");
-  const [ suggest, setSuggest] = useState("");
+  const [ suggest, setSuggest] = useState();
   const [ suggestWord, setSuggestWord] = useState("");
   const [ currentPage, setCurrentPage] = useState(1);
   const [ totalAssigment, setTotalAssignment] = useState();
@@ -73,7 +73,7 @@ const AssignmentListPage = () => {
       const results = await axios.get(
         `http://localhost:4000/admin/assignments?${query.toString()}`
       );
-      setSuggest(results.data.data);
+      setSuggest(results.data.allAssignments);
     } catch (error) {
       console.log("Get assignments suggest admin error:", error);
     }
@@ -129,7 +129,7 @@ const AssignmentListPage = () => {
               <div className="absolute w-full flex flex-col shadow-shadow2 z-50 rounded-b-lg">
                 {suggest.filter((item) => {
                     const search = suggestWord.toLowerCase();
-                    const fullName = item.name.toLowerCase();
+                    const fullName = item.question.toLowerCase();
                     return (
                       search &&
                       search !== fullName
@@ -137,9 +137,9 @@ const AssignmentListPage = () => {
                   }).slice(0, 5).map((item,index)=>{
                   return (
                     <div className="py-2 px-4 text-black bg-white  hover:bg-gray-100 hover:cursor-pointer"
-                    onClick={()=>{setSuggestWord(item.name);setKeyword(item.name)}}
+                    onClick={()=>{setSuggestWord(item.question);setKeyword(item.question)}}
                     key={index}>
-                      {item.name}
+                      {item.question}
                     </div>
                   )
                 })}

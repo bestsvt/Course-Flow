@@ -30,7 +30,7 @@ const EditLessonPage = () => {
   const toast = useToast()
   const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState([]);
   const navigate = useNavigate();
-  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonFiled} = useAdmin()
+  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonField} = useAdmin()
   const params = useParams()
 
   function handleVideoChange (event, index) {
@@ -85,7 +85,7 @@ const EditLessonPage = () => {
   async function getLessonByIdAdmin() {
     try { 
       const results = await axios.get(`http://localhost:4000/admin/lessons/${params.lessonId}`);
-      setAdminLessonFiled(results.data.data[0])
+      setAdminLessonField(results.data.data[0])
       const dataSubLessons = results.data.data[0].sub_lessons
       dataSubLessons.forEach(subLesson => {
         append({
@@ -144,7 +144,7 @@ const EditLessonPage = () => {
                 variant="normal"
                 id="name"
                 placeholder="Enter ..."
-                onChange={(event)=>{setAdminLessonFiled({...adminLessonField , name: event.target.value})}}
+                onChange={(event)=>{setAdminLessonField({...adminLessonField , name: event.target.value})}}
                 value={adminLessonField.name}
                 onBlur={() => {
                   trigger('name');

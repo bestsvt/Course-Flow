@@ -13,7 +13,7 @@ const SidebarAdmin = () => {
           src="/image/logo/CourseFlow.png"
           alt="logo"
           className="w-[174px] h-[19px] mb-6 cursor-pointer"
-          onClick={()=>{navigate('/')}}
+          onClick={()=>{navigate('/admin')}}
         />
         <h1 className="mb-16 text-[#646D89]">Admin Panel Control</h1>
       </div>

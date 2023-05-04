@@ -18,7 +18,7 @@ function AdminProvider(props) {
     video_file: null
   })
   const [adminLesson, setAdminLesson] = useState([])
-  const [adminLessonField, setAdminLessonFiled] = useState({ name: '' })
+  const [adminLessonField, setAdminLessonField] = useState({ name: '' })
 
 
 
@@ -30,7 +30,7 @@ function AdminProvider(props) {
         adminLesson,
         setAdminLesson,
         adminLessonField,
-        setAdminLessonFiled
+        setAdminLessonField
       }}
     >
       {props.children}

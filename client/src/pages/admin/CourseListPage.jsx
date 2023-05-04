@@ -45,7 +45,7 @@ const CourseListPage = () => {
   const cancelRef = React.useRef()
   const navigate = useNavigate();
   const toast = useToast()
-  const { setAdminCourse } = useAdmin()
+  const { setAdminCourse , setAdminLesson } = useAdmin()
   const { 
     isOpen: isOpenDelete, 
     onClose: onCloseDelete, 
@@ -208,6 +208,7 @@ const CourseListPage = () => {
             video: '',
             video_file: null
             });
+            setAdminLesson([]);
             navigate(`/admin/addcourse`)}}>+ Add Course
             </Button>
           </div>
