@@ -48,7 +48,7 @@ const EditCoursePage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const toast = useToast()
-  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonFiled} = useAdmin()
+  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson } = useAdmin()
   const [errorUploadCoverImageMessage, setErrorUploadCoverImageMessage] = useState('');
   const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState('');
   const [submitLoading , setSubmitLoading] = useState(false)

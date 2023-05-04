@@ -12,6 +12,7 @@ const courseUpload = multerUpload.fields([
 ]);
 
 adminRouter.get("/courses", admin_controller.getAllCourses);
+adminRouter.get("/assignments", admin_controller.getAllAssignments);
 adminRouter.get("/courses/:courseId", admin_controller.getCoursesById);
 adminRouter.get("/lessons/:lessonId", admin_controller.getLessonById);
 adminRouter.post("/courses", courseUpload, admin_controller.createCourse);

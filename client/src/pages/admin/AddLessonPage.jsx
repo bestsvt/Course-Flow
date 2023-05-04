@@ -41,7 +41,7 @@ const AddLessonPage = () => {
   const subLessons = watch("sub_lesson");
   const [errorUploadVideoMessage, setErrorUploadVideoMessage] = useState([]);
   const navigate = useNavigate();
-  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonFiled} = useAdmin()
+  const { adminCourse , setAdminCourse , adminLesson, setAdminLesson , adminLessonField, setAdminLessonField} = useAdmin()
 
   function handleVideoChange (event, index) {
     const videoFile = event.target.files[0];
@@ -88,7 +88,7 @@ const AddLessonPage = () => {
     setAdminLesson([...adminLesson, {...adminLessonField, sub_lessons: data.sub_lesson}])
     setAdminCourse({...adminCourse, lesson: [...adminLesson, {...adminLessonField, sub_lessons: data.sub_lesson}]})
     navigate(-1)
-    setAdminLessonFiled({ name: '' })
+    setAdminLessonField({ name: '' })
   }
 
   return (
@@ -134,7 +134,7 @@ const AddLessonPage = () => {
                 variant="normal"
                 id="name"
                 placeholder="Enter ..."
-                onChange={(event)=>{setAdminLessonFiled({...adminLessonField , name: event.target.value})}}
+                onChange={(event)=>{setAdminLessonField({...adminLessonField , name: event.target.value})}}
                 value={adminLessonField.name}
                 onBlur={() => {
                   trigger('name');

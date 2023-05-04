@@ -30,6 +30,35 @@ async function getAllCourses(req, res) {
   }
 }
 
+async function getAllAssignments(req, res) {
+  const keyword = req.query.keyword;
+  const currentPage = req.query.currentPage;
+  const itemsPerPage = 8;
+  const offset = (currentPage - 1) * itemsPerPage;
+
+  try {
+    const { data: allAssignments } = await supabase
+      .from("getallassignmentsforadmin")
+      .select()
+      .ilike("question", `%${keyword}%`)
+      .order("created_at", { ascending: false });
+
+    const { data: allAssignmetsWithPage } = await supabase
+      .from("getallassignmentsforadmin")
+      .select()
+      .ilike("question", `%${keyword}%`)
+      .order("created_at", { ascending: false })
+      .range(offset, offset + itemsPerPage - 1);
+
+    return res.json({
+      data: allAssignmetsWithPage,
+      allAssignments,
+    });
+  } catch (error) {
+    console.log("Get all courses error:", error);
+  }
+}
+
 async function getCoursesById(req, res) {
   const courseId = req.params.courseId;
  
@@ -257,5 +286,6 @@ export {
   updateCourse,
   createCourse,
   getCoursesById,
-  getLessonById
+  getLessonById,
+  getAllAssignments
 };
