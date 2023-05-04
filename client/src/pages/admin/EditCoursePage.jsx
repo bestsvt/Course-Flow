@@ -75,9 +75,7 @@ const EditCoursePage = () => {
   }
 
   useEffect(() => {
-    if (adminLesson.length == 0) {
       getCoursesByIdAdmin()
-    }
   }, []);
   
   function handleFileChange(event) {
@@ -166,7 +164,6 @@ const EditCoursePage = () => {
 
   async function onSubmit() {
     setSubmitLoading(true)
-    console.log(adminCourse);
 
     const formData = new FormData();
     // loop for append all key in object
@@ -185,21 +182,6 @@ const EditCoursePage = () => {
     // เช็คต่อว่า Sub lesson เปลี่ยนแปลงอะไรบ้าง
     // Action > Change -- เปลี่ยน video / เปลี่ยนชื่อ
     // Action > Delete -- ลบ sub-lesson ออก
-
-    // const lessons = adminCourse.lesson
-    // for (let i = 0; i < lessons?.length; i++) {
-    //   const lesson = lessons[i];
-    //   const lessonKey = `lesson[${i}]`;
-    //   // Append lesson name
-    //   formData.append(`${lessonKey}[lesson_name]`, lesson.name);
-    //   // Append sublesson data
-    //   for (let j = 0; j < lesson.sub_lessons.length; j++) {
-    //     const subLesson = lesson.sub_lessons[j];
-    //     const subLessonKey = `${lessonKey}[sub_lesson][${j}]`;
-    //     formData.append(`${subLessonKey}[sub_lesson_name]`, subLesson.sub_lesson_name);
-    //     formData.append('sub_lesson_videos', subLesson.video, subLesson.sub_lesson_name);
-    //   }
-    // }
 
     const results = await axios.put(`http://localhost:4000/admin/courses/${params.courseId}`, formData,
     {
@@ -237,7 +219,7 @@ const EditCoursePage = () => {
         {/* ————————————— Navbar Section ————————————— */}
         <nav className="h-[100px] border-gray-400 border-b bg-white flex justify-between px-10 py-4 items-center">
           <div className="flex items-center gap-4">
-            <ArrowBackIcon boxSize={7} color="#9AA1B9" />
+            <ArrowBackIcon boxSize={7} color="#9AA1B9" className="hover:cursor-pointer" onClick={() => {navigate(-1)}}/>
             <h1 className="text-headline3 font-headline3 text-gray-600">
               Course <span className="text-black">‘{adminCourse.course_name}’</span>
             </h1>
@@ -453,7 +435,7 @@ const EditCoursePage = () => {
           {/* Lesson Section */}
           <div className='flex justify-between items-center'>
             <h1 className='text-headline3 font-headline3 text-black'>Lesson</h1>
-            <Button variant='primary' onClick={()=>{navigate('/admin/addlesson')}}>
+            <Button variant='primary' onClick={()=>{navigate('/admin/addlesson')}} isDisabled>
               + Add Lesson
             </Button>
           </div>
@@ -477,9 +459,9 @@ const EditCoursePage = () => {
                       <Td>{lesson.sub_lessons.length}</Td>
                       <Td>
                         <div className='flex gap-4 justify-center'>
-                          <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px]' />
-                          <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px] hover:cursor-pointer'
-                          onClick={()=>{navigate(`/admin/editlesson/${lesson.lesson_id}`)}}
+                          <img src="/image/icon/bin.png" alt="bin-icon" className='h-[25px] hover:cursor-not-allowed' />
+                          <img src="/image/icon/edit.png" alt="edit-icon" className='h-[25px] hover:cursor-not-allowed'
+                          // onClick={()=>{navigate(`/admin/editlesson/${lesson.lesson_id}`)}}
                           />
                         </div>
                       </Td>

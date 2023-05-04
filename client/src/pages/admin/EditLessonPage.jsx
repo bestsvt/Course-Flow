@@ -13,7 +13,6 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAdmin } from '../../contexts/admin';
 import axios from 'axios';
-import { result } from 'lodash';
 
 const EditLessonPage = () => {
   const {
@@ -76,7 +75,7 @@ const EditLessonPage = () => {
 	};
 
   function onSubmit(data) {
-
+    // Function Edit Lesson
   }
 
   useEffect(() => {
@@ -130,7 +129,7 @@ const EditLessonPage = () => {
           </div>
           <div className="flex gap-4">
             <Button variant="secondary" onClick={()=>{navigate(-1)}}>Cancel</Button>
-            <Button variant="primary" type="submit">Edit</Button>
+            <Button variant="primary" type="submit" isDisabled>Edit</Button>
           </div>
         </nav>
 
@@ -152,7 +151,7 @@ const EditLessonPage = () => {
                 }}
               />
               <FormErrorMessage>
-                {/* {errors.lesson_name && errors.lesson_name.message} */}
+                {errors.lesson_name && errors.lesson_name.message}
               </FormErrorMessage>
             </FormControl>
 
@@ -180,14 +179,12 @@ const EditLessonPage = () => {
                     placeholder="Enter ..."
                     width='70%'
                     {...register(`sub_lesson.${index}.sub_lesson_name`)}
-                    // onChange={(event)=>{setAdminCourse({...adminCourse , course_name: event.target.value})}}
-                    // value={adminCourse.course_name}
                     onBlur={() => {
                       trigger(`sub_lesson_name${index}`);
                     }}
                   />
                   <FormErrorMessage>
-                    {/* {errors.lesson_name && errors.lesson_name.message} */}
+                    {errors.lesson_name && errors.lesson_name.message}
                   </FormErrorMessage>
                 </FormControl>
 
@@ -201,7 +198,6 @@ const EditLessonPage = () => {
                     <>
                     <video
                         className="rounded-2xl shadow-shadow2"
-                        // src={URL.createObjectURL(subLessons[index].video)}
                         src={item.video.url}
                         controls
                       />

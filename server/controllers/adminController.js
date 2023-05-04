@@ -56,6 +56,7 @@ async function getLessonById(req, res) {
       .from("lessons")
       .select("* , sub_lessons (*)")
       .eq("lesson_id", lessonId)
+      .order("sub_lesson_id", { foreignTable: "sub_lessons", ascending: true });
 
     return res.json({
       data: lessonById
@@ -92,7 +93,6 @@ async function deleteCourse(req, res) {
     }
 
     for (let file of dataForDelete) {
-      console.log('File: ',file);
       await cloudinaryUpload(file, "delete", undefined, file.resource_type);
     }
 
@@ -190,10 +190,59 @@ async function createCourse(req, res) {
 
 async function updateCourse(req, res) {
   const courseId = req.params.courseId;
+  const coverImage = req.files.cover_image_file
+  const videoTrailer = req.files.video_file
 
-  console.log(courseId);
-  console.log(req.body);
   try {
+
+    const { data: courseData } = await supabase
+    .from("courses")
+    .select()
+    .eq("course_id", courseId)
+
+    let updateCourse = {
+      name: req.body.course_name,
+      course_detail: req.body.course_detail,
+      category: req.body.category,
+      price: req.body.price,
+      total_learning_time: req.body.learning_time,
+      course_summary: req.body.summary,
+      update_at: new Date(),
+    };
+
+    // Check have new image file or not
+    if (coverImage) {
+      // Remove previous cover image from cloudinary
+      let previousCoverImage = courseData[0].image_cover
+      await cloudinaryUpload(previousCoverImage, "delete", undefined, previousCoverImage.resource_type);
+
+      // Upload new cover image to cloudinary
+      updateCourse.image_cover = await cloudinaryUpload(
+        ...req.files.cover_image_file,
+        "upload",
+        "cover_image_course"
+      );
+    }
+
+    // Check have new video file or not
+    if (videoTrailer) {
+      // Remove previous video from cloudinary
+      let previousVideoTrailer = courseData[0].video_trailer
+      await cloudinaryUpload(previousVideoTrailer, "delete", undefined, previousVideoTrailer.resource_type);
+
+      // Upload new video to cloudinary
+      updateCourse.video_trailer = await cloudinaryUpload(
+        ...req.files.video_file,
+        "upload",
+        "video_trailer_course"
+      );
+    }
+
+    await supabase
+      .from("courses")
+      .update(updateCourse)
+      .eq("course_id", courseId)
+
     return res.json({
       message: "Course updated successfully!",
     });
