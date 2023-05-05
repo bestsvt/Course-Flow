@@ -21,7 +21,6 @@ import {
 import { Pagination } from 'antd';
 import axios from 'axios';
 
-
 const AssignmentListPage = () => {
 
   const [ keyword, setKeyword] = useState("");

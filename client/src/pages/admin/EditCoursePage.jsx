@@ -174,6 +174,8 @@ const EditCoursePage = () => {
       }
     }
 
+    // ! ————————————————— ยังไม่ได้ทำ ————————————————— !
+
     // ————————————————— ต้องเพิ่มเติมเรื่อง lesson —————————————————
     // ต้องดูว่า เปลี่ยนอะไรใน lesson บ้างรึป่าว อาจจะใส่ action เพิ่มถ้าเปลี่ยน
     // Action > Change -- เปลี่ยนชื่อ lesson / เพิ่ม sub-lesson
@@ -432,14 +434,14 @@ const EditCoursePage = () => {
             </div>
 
           </div>
-          {/* Lesson Section */}
+          {/* ————————————————— Lesson Section ————————————————— */}
           <div className='flex justify-between items-center'>
             <h1 className='text-headline3 font-headline3 text-black'>Lesson</h1>
             <Button variant='primary' onClick={()=>{navigate('/admin/addlesson')}} isDisabled>
               + Add Lesson
             </Button>
           </div>
-          {/* Lesson Table Section */}
+          {/* ————————————————— Lesson Table Section ————————————————— */}
           <TableContainer borderRadius={10}>
             <Table>
               <Thead >

@@ -2,12 +2,14 @@
 
 CourseFlow is a web application that allows users to browse, learn, and subscribe courses on various topics. The platform is designed to be user-friendly and easy to navigate, providing a seamless learning experience for users.
 
-<img width='800px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683211140/CourseFlow_vg1qt8.png'/>
+<img width='700px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683211140/CourseFlow_vg1qt8.png'/>
 
 # Features
 CourseFlow offers the following features:
 
 - **User authentication**: Users can create an account, log in, and manage their profiles.
+
+<img width='700px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683271955/show02_fxqq6u.png' alt="update-profile-demo"/>
 
 - **Course list**: Users can browse and search for courses.
 
@@ -46,7 +48,7 @@ CourseFlow is built using the following technologies:
 # Member
 
 - [Best](https://github.com/bestsvt) - Full Stack Developer
-- [Baimorn](https://github.com/BMIWALY) - ...
-- [Foo](https://github.com/Sutheelovalek) - ...
-- [May](https://github.com/pawidachum) - ...
-- [Som](https://github.com/HappyMerry) - ...
+- [Baimorn](https://github.com/BMIWALY) - Full Stack Developer
+- [Foo](https://github.com/Sutheelovalek) - Full Stack Developer
+- [May](https://github.com/pawidachum) - Full Stack Developer
+- [Som](https://github.com/HappyMerry) - Full Stack Developer

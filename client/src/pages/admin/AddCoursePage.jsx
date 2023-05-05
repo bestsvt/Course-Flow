@@ -412,7 +412,6 @@ const AddCoursePage = () => {
                 </Tr>
               </Thead>
               <Tbody bg='white' color='black'>
-                {/* Wating Map Data */}
                 {adminLesson.map((lesson,index)=>{
                   return (
                     <Tr key={index}>

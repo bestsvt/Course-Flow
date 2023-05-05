@@ -13,13 +13,10 @@ const useCourses = () => {
 
   async function getCourses(keyword, currentPage) {
     try {
-      // ตัว isLoading เอาไว้ แสดง Spinner ตอนโหลด
       setIsLoading(true);
-      // เช็คว่ามี keyword เข้ามาไหม ถ้าไม่มีให้ใส่เป็น ""
       if (!keyword) {
         keyword = "";
       }
-      // ใช้แบบนี้เผื่อกรณีต้องการเพิ่ม keyword อีกจะได้เขียนไม่เยอะ เช่น page
       const query = new URLSearchParams();
       query.append("keyword", keyword);
       query.append("currentPage", currentPage);

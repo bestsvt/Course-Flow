@@ -338,9 +338,7 @@ const CourseListPage = () => {
                   </AlertDialogFooter>
               </AlertDialogContent>
            </AlertDialog>
-         
 
-        
         </div>
       </div>
     </div>

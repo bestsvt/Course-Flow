@@ -141,7 +141,7 @@ const AddLessonPage = () => {
                 }}
               />
               <FormErrorMessage>
-                {/* {errors.lesson_name && errors.lesson_name.message} */}
+                {errors.lesson_name && errors.lesson_name.message}
               </FormErrorMessage>
             </FormControl>
 
@@ -169,14 +169,12 @@ const AddLessonPage = () => {
                     placeholder="Enter ..."
                     width='70%'
                     {...register(`sub_lesson.${index}.sub_lesson_name`)}
-                    // onChange={(event)=>{setAdminCourse({...adminCourse , course_name: event.target.value})}}
-                    // value={adminCourse.course_name}
                     onBlur={() => {
                       trigger(`sub_lesson_name${index}`);
                     }}
                   />
                   <FormErrorMessage>
-                    {/* {errors.lesson_name && errors.lesson_name.message} */}
+                    {errors.lesson_name && errors.lesson_name.message}
                   </FormErrorMessage>
                 </FormControl>
 

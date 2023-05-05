@@ -15,14 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from '@chakra-ui/icons'
 
-
-
-
 const EditAssignmentPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
   const [values, setValues] = useState({ course: '', lesson: '', subLesson: '', assignment: '', duration: '' })
-
 
   return (
     <div className='flex'>
@@ -152,10 +148,7 @@ const EditAssignmentPage = () => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-
-
-
-
+          
         </div>
       </div>
     </div>

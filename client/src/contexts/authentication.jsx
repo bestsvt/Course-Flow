@@ -42,9 +42,6 @@ function AuthProvider(props) {
 
   const isAuthenticated = Boolean(localStorage.getItem("token"));
 
-  // When Refresh state.user will change to Null
-  // Check ว่าเข้าสู่ระบบยัง แล้ว state.user ว่างเปล่าไหม
-  // ถ้าใช่ให้มันใส่ข้อมูลกลับเข้าไปใหม่
   if (isAuthenticated && !userAuthState.user) {
     const token = localStorage.getItem("token");
     const userDataFromToken = jwtDecode(token);

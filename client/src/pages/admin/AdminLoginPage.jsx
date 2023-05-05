@@ -131,7 +131,6 @@ const AdminLoginPage = () => {
           Log in
         </Button>
 
-
       </form>
     </div>
   )

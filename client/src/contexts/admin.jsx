@@ -20,8 +20,6 @@ function AdminProvider(props) {
   const [adminLesson, setAdminLesson] = useState([])
   const [adminLessonField, setAdminLessonField] = useState({ name: '' })
 
-
-
   return (
     <AdminContext.Provider
       value={{
@@ -38,7 +36,6 @@ function AdminProvider(props) {
   );
 }
 
-// this is a hook that consume AuthContext
 const useAdmin = () => React.useContext(AdminContext);
 
 export { AdminProvider, useAdmin };
