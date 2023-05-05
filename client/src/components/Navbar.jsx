@@ -14,8 +14,6 @@ import { FaRegStar } from 'react-icons/fa';
 import { BiLogIn } from 'react-icons/bi';
 import { AiFillCaretDown } from 'react-icons/ai';
 
-
-
 function Navbar() {
   const { isAuthenticated, userAuthState, logout } = useAuth();
   const navigate = useNavigate();

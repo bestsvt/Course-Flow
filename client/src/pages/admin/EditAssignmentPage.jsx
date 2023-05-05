@@ -43,7 +43,6 @@ const EditAssignmentPage = () => {
         </nav>
         <div className='bg-gray-100 h-full p-[3%]'>
           <div>
-            {/* ————————————— Start Coding Here ————————————— */}
 
             <div className='flex flex-col gap-8 bg-white w-full  rounded-3xl border-2 border-gray-300 py-[5%] px-[10%]'>
 

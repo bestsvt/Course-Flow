@@ -13,12 +13,15 @@ async function getAllCourses(req, res) {
       .ilike("name", `%${keyword}%`)
       .order("course_id", { ascending: true })
 
-    const { data: allCoursesWithPage } = await supabase
+    const { data: allCoursesWithPage, error:allCoursesWithPageError } = await supabase
       .from("getallcourses")
       .select()
       .ilike("name", `%${keyword}%`)
       .order("course_id", { ascending: true })
       .range(offset, offset + itemsPerPage - 1);
+
+    console.log('currentPage:', currentPage);
+    console.log('offset:', offset);
       
     return res.json({
       data: allCoursesWithPage,

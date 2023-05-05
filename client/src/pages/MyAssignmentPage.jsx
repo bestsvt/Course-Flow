@@ -5,6 +5,7 @@ import {
     TabPanels,
     TabPanel,
     TabIndicator,
+    Spinner
   } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -15,15 +16,19 @@ import { useEffect, useState } from "react";
 
 function MyAssignmentPage() {
   const { userAuthState } = useAuth();
-  const [assignments, setAssignments] = useState();
-  const [status, setStatus] = useState();
+  const [assignments, setAssignments] = useState([]);
+  const [status, setStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getAssignments() {
+    setIsLoading(true)
     const result = await axios.get(`http://localhost:4000/assignments?user=${userAuthState.user.id}`);
     setAssignments(result.data.data)
+    setIsLoading(false)
   }
   useEffect(() => {
     getAssignments()
+    setStatus('')
   }, [status]);
 
   return (
@@ -61,12 +66,23 @@ function MyAssignmentPage() {
           />
 
           <div className="w-[100%] mt-10">
+            {isLoading ? 
+            <div className="w-full flex justify-center items-center p-10">
+              <Spinner
+                thickness="5px"
+                speed="0.5s"
+                emptyColor="gray.200"
+                color="blue.500"
+                width={100}
+                height={100}
+              />
+            </div>
+            :
             <TabPanels>
               {/* ————————————————————— All Section ————————————————————— */}
               <TabPanel padding={0}>
-                {/* add logic if assignment count = 0 */}
                 <div className="flex flex-col items-center gap-6 ">
-                  {assignments?.map((assignment,index)=>{
+                  {assignments.map((assignment,index)=>{
                     return (
                       <AssignmentCard key={index}
                       courseName={assignment.course_name}
@@ -91,7 +107,7 @@ function MyAssignmentPage() {
               {/* ————————————————————— Pending Section ————————————————————— */}
               <TabPanel padding={0}>
                 <div className="flex flex-col items-center gap-6 ">
-                {assignments?.filter((assignment)=>{
+                {assignments.filter((assignment)=>{
                   return assignment.status == 'pending'
                 }).map((assignment,index)=>{
                     return (
@@ -118,7 +134,7 @@ function MyAssignmentPage() {
               {/* ————————————————————— In progress Section ————————————————————— */}
               <TabPanel padding={0}>
                 <div className="flex flex-col items-center gap-6 ">
-                {assignments?.filter((assignment)=>{
+                {assignments.filter((assignment)=>{
                   return assignment.status == 'inProgress'
                 }).map((assignment,index)=>{
                     return (
@@ -145,7 +161,7 @@ function MyAssignmentPage() {
               {/* ————————————————————— Submitted Section ————————————————————— */}
               <TabPanel padding={0}>
                 <div className="flex flex-col items-center gap-6 ">
-                {assignments?.filter((assignment)=>{
+                {assignments.filter((assignment)=>{
                   return assignment.status == 'submitted' || assignment.status == 'submitted late'
                 }).map((assignment,index)=>{
                     return (
@@ -172,7 +188,7 @@ function MyAssignmentPage() {
               {/* ————————————————————— Overdue Section ————————————————————— */}
               <TabPanel padding={0}>
                 <div className="flex flex-col items-center gap-6 ">
-                {assignments?.filter((assignment)=>{
+                {assignments.filter((assignment)=>{
                   return assignment.status == 'overdue'
                 }).map((assignment,index)=>{
                     return (
@@ -197,6 +213,7 @@ function MyAssignmentPage() {
                 </div>
               </TabPanel>
             </TabPanels>
+          }
           </div>
           
         </Tabs>

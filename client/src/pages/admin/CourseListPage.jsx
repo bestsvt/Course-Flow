@@ -164,6 +164,7 @@ const CourseListPage = () => {
                 // 13 is the keycode for Enter key
                   setKeyword(event.target.value);
                   onClose()
+                  setCurrentPage(1)
                 }
               }}
             />
@@ -184,7 +185,7 @@ const CourseListPage = () => {
                   }).slice(0, 5).map((item,index)=>{
                   return (
                     <div className="py-2 px-4 text-black bg-white  hover:bg-gray-100 hover:cursor-pointer"
-                    onClick={()=>{setSuggestWord(item.name);setKeyword(item.name)}}
+                    onClick={()=>{setSuggestWord(item.name);setKeyword(item.name);setCurrentPage(1)}}
                     key={index}>
                       {item.name}
                     </div>

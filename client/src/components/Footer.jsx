@@ -9,7 +9,7 @@ function Footer() {
             </div>
             <div className="flex flex-row gap-20 justify-between items-center text-body1 text-gray-500">
                 <p className="hover:cursor-pointer" onClick={() => { navigate("/courses"); window.scrollTo(0, 0);}}>All Course</p>
-                <p className="hover:cursor-pointer">Bundle Package</p>
+                <p className="hover:cursor-not-allowed">Bundle Package</p>
             </div>
             <div className="flex flex-row justify-around">
                 <a href="http://www.facebook.com" target="_blank"><img src="\image\footer\fb.png" alt="Facebook logo" className="m-2"/></a>

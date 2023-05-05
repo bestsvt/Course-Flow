@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import SubFooter from "../components/SubFooter";
 import Footer from "../components/Footer";
 import { Button } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
     Accordion,
     AccordionItem,
@@ -20,11 +20,12 @@ import { useAuth } from "../contexts/authentication";
 import PriceCard from "../components/PriceCard";
 
 function CourseDetailPage() {
-    const { isAuthenticated , userAuthState} = useAuth();
+    const { isAuthenticated , userAuthState , setUserAuthState} = useAuth();
     const { course , isLoading , getCoursesById} = useCourses();
     const navigate = useNavigate();
     const [ subscribeStatus , setSubscribeStatus ] = useState(false)
     const [ desireStatus , setDesireStatus ] = useState(false)
+    const location = useLocation();
     
     useEffect(() => {
         async function getCourses() {
@@ -37,7 +38,9 @@ function CourseDetailPage() {
           }
         }   
         getCourses()
-      }, []);
+
+        setUserAuthState({...userAuthState , previousURL: location.pathname})
+      }, [location]);
     return (
         <div>
             <Navbar />

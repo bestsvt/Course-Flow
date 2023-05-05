@@ -10,6 +10,7 @@ function AuthProvider(props) {
   const [userAuthState, setUserAuthState] = useState({
     error: null,
     user: null,
+    previousURL: null,
   });
 
   const login = async (data) => {

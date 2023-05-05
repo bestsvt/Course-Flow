@@ -44,6 +44,7 @@ function AssignmentCard(props) {
         colorScheme: "blue",
         duration: 5000
       })
+      setAnswer(props.answer)
       props.setStatus("Save Draft Assignment")
     }
     setSaveIsLoading(false)

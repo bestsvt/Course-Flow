@@ -135,7 +135,6 @@ const EditLessonPage = () => {
 
         {/* ————————————— Content Section ————————————— */}
         <div className='bg-gray-100 p-10 flex flex-col gap-10'>
-          {/* ————————————— Start Coding Here ————————————— */}
           <div className="flex flex-col gap-10 bg-white px-24 py-10 rounded-2xl border border-gray-400">
 
             <FormControl isRequired>

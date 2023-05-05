@@ -25,7 +25,7 @@ import {
     } = useForm();
     const [errorEmailMessage, setErrorEmailMessage] = useState('');
     const [errorPasswordMessage, setErrorPasswordMessage] = useState('');
-    const { login,userAuthState, setUserAuthState } = useAuth();
+    const { login , userAuthState, setUserAuthState } = useAuth();
     const navigate = useNavigate();
     const toast = useToast()
 
@@ -47,7 +47,11 @@ import {
           colorScheme: "blue",
           duration: 5000
         })
-        navigate(-1)
+        if (userAuthState.previousURL) {
+          navigate(userAuthState.previousURL)
+        } else {
+          navigate('/')
+        }
       } else if (/\bemail\b/i.test(message)) {
         setErrorEmailMessage(message)
         toast({
@@ -97,7 +101,7 @@ import {
       // }
       return error;
     }
-  
+
     return (
       <>
         <Navbar />
