@@ -36,7 +36,7 @@ function AuthProvider(props) {
   // logout
   const logout = () => {
     localStorage.removeItem("token")
-    setUserAuthState({ ...userAuthState, user: null })
+    setUserAuthState({ ...userAuthState, user: null, previousURL: null,})
     navigate("/");
   };
 
