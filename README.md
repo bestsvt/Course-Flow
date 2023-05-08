@@ -35,7 +35,7 @@ CourseFlow is built using the following technologies:
 
 - **Client:** HTML, CSS, Javascript, React, [Tailwind CSS](https://tailwindcss.com/), [Chakra UI](https://chakra-ui.com/)
 
-- **Sever:** Node.js and Express.js
+- **Server:** Node.js and Express.js
 
 - **Database:** [Supabase](https://supabase.com)
 
@@ -43,12 +43,12 @@ CourseFlow is built using the following technologies:
 
 - **Building Tool:** [Vite](https://vitejs.dev)
 
-- **DevOps:** Agile, Scrum, Git, Github, Trello, Figma
+- **Others:** Agile, Scrum, Git, Github, Trello
 
 # Member
 
-- [Best](https://github.com/bestsvt) - Full Stack Developer
-- [Baimorn](https://github.com/BMIWALY) - Full Stack Developer
-- [Foo](https://github.com/Sutheelovalek) - Full Stack Developer
-- [May](https://github.com/pawidachum) - Full Stack Developer
-- [Som](https://github.com/HappyMerry) - Full Stack Developer
+- [Best](https://github.com/bestsvt) - Learning feature (Video lesson, Assignments, Progress tracking )
+- [Baimorn](https://github.com/BMIWALY) - Authentication feature (Login-Logout User, Manage user profile)
+- [Foo](https://github.com/Sutheelovalek) - Admin functionality feature (Login-Logout Admin, Course list, Assignment list)
+- [May](https://github.com/pawidachum) - Course feature (Course list, Course detail, Desire course, Subscription course)
+- [Som](https://github.com/HappyMerry) - Admin functionality feature (Add-Edit-Delete course)
