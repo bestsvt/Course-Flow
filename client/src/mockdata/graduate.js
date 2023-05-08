@@ -1,63 +1,69 @@
 export const graduate = [
   {
-    name: "Saiful Lslam-1",
+    name: "Hanni Pham",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate7.jpg",
   },
 
   {
-    name: "Saiful Lslam-2",
+    name: "Lee Hyein",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate8.jpg",
   },
 
   {
-    name: "Saiful Lslam-3",
+    name: "Kang Haerin",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate9.jpg",
   },
 
   {
-    name: "Saiful Lslam-4",
+    name: "Mo Jihye",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate10.jpg",
   },
 
   {
-    name: "Saiful Lslam-5",
+    name: "Kim Minji",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate11.jpg",
   },
 
   {
-    name: "Saiful Lslam-6",
+    name: "Hanni Pham",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate7.jpg",
   },
   {
-    name: "Saiful Lslam-7",
+    name: "Lee Hyein",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
-  },
-
-  {
-    name: "Saiful Lslam-8",
-    content:
-      " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate8.jpg",
   },
 
   {
-    name: "Saiful Lslam-9",
+    name: "Kang Haerin",
     content:
       " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
-    image: "./image/homepage/graduate/graduate1.png",
+    image: "./image/homepage/graduate/graduate9.jpg",
+  },
+
+  {
+    name: "Mo Jihye",
+    content:
+      " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
+    image: "./image/homepage/graduate/graduate10.jpg",
+  },
+  {
+    name: "Kim Minji",
+    content:
+      " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis doloribus ipsam provident molestiae obcaecati earum numquam placeat? Praesentium quidem, consectetur commodi doloribus porro nesciunt placeat expedita harum facere corporis dolores.",
+    image: "./image/homepage/graduate/graduate11.jpg",
   },
 ];
