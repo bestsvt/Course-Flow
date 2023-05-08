@@ -47,8 +47,9 @@ CourseFlow is built using the following technologies:
 
 # Member
 
-- [Best](https://github.com/bestsvt) - Learning feature (Video lesson, Assignments, Progress tracking )
+
 - [Baimorn](https://github.com/BMIWALY) - Authentication feature (Login-Logout User, Manage user profile)
-- [Foo](https://github.com/Sutheelovalek) - Admin functionality feature (Login-Logout Admin, Course list, Assignment list)
 - [May](https://github.com/pawidachum) - Course feature (Course list, Course detail, Desire course, Subscription course)
+- [Best](https://github.com/bestsvt) - Learning feature (Video lesson, Assignments, Progress tracking )
+- [Foo](https://github.com/Sutheelovalek) - Admin functionality feature (Login-Logout Admin, Course list, Assignment list)
 - [Som](https://github.com/HappyMerry) - Admin functionality feature (Add-Edit-Delete course)
