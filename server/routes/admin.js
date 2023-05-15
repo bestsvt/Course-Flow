@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as admin_controller from "../controllers/adminController.js";
 import multer from "multer";
-import { protect } from "../middlewares/protect.js";
+// import { protect } from "../middlewares/protect.js";
 
 const adminRouter = Router();
 const multerUpload = multer({ dest: "uploads/" });
@@ -12,7 +12,7 @@ const courseUpload = multerUpload.fields([
   { name: "sub_lesson_videos", maxCount: 200 },
 ]);
 
-adminRouter.use(protect);
+// adminRouter.use(protect);
 
 adminRouter.get("/courses", admin_controller.getAllCourses);
 adminRouter.get("/assignments", admin_controller.getAllAssignments);
