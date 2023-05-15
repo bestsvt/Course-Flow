@@ -1,8 +1,12 @@
+<img width='700px' style='margin-bottom: 30px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683211140/CourseFlow_vg1qt8.png'/>
+
 # Course Flow Project
 
 CourseFlow is a web application that allows users to browse, learn, and subscribe courses on various topics. The platform is designed to be user-friendly and easy to navigate, providing a seamless learning experience for users.
 
-<img width='700px' src='https://res.cloudinary.com/dp6cfqn5r/image/upload/v1683211140/CourseFlow_vg1qt8.png'/>
+# Demo
+
+https://course-flow.netlify.app/
 
 # Features
 CourseFlow offers the following features:
