@@ -6,7 +6,9 @@ CourseFlow is a web application that allows users to browse, learn, and subscrib
 
 # Demo
 
-https://course-flow.netlify.app/
+You can access the live demo of CourseFlow at the following URL: https://course-flow.netlify.app/
+
+ **Note:** *Please note that the current version of CourseFlow is not responsive and is optimized for a display width of 1920 pixels.*
 
 # Features
 CourseFlow offers the following features:
